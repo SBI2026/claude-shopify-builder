@@ -1,0 +1,369 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+{%- style -%}
+  #MT-IB-{{ section.id }} {
+    background-color: {{ section.settings.section_background }};
+    padding: {{ section.settings.padding_top | times: 0.6 | round: 0 }}px 20px {{ section.settings.padding_bottom | times: 0.6 | round: 0 }}px;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  @media screen and (min-width: 750px) {
+    #MT-IB-{{ section.id }} {
+      padding: {{ section.settings.padding_top }}px 40px {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #MT-IB-{{ section.id }} * { box-sizing: border-box; }
+
+  #MT-IB-{{ section.id }} .mtib__wrap {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  /* ══════════════════════════════
+     SECTION HEADER
+  ══════════════════════════════ */
+  #MT-IB-{{ section.id }} .mtib__header {
+    max-width: 560px;
+    margin-bottom: 56px;
+  }
+
+  #MT-IB-{{ section.id }} .mtib__label {
+    display: block;
+    font-family: 'Poppins', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #ff7900;
+    margin-bottom: 12px;
+  }
+
+  #MT-IB-{{ section.id }} .mtib__title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 30px;
+    font-weight: 400;
+    color: #111111;
+    line-height: 1.15;
+    margin: 0 0 16px;
+  }
+
+  @media screen and (min-width: 750px) {
+    #MT-IB-{{ section.id }} .mtib__title {
+      font-size: 48px;
+    }
+  }
+
+  #MT-IB-{{ section.id }} .mtib__subtitle {
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: #555550;
+    line-height: 1.75;
+    max-width: 480px;
+    margin: 0;
+  }
+
+  /* ══════════════════════════════
+     INGREDIENTS GRID
+  ══════════════════════════════ */
+  #MT-IB-{{ section.id }} .mtib__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  @media screen and (min-width: 600px) {
+    #MT-IB-{{ section.id }} .mtib__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media screen and (min-width: 1025px) {
+    #MT-IB-{{ section.id }} .mtib__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  /* ══════════════════════════════
+     INGREDIENT CARD
+  ══════════════════════════════ */
+  #MT-IB-{{ section.id }} .mtib__card {
+    background-color: #ffffff;
+    border: 0.5px solid #e8e8e4;
+    border-radius: 16px;
+    overflow: hidden;
+    padding-bottom: 20px;
+    transition: border-color 0.15s ease;
+  }
+
+  #MT-IB-{{ section.id }} .mtib__card:hover {
+    border-color: #111111;
+  }
+
+  /* ── Card photo ── */
+  #MT-IB-{{ section.id }} .mtib__img-wrap {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    background-color: #f5f4f0;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+
+  #MT-IB-{{ section.id }} .mtib__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* ── Card category label ── */
+  #MT-IB-{{ section.id }} .mtib__category {
+    display: block;
+    font-family: 'Poppins', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #ff7900;
+    padding: 0 20px;
+    margin-bottom: 6px;
+  }
+
+  /* ── Card ingredient name ── */
+  #MT-IB-{{ section.id }} .mtib__name {
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #111111;
+    line-height: 1.2;
+    padding: 0 20px;
+    margin: 0 0 10px;
+  }
+
+  /* ── Card description ── */
+  #MT-IB-{{ section.id }} .mtib__desc {
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: #555550;
+    line-height: 1.7;
+    padding: 0 20px;
+    margin: 0;
+  }
+{%- endstyle -%}
+
+<div id="MT-IB-{{ section.id }}">
+  <div class="mtib__wrap">
+
+    {%- comment -%} ── SECTION HEADER ── {%- endcomment -%}
+    <div class="mtib__header">
+      {%- if section.settings.section_label != blank -%}
+        <span class="mtib__label">{{ section.settings.section_label | escape }}</span>
+      {%- endif -%}
+
+      {%- if section.settings.section_title != blank -%}
+        <h2 class="mtib__title">{{ section.settings.section_title | escape }}</h2>
+      {%- endif -%}
+
+      {%- if section.settings.section_subtitle != blank -%}
+        <p class="mtib__subtitle">{{ section.settings.section_subtitle | escape }}</p>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} ── INGREDIENT GRID ── {%- endcomment -%}
+    {%- if section.blocks.size > 0 -%}
+      <div class="mtib__grid">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'ingredient' -%}
+            {%- assign img_alt = block.settings.name | escape -%}
+            <div class="mtib__card" {{ block.shopify_attributes }}>
+
+              <div class="mtib__img-wrap">
+                {%- if block.settings.image != blank -%}
+                  {{
+                    block.settings.image
+                    | image_url: width: 800
+                    | image_tag:
+                      class: 'mtib__img',
+                      loading: 'lazy',
+                      alt: img_alt,
+                      widths: '400, 600, 800'
+                  }}
+                {%- endif -%}
+              </div>
+
+              {%- if block.settings.category != blank -%}
+                <span class="mtib__category">{{ block.settings.category | escape }}</span>
+              {%- endif -%}
+
+              {%- if block.settings.name != blank -%}
+                <h3 class="mtib__name">{{ block.settings.name | escape }}</h3>
+              {%- endif -%}
+
+              {%- if block.settings.description != blank -%}
+                <p class="mtib__desc">{{ block.settings.description | escape }}</p>
+              {%- endif -%}
+
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "MT-INGR-BL",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Koptekst"
+    },
+    {
+      "type": "text",
+      "id": "section_label",
+      "label": "Label boven titel",
+      "default": "De Ingrediënten"
+    },
+    {
+      "type": "textarea",
+      "id": "section_title",
+      "label": "Hoofdtitel",
+      "default": "Plantaardige actieven, als performance-ingrediënten."
+    },
+    {
+      "type": "textarea",
+      "id": "section_subtitle",
+      "label": "Subtitel",
+      "default": "Elk ingrediënt is gekozen op werking — niet op verhaal. Geselecteerd uit de natuur, getest op resultaat en dermatoloog co-ontwikkeld."
+    },
+    {
+      "type": "header",
+      "content": "Sectie — achtergrond & afstanden"
+    },
+    {
+      "type": "color",
+      "id": "section_background",
+      "label": "Achtergrondkleur",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding boven",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding onder",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "ingredient",
+      "name": "Ingrediënt",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Foto"
+        },
+        {
+          "type": "text",
+          "id": "category",
+          "label": "Categorie label",
+          "default": "ZUIVEREND"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Naam ingrediënt",
+          "default": "Walnootschil"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Omschrijving",
+          "default": "Natuurlijke fysieke exfoliant die dode huidcellen verwijdert en de huid glad — zonder microplastics."
+        }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "MT-INGR-BL",
+      "blocks": [
+        {
+          "type": "ingredient",
+          "settings": {
+            "category": "ZUIVEREND",
+            "name": "Walnootschil",
+            "description": "Natuurlijke fysieke exfoliant die dode huidcellen verwijdert en de huid glad — zonder microplastics."
+          }
+        },
+        {
+          "type": "ingredient",
+          "settings": {
+            "category": "HERSTELLEND",
+            "name": "Zwarte Zaadolie",
+            "description": "Rijk aan antioxidanten en ontstekingsremmend — kalmeert geïrriteerde huid en ondersteunt herstel."
+          }
+        },
+        {
+          "type": "ingredient",
+          "settings": {
+            "category": "VERSTEVIGEND",
+            "name": "Ginseng",
+            "description": "Activeert en verstevigt de huid voor een zichtbaar frissere, energieker gezicht."
+          }
+        },
+        {
+          "type": "ingredient",
+          "settings": {
+            "category": "KALMEREND",
+            "name": "Centella Asiatica",
+            "description": "'s Werelds herstelkruid — versterkt de huidbarrière, kalmeert roodheid en ondersteunt genezing."
+          }
+        },
+        {
+          "type": "ingredient",
+          "settings": {
+            "category": "BESCHERMEND",
+            "name": "Kakadu Plum",
+            "description": "'s Werelds rijkste natuurlijke bron van Vitamine C — beschermt tegen veroudering en doet de huid stralen."
+          }
+        },
+        {
+          "type": "ingredient",
+          "settings": {
+            "category": "HYDRATEREND",
+            "name": "Shea Butter",
+            "description": "Voedt diep en sluit vocht langdurig op — voor een soepele, comfortabele huid."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
