@@ -93,7 +93,7 @@
   #MT-IB-{{ section.id }} .mtib__card {
     background-color: #ffffff;
     border: 0.5px solid #e8e8e4;
-    border-radius: 16px;
+    border-radius: {{ section.settings.card_border_radius }}px;
     overflow: hidden;
     padding-bottom: 20px;
     transition: border-color 0.15s ease;
@@ -106,10 +106,14 @@
   /* ── Card photo ── */
   #MT-IB-{{ section.id }} .mtib__img-wrap {
     width: 100%;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: {{ section.settings.image_aspect_ratio }};
     background-color: #f5f4f0;
     overflow: hidden;
     margin-bottom: 16px;
+    border-radius: {{ section.settings.image_border_radius }}px {{ section.settings.image_border_radius }}px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   #MT-IB-{{ section.id }} .mtib__img {
@@ -117,6 +121,12 @@
     height: 100%;
     object-fit: cover;
     display: block;
+  }
+
+  #MT-IB-{{ section.id }} .mtib__img-placeholder {
+    width: 48px;
+    height: 48px;
+    opacity: 0.25;
   }
 
   /* ── Card category label ── */
@@ -192,6 +202,10 @@
                       alt: img_alt,
                       widths: '400, 600, 800'
                   }}
+                {%- else -%}
+                  <svg class="mtib__img-placeholder" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/>
+                  </svg>
                 {%- endif -%}
               </div>
 
@@ -246,6 +260,44 @@
       "id": "section_subtitle",
       "label": "Subtitel",
       "default": "Elk ingrediënt is gekozen op werking — niet op verhaal. Geselecteerd uit de natuur, getest op resultaat en dermatoloog co-ontwikkeld."
+    },
+    {
+      "type": "header",
+      "content": "Kaart — stijl"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Ronding kaart",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Ronding foto (boven)",
+      "default": 0,
+      "info": "Volgt automatisch de kaartronding als je die gelijk wil houden"
+    },
+    {
+      "type": "select",
+      "id": "image_aspect_ratio",
+      "label": "Beeldverhouding foto",
+      "options": [
+        { "value": "1 / 1", "label": "1:1 — vierkant" },
+        { "value": "4 / 3", "label": "4:3 — landschap" },
+        { "value": "3 / 2", "label": "3:2" },
+        { "value": "16 / 9", "label": "16:9 — breed" },
+        { "value": "3 / 4", "label": "3:4 — portret" }
+      ],
+      "default": "4 / 3"
     },
     {
       "type": "header",
