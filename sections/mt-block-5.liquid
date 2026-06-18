@@ -1,0 +1,698 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+{%- style -%}
+  #MT5-{{ section.id }} * {
+    box-sizing: border-box;
+  }
+
+  /* ── HERO ── */
+  #MT5-{{ section.id }} .mt5-hero {
+    background-color: #ffffff;
+    padding: 32px 20px 24px;
+  }
+
+  @media screen and (min-width: 750px) {
+    #MT5-{{ section.id }} .mt5-hero {
+      padding: 48px 40px 32px;
+    }
+  }
+
+  #MT5-{{ section.id }} .mt5-hero__wrap {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  #MT5-{{ section.id }} .mt5-hero__title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #111111;
+    margin: 0;
+    line-height: 1.15;
+  }
+
+  @media screen and (min-width: 750px) {
+    #MT5-{{ section.id }} .mt5-hero__title {
+      font-size: 36px;
+    }
+  }
+
+  #MT5-{{ section.id }} .mt5-hero__desc {
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: #555550;
+    line-height: 1.75;
+    max-width: 560px;
+    margin: 12px 0 0;
+  }
+
+  #MT5-{{ section.id }} .mt5-hero__desc p {
+    margin: 0 0 6px;
+  }
+
+  #MT5-{{ section.id }} .mt5-hero__desc p:last-child {
+    margin-bottom: 0;
+  }
+
+  #MT5-{{ section.id }} .mt5-hero__badges {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+    margin-top: 24px;
+  }
+
+  @media screen and (min-width: 750px) {
+    #MT5-{{ section.id }} .mt5-hero__badges {
+      gap: 24px;
+    }
+  }
+
+  #MT5-{{ section.id }} .mt5-hero__badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: #888884;
+    line-height: 1.3;
+  }
+
+  #MT5-{{ section.id }} .mt5-hero__badge-icon {
+    color: #ff7900;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  /* ── CATEGORY NAV ── */
+  #MT5-{{ section.id }} .mt5-nav {
+    background-color: #ffffff;
+    border-bottom: 0.5px solid #e8e8e4;
+    padding: 16px 20px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  #MT5-{{ section.id }} .mt5-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media screen and (min-width: 750px) {
+    #MT5-{{ section.id }} .mt5-nav {
+      padding: 16px 40px;
+    }
+  }
+
+  #MT5-{{ section.id }} .mt5-nav__inner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 1280px;
+    margin: 0 auto;
+    white-space: nowrap;
+  }
+
+  #MT5-{{ section.id }} .mt5-nav__pill {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    padding: 8px 18px;
+    border-radius: 999px;
+    border: 1.5px solid #e0e0e0;
+    background-color: #ffffff;
+    color: #111111;
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+    line-height: 1;
+  }
+
+  #MT5-{{ section.id }} .mt5-nav__pill:hover {
+    border-color: #111111;
+  }
+
+  #MT5-{{ section.id }} .mt5-nav__pill--active {
+    background-color: #111111;
+    color: #ffffff;
+    border-color: #111111;
+  }
+
+  #MT5-{{ section.id }} .mt5-nav__pill--active:hover {
+    background-color: #333333;
+    border-color: #333333;
+  }
+
+  /* ── GRID SECTION ── */
+  #MT5-{{ section.id }} .mt5-grid-section {
+    background: {{ section.settings.grid_background }};
+    padding: 20px 16px 48px;
+  }
+
+  @media screen and (min-width: 750px) {
+    #MT5-{{ section.id }} .mt5-grid-section {
+      padding: {{ section.settings.padding_top }}px 40px {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #MT5-{{ section.id }} .mt5-grid-wrap {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  /* ── PRODUCT GRID ── */
+  #MT5-{{ section.id }} .mt5-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  @media screen and (min-width: 600px) {
+    #MT5-{{ section.id }} .mt5-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media screen and (min-width: 1025px) {
+    #MT5-{{ section.id }} .mt5-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  /* ── PRODUCT CARD ── */
+  #MT5-{{ section.id }} .mt5-card {
+    position: relative;
+    background-color: #ffffff;
+    border: 0.5px solid #e8e8e4;
+    border-radius: {{ section.settings.card_border_radius }}px;
+    overflow: hidden;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.15s ease;
+  }
+
+  #MT5-{{ section.id }} .mt5-card:hover {
+    border-color: #111111;
+  }
+
+  @media screen and (max-width: 749px) {
+    #MT5-{{ section.id }} .mt5-card {
+      border-radius: 12px;
+    }
+  }
+
+  /* ── CARD IMAGE ── */
+  #MT5-{{ section.id }} .mt5-card__img-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background-color: #f5f4f0;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  #MT5-{{ section.id }} .mt5-card__img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+
+  /* ── SAVINGS BADGE ── */
+  #MT5-{{ section.id }} .mt5-card__badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 2;
+    background-color: #ff7900;
+    color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 4px;
+    line-height: 1.4;
+  }
+
+  /* ── CARD BODY ── */
+  #MT5-{{ section.id }} .mt5-card__body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  #MT5-{{ section.id }} .mt5-card__name {
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #111111;
+    padding: 14px 14px 4px;
+    line-height: 1.4;
+    display: block;
+  }
+
+  #MT5-{{ section.id }} .mt5-card__sub {
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: #888884;
+    line-height: 1.6;
+    padding: 0 14px 10px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  #MT5-{{ section.id }} .mt5-card__price-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 14px 14px;
+    margin-top: auto;
+  }
+
+  #MT5-{{ section.id }} .mt5-card__compare {
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: #aaaaaa;
+    text-decoration: line-through;
+    line-height: 1;
+  }
+
+  #MT5-{{ section.id }} .mt5-card__price {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #111111;
+    line-height: 1;
+  }
+
+  #MT5-{{ section.id }} .mt5-card__price--sale {
+    color: #ff7900;
+  }
+
+  /* ── EMPTY STATE ── */
+  #MT5-{{ section.id }} .mt5-empty {
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    color: #888884;
+    text-align: center;
+    padding: 48px 0;
+    margin: 0;
+  }
+
+  /* ── PAGINATION ── */
+  #MT5-{{ section.id }} .mt5-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 48px;
+  }
+
+  #MT5-{{ section.id }} .mt5-pagination__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    height: 40px;
+    padding: 0 14px;
+    border-radius: 999px;
+    border: 1.5px solid #e0e0e0;
+    background-color: #ffffff;
+    color: #111111;
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+    line-height: 1;
+  }
+
+  #MT5-{{ section.id }} .mt5-pagination__btn:hover {
+    border-color: #111111;
+  }
+
+  #MT5-{{ section.id }} .mt5-pagination__btn--active {
+    background-color: #111111;
+    color: #ffffff;
+    border-color: #111111;
+  }
+
+  #MT5-{{ section.id }} .mt5-pagination__btn--active:hover {
+    background-color: #333333;
+    border-color: #333333;
+  }
+
+  #MT5-{{ section.id }} .mt5-pagination__dots {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: #aaaaaa;
+    display: inline-flex;
+    align-items: center;
+    height: 40px;
+    padding: 0 4px;
+  }
+{%- endstyle -%}
+
+<div id="MT5-{{ section.id }}">
+
+  {%- comment -%} ══════════════════════════════
+     PART 1 — HERO BANNER
+  ══════════════════════════════ {%- endcomment -%}
+  <div class="mt5-hero">
+    <div class="mt5-hero__wrap">
+
+      <h1 class="mt5-hero__title">{{ collection.title | escape }}</h1>
+
+      {%- if section.settings.show_collection_description and collection.description != blank -%}
+        <div class="mt5-hero__desc">{{ collection.description }}</div>
+      {%- endif -%}
+
+      {%- if section.settings.show_trust_badges -%}
+        <div class="mt5-hero__badges">
+          <span class="mt5-hero__badge">
+            <span class="mt5-hero__badge-icon">✓</span>
+            Op werkdagen vóór 15:00 besteld, morgen in huis
+          </span>
+          <span class="mt5-hero__badge">
+            <span class="mt5-hero__badge-icon">✓</span>
+            30 Dagen Gratis Retour
+          </span>
+          <span class="mt5-hero__badge">
+            <span class="mt5-hero__badge-icon">✓</span>
+            +5.000 Tevreden Klanten
+          </span>
+        </div>
+      {%- endif -%}
+
+    </div>
+  </div>
+
+  {%- comment -%} ══════════════════════════════
+     PART 2 — CATEGORY NAV PILLS
+  ══════════════════════════════ {%- endcomment -%}
+  {%- if section.settings.show_category_nav and section.blocks.size > 0 -%}
+    <nav class="mt5-nav" aria-label="Categorieën">
+      <div class="mt5-nav__inner">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'nav_pill' -%}
+            {%- assign pill_url = block.settings.url | default: '' -%}
+            {%- assign is_active = false -%}
+            {%- if pill_url != blank and request.path == pill_url -%}
+              {%- assign is_active = true -%}
+            {%- endif -%}
+            <a
+              href="{{ pill_url | default: '#' }}"
+              class="mt5-nav__pill{% if is_active %} mt5-nav__pill--active{% endif %}"
+              {{ block.shopify_attributes }}
+            >
+              {{ block.settings.label | escape }}
+            </a>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </nav>
+  {%- endif -%}
+
+  {%- comment -%} ══════════════════════════════
+     PART 3 — PRODUCT GRID + PAGINATION
+  ══════════════════════════════ {%- endcomment -%}
+  {%- paginate collection.products by section.settings.products_per_page -%}
+
+    <div class="mt5-grid-section">
+      <div class="mt5-grid-wrap">
+
+        {%- if collection.products.size > 0 -%}
+          <div class="mt5-grid">
+            {%- for product in collection.products -%}
+
+              {%- comment -%} Savings badge {%- endcomment -%}
+              {%- assign on_sale = false -%}
+              {%- if product.compare_at_price > product.price -%}
+                {%- assign on_sale = true -%}
+                {%- assign pct = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price | round -%}
+              {%- endif -%}
+
+              {%- comment -%} Short description {%- endcomment -%}
+              {%- assign short_desc = product.metafields.custom.productpagina_subtitle | strip -%}
+              {%- if short_desc == blank -%}
+                {%- assign short_desc = product.type -%}
+              {%- endif -%}
+
+              {%- comment -%} First image loads eager {%- endcomment -%}
+              {%- if forloop.first -%}
+                {%- assign img_loading = 'eager' -%}
+              {%- else -%}
+                {%- assign img_loading = 'lazy' -%}
+              {%- endif -%}
+
+              <a href="{{ product.url }}" class="mt5-card">
+
+                <div class="mt5-card__img-wrap">
+                  {%- if section.settings.show_savings_badge and on_sale -%}
+                    <span class="mt5-card__badge">Bespaar {{ pct }}%</span>
+                  {%- endif -%}
+
+                  {%- if product.featured_image != blank -%}
+                    {{
+                      product.featured_image
+                      | image_url: width: 800
+                      | image_tag:
+                        class: 'mt5-card__img',
+                        loading: img_loading,
+                        alt: product.featured_image.alt | default: product.title | escape,
+                        widths: '400, 600, 800'
+                    }}
+                  {%- else -%}
+                    {{ 'product-1' | placeholder_svg_tag: 'mt5-card__img' }}
+                  {%- endif -%}
+                </div>
+
+                <div class="mt5-card__body">
+                  <span class="mt5-card__name">{{ product.title | escape }}</span>
+
+                  {%- if short_desc != blank -%}
+                    <span class="mt5-card__sub">{{ short_desc | escape }}</span>
+                  {%- endif -%}
+
+                  <div class="mt5-card__price-row">
+                    {%- if on_sale -%}
+                      <span class="mt5-card__compare">{{ product.compare_at_price | money }}</span>
+                      <span class="mt5-card__price mt5-card__price--sale">{{ product.price | money }}</span>
+                    {%- else -%}
+                      <span class="mt5-card__price">{{ product.price | money }}</span>
+                    {%- endif -%}
+                  </div>
+                </div>
+
+              </a>
+
+            {%- endfor -%}
+          </div>
+
+        {%- else -%}
+          <p class="mt5-empty">Geen producten gevonden in deze collectie.</p>
+        {%- endif -%}
+
+        {%- comment -%} Pagination {%- endcomment -%}
+        {%- if paginate.pages > 1 -%}
+          <nav class="mt5-pagination" aria-label="Paginering">
+
+            {%- if paginate.previous -%}
+              <a href="{{ paginate.previous.url }}" class="mt5-pagination__btn" aria-label="Vorige pagina">&#8592;</a>
+            {%- endif -%}
+
+            {%- for part in paginate.parts -%}
+              {%- if part.is_link -%}
+                <a href="{{ part.url }}" class="mt5-pagination__btn">{{ part.title }}</a>
+              {%- elsif part.title == paginate.current_page -%}
+                <span class="mt5-pagination__btn mt5-pagination__btn--active" aria-current="page">{{ part.title }}</span>
+              {%- else -%}
+                <span class="mt5-pagination__dots">{{ part.title }}</span>
+              {%- endif -%}
+            {%- endfor -%}
+
+            {%- if paginate.next -%}
+              <a href="{{ paginate.next.url }}" class="mt5-pagination__btn" aria-label="Volgende pagina">&#8594;</a>
+            {%- endif -%}
+
+          </nav>
+        {%- endif -%}
+
+      </div>
+    </div>
+
+  {%- endpaginate -%}
+
+</div>
+
+{% schema %}
+{
+  "name": "MT-BLOCK-5",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_collection_description",
+      "label": "Collectieomschrijving tonen",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_trust_badges",
+      "label": "Vertrouwensbadges tonen",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Navigatie"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_category_nav",
+      "label": "Categorie navigatie tonen",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Grid"
+    },
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "min": 4,
+      "max": 24,
+      "step": 2,
+      "label": "Producten per pagina",
+      "default": 12
+    },
+    {
+      "type": "checkbox",
+      "id": "show_savings_badge",
+      "label": "Bespaar badge tonen",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Kaart"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "min": 8,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Afgeronde hoeken kaart",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Sectie — achtergrond & afstanden"
+    },
+    {
+      "type": "color_background",
+      "id": "grid_background",
+      "label": "Achtergrondkleur grid",
+      "default": "#f9f9f8"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding boven grid",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding onder grid",
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "nav_pill",
+      "name": "Navigatie pill",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Alle producten"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 10,
+  "presets": [
+    {
+      "name": "MT-BLOCK-5",
+      "blocks": [
+        {
+          "type": "nav_pill",
+          "settings": {
+            "label": "Alle producten",
+            "url": "/collections/all"
+          }
+        },
+        {
+          "type": "nav_pill",
+          "settings": {
+            "label": "Bundels",
+            "url": "/collections/bundels"
+          }
+        },
+        {
+          "type": "nav_pill",
+          "settings": {
+            "label": "Losse producten",
+            "url": "/collections/losse-producten"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
