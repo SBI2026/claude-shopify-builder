@@ -1,0 +1,386 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+{%- style -%}
+  #MT-RB-{{ section.id }} {
+    background-color: {{ section.settings.background_color }};
+    padding: 48px 20px;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  @media screen and (min-width: 768px) {
+    #MT-RB-{{ section.id }} {
+      padding: {{ section.settings.padding_top }}px 40px {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #MT-RB-{{ section.id }} * { box-sizing: border-box; }
+
+  #MT-RB-{{ section.id }} .mtrb__wrap {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  /* ── HEADER ── */
+  #MT-RB-{{ section.id }} .mtrb__label {
+    display: block;
+    font-family: 'Poppins', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #ff7900;
+    margin-bottom: 16px;
+  }
+
+  #MT-RB-{{ section.id }} .mtrb__title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: #111111;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin: 0 0 48px;
+  }
+
+  @media screen and (min-width: 768px) {
+    #MT-RB-{{ section.id }} .mtrb__title {
+      font-size: 56px;
+    }
+  }
+
+  /* ── GRID ── */
+  #MT-RB-{{ section.id }} .mtrb__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  @media screen and (min-width: 600px) and (max-width: 1024px) {
+    #MT-RB-{{ section.id }} .mtrb__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media screen and (min-width: 1025px) {
+    #MT-RB-{{ section.id }} .mtrb__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  /* ── CARD ── */
+  #MT-RB-{{ section.id }} .mtrb__card {
+    background-color: #ffffff;
+    border: 0.5px solid #e8e8e4;
+    border-radius: 16px;
+    padding: 20px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 220px;
+  }
+
+  @media screen and (min-width: 768px) {
+    #MT-RB-{{ section.id }} .mtrb__card {
+      padding: 24px;
+    }
+  }
+
+  /* ── STARS ── */
+  #MT-RB-{{ section.id }} .mtrb__stars {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    margin-bottom: 16px;
+    line-height: 1;
+  }
+
+  #MT-RB-{{ section.id }} .mtrb__star {
+    font-size: 18px;
+    line-height: 1;
+  }
+
+  #MT-RB-{{ section.id }} .mtrb__star--filled {
+    color: #ff7900;
+  }
+
+  #MT-RB-{{ section.id }} .mtrb__star--empty {
+    color: #e0e0e0;
+  }
+
+  /* ── QUOTE ── */
+  #MT-RB-{{ section.id }} .mtrb__quote {
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    font-style: italic;
+    font-weight: 400;
+    color: #111111;
+    line-height: 1.65;
+    flex-grow: 1;
+    margin: 0 0 20px;
+  }
+
+  @media screen and (min-width: 768px) {
+    #MT-RB-{{ section.id }} .mtrb__quote {
+      font-size: 16px;
+    }
+  }
+
+  /* ── FOOTER ── */
+  #MT-RB-{{ section.id }} .mtrb__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 12px;
+  }
+
+  #MT-RB-{{ section.id }} .mtrb__reviewer {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  #MT-RB-{{ section.id }} .mtrb__name {
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #111111;
+    line-height: 1.4;
+  }
+
+  #MT-RB-{{ section.id }} .mtrb__verified {
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: #888884;
+    line-height: 1.4;
+  }
+
+  /* ── PRODUCT IMAGE ── */
+  #MT-RB-{{ section.id }} .mtrb__product-img {
+    width: 52px;
+    height: 52px;
+    border-radius: 10px;
+    object-fit: cover;
+    display: block;
+    flex-shrink: 0;
+    background-color: #f5f4f0;
+  }
+
+  #MT-RB-{{ section.id }} .mtrb__product-placeholder {
+    width: 52px;
+    height: 52px;
+    border-radius: 10px;
+    background-color: #f5f4f0;
+    flex-shrink: 0;
+    display: block;
+  }
+{%- endstyle -%}
+
+<div id="MT-RB-{{ section.id }}">
+  <div class="mtrb__wrap">
+
+    {%- comment -%} ── HEADER ── {%- endcomment -%}
+    {%- if section.settings.label != blank -%}
+      <span class="mtrb__label">{{ section.settings.label | escape }}</span>
+    {%- endif -%}
+    {%- if section.settings.title != blank -%}
+      <h2 class="mtrb__title">{{ section.settings.title | escape }}</h2>
+    {%- endif -%}
+
+    {%- comment -%} ── REVIEW GRID ── {%- endcomment -%}
+    {%- if section.blocks.size > 0 -%}
+      <div class="mtrb__grid">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'review' -%}
+            <div class="mtrb__card" {{ block.shopify_attributes }}>
+
+              {%- comment -%} Stars {%- endcomment -%}
+              <div class="mtrb__stars" aria-label="{{ block.settings.rating }} uit 5 sterren">
+                {%- for i in (1..5) -%}
+                  {%- if i <= block.settings.rating -%}
+                    <span class="mtrb__star mtrb__star--filled" aria-hidden="true">★</span>
+                  {%- else -%}
+                    <span class="mtrb__star mtrb__star--empty" aria-hidden="true">★</span>
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+
+              {%- comment -%} Quote {%- endcomment -%}
+              {%- if block.settings.quote != blank -%}
+                <p class="mtrb__quote">"{{ block.settings.quote | escape }}"</p>
+              {%- endif -%}
+
+              {%- comment -%} Footer: name + image {%- endcomment -%}
+              <div class="mtrb__footer">
+                <div class="mtrb__reviewer">
+                  {%- if block.settings.reviewer_name != blank -%}
+                    <span class="mtrb__name">{{ block.settings.reviewer_name | escape }}</span>
+                  {%- endif -%}
+                  {%- if block.settings.show_verified -%}
+                    <span class="mtrb__verified">· geverifieerd</span>
+                  {%- endif -%}
+                </div>
+
+                {%- if block.settings.product_image != blank -%}
+                  {{
+                    block.settings.product_image
+                    | image_url: width: 104
+                    | image_tag:
+                      class: 'mtrb__product-img',
+                      loading: 'lazy',
+                      alt: block.settings.reviewer_name,
+                      widths: '52, 104'
+                  }}
+                {%- else -%}
+                  <span class="mtrb__product-placeholder"></span>
+                {%- endif -%}
+              </div>
+
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "MT-REVIEWS-BL",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Tekst"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label boven titel",
+      "default": "WAT MANNEN ZEGGEN"
+    },
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Hoofdtitel",
+      "default": "4,6 uit 5, door 5.000+ mannen."
+    },
+    {
+      "type": "header",
+      "content": "Stijl"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Achtergrond kleur",
+      "default": "#f5f4f0"
+    },
+    {
+      "type": "header",
+      "content": "Afstanden"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "label": "Padding boven",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "label": "Padding onder",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "range",
+          "id": "rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "label": "Aantal sterren",
+          "default": 5
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Review tekst",
+          "default": "Eindelijk verzorging die geen gedoe is. Vier stappen, klaar. Mijn huid voelt rustiger dan in jaren."
+        },
+        {
+          "type": "text",
+          "id": "reviewer_name",
+          "label": "Naam reviewer",
+          "default": "Thomas K."
+        },
+        {
+          "type": "checkbox",
+          "id": "show_verified",
+          "label": "Toon geverifieerd badge",
+          "default": true
+        },
+        {
+          "type": "image_picker",
+          "id": "product_image",
+          "label": "Product foto (rechtsonder)"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "MT-REVIEWS-BL",
+      "blocks": [
+        {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "quote": "Eindelijk verzorging die geen gedoe is. Vier stappen, klaar. Mijn huid voelt rustiger dan in jaren.",
+            "reviewer_name": "Thomas K.",
+            "show_verified": true
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "quote": "De scrub maakte direct verschil met ingegroeide haren. Scheren is nooit meer hetzelfde.",
+            "reviewer_name": "Daan V.",
+            "show_verified": true
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "quote": "Het serum is goud waard. Mijn huid oogt egaler en voelt steviger aan.",
+            "reviewer_name": "Sander M.",
+            "show_verified": true
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
