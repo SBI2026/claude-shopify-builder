@@ -1,0 +1,549 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+{%- style -%}
+  #MT-CP-{{ section.id }} {
+    background-color: {{ section.settings.section_bg_color }};
+    padding: {{ section.settings.padding_top | times: 0.6 | round: 0 }}px 20px {{ section.settings.padding_bottom | times: 0.6 | round: 0 }}px;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  @media screen and (min-width: 750px) {
+    #MT-CP-{{ section.id }} {
+      padding: {{ section.settings.padding_top }}px 40px {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #MT-CP-{{ section.id }} * { box-sizing: border-box; }
+
+  /* ── INNER WRAPPER ── */
+  #MT-CP-{{ section.id }} .mtcp__inner {
+    max-width: {{ section.settings.max_width }}px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
+
+  /* ── INTRO ── */
+  #MT-CP-{{ section.id }} .mtcp__intro {
+    text-align: center;
+    width: 100%;
+    max-width: 640px;
+  }
+
+  /* ── FORM COLUMN ── */
+  #MT-CP-{{ section.id }} .mtcp__form-col {
+    width: 100%;
+    max-width: 640px;
+  }
+
+  /* ── HEADING ── */
+  #MT-CP-{{ section.id }} .mtcp__heading {
+    font-family: 'Poppins', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: {{ section.settings.heading_color }};
+    margin: 0 0 12px;
+    line-height: 1.2;
+  }
+
+  @media screen and (min-width: 750px) {
+    #MT-CP-{{ section.id }} .mtcp__heading {
+      font-size: {{ section.settings.heading_size }}px;
+    }
+  }
+
+  /* ── SUBTEXT ── */
+  #MT-CP-{{ section.id }} .mtcp__subtext {
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: #555550;
+    margin: 0;
+    line-height: 1.7;
+  }
+
+  /* ── ERRORS ── */
+  #MT-CP-{{ section.id }} .mtcp__errors {
+    background-color: #fff0f0;
+    border: 1px solid #f5c6c6;
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-bottom: 24px;
+    text-align: left;
+  }
+
+  #MT-CP-{{ section.id }} .mtcp__errors p {
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: #c0392b;
+    margin: 0 0 4px;
+  }
+
+  #MT-CP-{{ section.id }} .mtcp__errors p:last-child { margin-bottom: 0; }
+
+  /* ── FORM LAYOUT ── */
+  #MT-CP-{{ section.id }} .mtcp__form {
+    text-align: left;
+  }
+
+  #MT-CP-{{ section.id }} .mtcp__row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+
+  @media screen and (min-width: 600px) {
+    #MT-CP-{{ section.id }} .mtcp__row--2col {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  #MT-CP-{{ section.id }} .mtcp__row--full {
+    margin-bottom: 14px;
+  }
+
+  /* ── FIELD WRAPPER ── */
+  #MT-CP-{{ section.id }} .mtcp__field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  #MT-CP-{{ section.id }} .mtcp__label {
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: #111111;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  #MT-CP-{{ section.id }} .mtcp__label-optional {
+    font-size: 11px;
+    font-weight: 400;
+    color: #aaaaaa;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  /* ── INPUTS ── */
+  #MT-CP-{{ section.id }} input[type="text"],
+  #MT-CP-{{ section.id }} input[type="email"],
+  #MT-CP-{{ section.id }} select,
+  #MT-CP-{{ section.id }} textarea {
+    width: 100%;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: #111111;
+    background-color: {{ section.settings.input_bg_color }};
+    border: 1.5px solid {{ section.settings.input_border_color }};
+    border-radius: {{ section.settings.input_border_radius }}px;
+    padding: 14px 18px;
+    outline: none;
+    transition: border-color 0.15s ease;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+
+  #MT-CP-{{ section.id }} input[type="text"]::placeholder,
+  #MT-CP-{{ section.id }} input[type="email"]::placeholder,
+  #MT-CP-{{ section.id }} textarea::placeholder {
+    color: #aaaaaa;
+  }
+
+  #MT-CP-{{ section.id }} input[type="text"]:focus,
+  #MT-CP-{{ section.id }} input[type="email"]:focus,
+  #MT-CP-{{ section.id }} select:focus,
+  #MT-CP-{{ section.id }} textarea:focus {
+    border-color: #111111;
+  }
+
+  /* ── SELECT ARROW ── */
+  #MT-CP-{{ section.id }} .mtcp__select-wrap {
+    position: relative;
+  }
+
+  #MT-CP-{{ section.id }} .mtcp__select-wrap::after {
+    content: '';
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid #111111;
+    pointer-events: none;
+  }
+
+  #MT-CP-{{ section.id }} select {
+    padding-right: 42px;
+    cursor: pointer;
+  }
+
+  /* ── TEXTAREA ── */
+  #MT-CP-{{ section.id }} textarea {
+    min-height: {{ section.settings.textarea_height }}px;
+    resize: vertical;
+    line-height: 1.6;
+  }
+
+  /* ── SUBMIT BUTTON ── */
+  #MT-CP-{{ section.id }} .mtcp__submit {
+    display: block;
+    margin: 32px auto 0;
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: {{ section.settings.btn_text_color }};
+    background-color: {{ section.settings.btn_bg_color }};
+    border: none;
+    border-radius: 999px;
+    padding: 16px 48px;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+    line-height: 1;
+  }
+
+  #MT-CP-{{ section.id }} .mtcp__submit:hover {
+    background-color: {{ section.settings.btn_hover_color }};
+  }
+
+  /* ── SUCCESS MESSAGE ── */
+  #MT-CP-{{ section.id }} .mtcp__success {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: #22a06b;
+    margin-top: 24px;
+    line-height: 1.6;
+  }
+{%- endstyle -%}
+
+<div id="MT-CP-{{ section.id }}">
+  <div class="mtcp__inner">
+
+    {%- comment -%} LEFT — intro tekst {%- endcomment -%}
+    <div class="mtcp__intro">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="mtcp__heading">{{ section.settings.heading | escape }}</h2>
+      {%- endif -%}
+      {%- if section.settings.subtext != blank -%}
+        <p class="mtcp__subtext">{{ section.settings.subtext }}</p>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} RIGHT — formulier {%- endcomment -%}
+    <div class="mtcp__form-col">
+      {%- form 'contact', id: 'MT-ContactForm-{{ section.id }}' -%}
+
+        {%- if form.posted_successfully? -%}
+          <p class="mtcp__success">Bedankt! We nemen zo snel mogelijk contact met je op.</p>
+        {%- else -%}
+
+          {%- if form.errors -%}
+            <div class="mtcp__errors" role="alert">
+              {%- for field in form.errors -%}
+                <p>{{ form.errors.translated_fields[field] | capitalize }} — {{ form.errors.messages[field] }}</p>
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+
+          <div class="mtcp__form">
+
+            {%- comment -%} ROW 1: Voornaam + E-mail {%- endcomment -%}
+            <div class="mtcp__row mtcp__row--2col">
+              <div class="mtcp__field">
+                <label class="mtcp__label" for="MT-CP-name-{{ section.id }}">Voornaam *</label>
+                <input
+                  type="text"
+                  id="MT-CP-name-{{ section.id }}"
+                  name="contact[name]"
+                  placeholder="Jouw voornaam"
+                  value="{{ form.name }}"
+                  autocomplete="given-name"
+                  required
+                >
+              </div>
+              <div class="mtcp__field">
+                <label class="mtcp__label" for="MT-CP-email-{{ section.id }}">E-mail *</label>
+                <input
+                  type="email"
+                  id="MT-CP-email-{{ section.id }}"
+                  name="contact[email]"
+                  placeholder="jouw@email.nl"
+                  value="{{ form.email }}"
+                  autocomplete="email"
+                  {% if form.errors contains 'email' %}aria-invalid="true"{% endif %}
+                  required
+                >
+              </div>
+            </div>
+
+            {%- comment -%} ROW 2: Ordernummer + Onderwerp {%- endcomment -%}
+            {%- if section.settings.show_order_number -%}
+              <div class="mtcp__row mtcp__row--2col">
+                <div class="mtcp__field">
+                  <label class="mtcp__label" for="MT-CP-order-{{ section.id }}">
+                    Ordernummer
+                    <span class="mtcp__label-optional">optioneel</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="MT-CP-order-{{ section.id }}"
+                    name="contact[order_number]"
+                    placeholder="#1234"
+                    value="{{ form['contact[order_number]'] }}"
+                  >
+                </div>
+                <div class="mtcp__field">
+                  <label class="mtcp__label" for="MT-CP-subject-{{ section.id }}">Onderwerp *</label>
+                  <div class="mtcp__select-wrap">
+                    <select id="MT-CP-subject-{{ section.id }}" name="contact[subject]" required>
+                      <option value="" disabled selected>Kies een onderwerp</option>
+                      <option value="Bestelling">Bestelling</option>
+                      <option value="Retourneren">Retourneren</option>
+                      <option value="Product vraag">Product vraag</option>
+                      <option value="Overig">Overig</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            {%- else -%}
+              <div class="mtcp__row">
+                <div class="mtcp__field">
+                  <label class="mtcp__label" for="MT-CP-subject-{{ section.id }}">Onderwerp *</label>
+                  <div class="mtcp__select-wrap">
+                    <select id="MT-CP-subject-{{ section.id }}" name="contact[subject]" required>
+                      <option value="" disabled selected>Kies een onderwerp</option>
+                      <option value="Bestelling">Bestelling</option>
+                      <option value="Retourneren">Retourneren</option>
+                      <option value="Product vraag">Product vraag</option>
+                      <option value="Overig">Overig</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            {%- endif -%}
+
+            {%- comment -%} ROW 3: Bericht {%- endcomment -%}
+            <div class="mtcp__row--full">
+              <div class="mtcp__field">
+                <label class="mtcp__label" for="MT-CP-body-{{ section.id }}">Bericht *</label>
+                <textarea
+                  id="MT-CP-body-{{ section.id }}"
+                  name="contact[body]"
+                  placeholder="Schrijf hier je bericht..."
+                  required
+                >{{ form.body }}</textarea>
+              </div>
+            </div>
+
+            <button type="submit" class="mtcp__submit">
+              {{ section.settings.submit_text | escape }}
+            </button>
+
+          </div>
+
+        {%- endif -%}
+
+      {%- endform -%}
+    </div>
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "MT-CONTACT-BLOCK-CP",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Tekst"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Titel",
+      "default": "Heb je nog een vraag?"
+    },
+    {
+      "type": "textarea",
+      "id": "subtext",
+      "label": "Subtekst",
+      "default": "Neem contact op met ons team en we komen zo snel mogelijk bij je terug."
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 20,
+      "max": 56,
+      "step": 2,
+      "unit": "px",
+      "label": "Lettergrootte titel (desktop)",
+      "default": 32
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Kleur titel",
+      "default": "#111111"
+    },
+    {
+      "type": "header",
+      "content": "Formulier"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_order_number",
+      "label": "Ordernummer veld tonen",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "submit_text",
+      "label": "Tekst verzendknop",
+      "default": "VERSTUUR"
+    },
+    {
+      "type": "range",
+      "id": "textarea_height",
+      "min": 80,
+      "max": 320,
+      "step": 20,
+      "unit": "px",
+      "label": "Hoogte berichtveld",
+      "default": 160
+    },
+    {
+      "type": "header",
+      "content": "Velden stijl"
+    },
+    {
+      "type": "color",
+      "id": "input_bg_color",
+      "label": "Achtergrond velden",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "input_border_color",
+      "label": "Rand velden",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "range",
+      "id": "input_border_radius",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Afgeronde hoeken velden",
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Knop"
+    },
+    {
+      "type": "color",
+      "id": "btn_bg_color",
+      "label": "Achtergrond knop",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "btn_hover_color",
+      "label": "Achtergrond knop (hover)",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "btn_text_color",
+      "label": "Tekstkleur knop",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Lay-out"
+    },
+    {
+      "type": "number",
+      "id": "max_width",
+      "label": "Maximale breedte sectie (px)",
+      "default": 1360
+    },
+    {
+      "type": "number",
+      "id": "intro_width",
+      "label": "Breedte linkse tekstkolom (px)",
+      "default": 400
+    },
+    {
+      "type": "range",
+      "id": "col_gap",
+      "min": 24,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "label": "Ruimte tussen kolommen",
+      "default": 96
+    },
+    {
+      "type": "header",
+      "content": "Sectie — achtergrond & afstanden"
+    },
+    {
+      "type": "color",
+      "id": "section_bg_color",
+      "label": "Achtergrondkleur",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding boven",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding onder",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "MT-CONTACT-BLOCK-CP"
+    }
+  ]
+}
+{% endschema %}
