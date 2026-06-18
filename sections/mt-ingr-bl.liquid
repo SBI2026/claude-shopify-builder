@@ -5,13 +5,13 @@
 {%- style -%}
   #MT-IB-{{ section.id }} {
     background-color: {{ section.settings.section_background }};
-    padding: {{ section.settings.padding_top | times: 0.6 | round: 0 }}px 20px {{ section.settings.padding_bottom | times: 0.6 | round: 0 }}px;
+    padding: {{ section.settings.padding_top | times: 0.6 | round: 0 }}px {{ section.settings.padding_sides | times: 0.5 | round: 0 }}px {{ section.settings.padding_bottom | times: 0.6 | round: 0 }}px;
     font-family: 'Poppins', sans-serif;
   }
 
   @media screen and (min-width: 750px) {
     #MT-IB-{{ section.id }} {
-      padding: {{ section.settings.padding_top }}px 40px {{ section.settings.padding_bottom }}px;
+      padding: {{ section.settings.padding_top }}px {{ section.settings.padding_sides }}px {{ section.settings.padding_bottom }}px;
     }
   }
 
@@ -333,6 +333,16 @@
       "unit": "px",
       "label": "Padding onder",
       "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_sides",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding zijkanten",
+      "default": 40
     }
   ],
   "blocks": [
