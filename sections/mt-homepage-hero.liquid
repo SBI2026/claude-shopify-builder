@@ -1,0 +1,525 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+{%- style -%}
+  #MT-HH-{{ section.id }} {
+    background-color: #ffffff;
+    padding: 48px 20px;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  @media screen and (min-width: 901px) {
+    #MT-HH-{{ section.id }} {
+      padding: {{ section.settings.padding_top }}px 40px {{ section.settings.padding_bottom }}px;
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  #MT-HH-{{ section.id }} * { box-sizing: border-box; }
+
+  /* ── INNER GRID ── */
+  #MT-HH-{{ section.id }} .mthh__inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    align-items: center;
+  }
+
+  @media screen and (min-width: 901px) {
+    #MT-HH-{{ section.id }} .mthh__inner {
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+    }
+  }
+
+  /* ══════════════════════════════
+     LEFT COLUMN
+  ══════════════════════════════ */
+
+  /* ── Label ── */
+  #MT-HH-{{ section.id }} .mthh__label {
+    display: block;
+    font-family: 'Poppins', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #ff7900;
+    margin-bottom: 20px;
+  }
+
+  /* ── Title ── */
+  #MT-HH-{{ section.id }} .mthh__title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 40px;
+    font-weight: 400;
+    color: #111111;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin: 0 0 24px;
+  }
+
+  @media screen and (min-width: 901px) {
+    #MT-HH-{{ section.id }} .mthh__title {
+      font-size: 72px;
+    }
+  }
+
+  /* ── Subtitle ── */
+  #MT-HH-{{ section.id }} .mthh__subtitle {
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: #555550;
+    line-height: 1.75;
+    margin: 0 0 32px;
+  }
+
+  @media screen and (min-width: 901px) {
+    #MT-HH-{{ section.id }} .mthh__subtitle {
+      font-size: 16px;
+      max-width: 420px;
+    }
+  }
+
+  /* ── Step pills ── */
+  #MT-HH-{{ section.id }} .mthh__pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 36px;
+  }
+
+  #MT-HH-{{ section.id }} .mthh__pill {
+    background-color: #fff8f3;
+    border: 1.5px solid #ffd4a8;
+    border-radius: 999px;
+    padding: 8px 16px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: #cc5f00;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    line-height: 1.4;
+  }
+
+  /* ── CTA buttons ── */
+  #MT-HH-{{ section.id }} .mthh__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+
+  @media screen and (max-width: 900px) {
+    #MT-HH-{{ section.id }} .mthh__ctas {
+      flex-direction: column;
+    }
+    #MT-HH-{{ section.id }} .mthh__ctas a {
+      text-align: center;
+    }
+  }
+
+  #MT-HH-{{ section.id }} .mthh__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    padding: 16px 28px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    line-height: 1;
+    transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    white-space: nowrap;
+  }
+
+  #MT-HH-{{ section.id }} .mthh__btn--primary {
+    background-color: #111111;
+    color: #ffffff;
+    border: 2px solid #111111;
+  }
+
+  #MT-HH-{{ section.id }} .mthh__btn--primary:hover {
+    background-color: #333333;
+    border-color: #333333;
+  }
+
+  #MT-HH-{{ section.id }} .mthh__btn--secondary {
+    background-color: transparent;
+    color: #111111;
+    border: 2px solid #111111;
+  }
+
+  #MT-HH-{{ section.id }} .mthh__btn--secondary:hover {
+    background-color: #111111;
+    color: #ffffff;
+  }
+
+  /* ── Social proof ── */
+  #MT-HH-{{ section.id }} .mthh__proof {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  #MT-HH-{{ section.id }} .mthh__stars {
+    display: flex;
+    align-items: center;
+    line-height: 1;
+    font-size: 0;
+  }
+
+  #MT-HH-{{ section.id }} .mthh__star {
+    font-size: 18px;
+    color: #ff7900;
+    line-height: 1;
+  }
+
+  #MT-HH-{{ section.id }} .mthh__star--half {
+    position: relative;
+    display: inline-block;
+    font-size: 18px;
+    color: #e0e0e0;
+    line-height: 1;
+  }
+
+  #MT-HH-{{ section.id }} .mthh__star--half::before {
+    content: '★';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 55%;
+    overflow: hidden;
+    color: #ff7900;
+  }
+
+  #MT-HH-{{ section.id }} .mthh__proof-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: #555550;
+    line-height: 1.4;
+  }
+
+  /* ══════════════════════════════
+     RIGHT COLUMN — PHOTO
+  ══════════════════════════════ */
+  #MT-HH-{{ section.id }} .mthh__photo-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    background-color: #f5f4f0;
+    border-radius: 24px;
+    overflow: hidden;
+    order: -1;
+  }
+
+  @media screen and (min-width: 901px) {
+    #MT-HH-{{ section.id }} .mthh__photo-wrap {
+      aspect-ratio: 3 / 4;
+      order: 0;
+    }
+  }
+
+  #MT-HH-{{ section.id }} .mthh__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  #MT-HH-{{ section.id }} .mthh__caption {
+    position: absolute;
+    bottom: 20px;
+    left: 24px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.4;
+    pointer-events: none;
+  }
+
+  /* ── Floating badge (outside overflow:hidden, needs wrapper) ── */
+  #MT-HH-{{ section.id }} .mthh__photo-outer {
+    position: relative;
+  }
+
+  #MT-HH-{{ section.id }} .mthh__badge {
+    position: absolute;
+    top: -8px;
+    right: 8px;
+    z-index: 2;
+    background-color: #ff7900;
+    color: #ffffff;
+    border-radius: 999px;
+    padding: 10px 20px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    box-shadow: 0 4px 16px rgba(255, 121, 0, 0.35);
+    white-space: nowrap;
+    line-height: 1.4;
+  }
+
+  @media screen and (min-width: 901px) {
+    #MT-HH-{{ section.id }} .mthh__badge {
+      top: -12px;
+      right: -12px;
+    }
+  }
+{%- endstyle -%}
+
+{%- assign hero_alt = section.settings.title | escape -%}
+
+<div id="MT-HH-{{ section.id }}">
+  <div class="mthh__inner">
+
+    {%- comment -%} ══ LEFT COLUMN ══ {%- endcomment -%}
+    <div class="mthh__left">
+
+      {%- if section.settings.label != blank -%}
+        <span class="mthh__label">{{ section.settings.label | escape }}</span>
+      {%- endif -%}
+
+      {%- if section.settings.title != blank -%}
+        <h1 class="mthh__title">{{ section.settings.title | escape }}</h1>
+      {%- endif -%}
+
+      {%- if section.settings.subtitle != blank -%}
+        <p class="mthh__subtitle">{{ section.settings.subtitle | escape }}</p>
+      {%- endif -%}
+
+      {%- if section.blocks.size > 0 -%}
+        <div class="mthh__pills">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'step_pill' and block.settings.text != blank -%}
+              <span class="mthh__pill" {{ block.shopify_attributes }}>
+                {{ block.settings.text | escape }}
+              </span>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      <div class="mthh__ctas">
+        {%- if section.settings.cta_primary_text != blank -%}
+          <a href="{{ section.settings.cta_primary_url | default: '#' }}" class="mthh__btn mthh__btn--primary">
+            {{ section.settings.cta_primary_text | escape }}
+          </a>
+        {%- endif -%}
+        {%- if section.settings.cta_secondary_text != blank -%}
+          <a href="{{ section.settings.cta_secondary_url | default: '#' }}" class="mthh__btn mthh__btn--secondary">
+            {{ section.settings.cta_secondary_text | escape }}
+          </a>
+        {%- endif -%}
+      </div>
+
+      <div class="mthh__proof">
+        <div class="mthh__stars" aria-label="4,6 uit 5 sterren">
+          <span class="mthh__star">★</span>
+          <span class="mthh__star">★</span>
+          <span class="mthh__star">★</span>
+          <span class="mthh__star">★</span>
+          <span class="mthh__star--half">★</span>
+        </div>
+        {%- if section.settings.social_proof_text != blank -%}
+          <span class="mthh__proof-text">{{ section.settings.social_proof_text | escape }}</span>
+        {%- endif -%}
+      </div>
+
+    </div>
+
+    {%- comment -%} ══ RIGHT COLUMN ══ {%- endcomment -%}
+    <div class="mthh__photo-outer">
+
+      {%- if section.settings.show_badge and section.settings.badge_text != blank -%}
+        <span class="mthh__badge">{{ section.settings.badge_text | escape }}</span>
+      {%- endif -%}
+
+      <div class="mthh__photo-wrap">
+        {%- if section.settings.hero_image != blank -%}
+          {{
+            section.settings.hero_image
+            | image_url: width: 1200
+            | image_tag:
+              class: 'mthh__img',
+              loading: 'eager',
+              alt: hero_alt,
+              widths: '600, 800, 1000, 1200'
+          }}
+        {%- endif -%}
+
+        {%- if section.settings.photo_caption != blank -%}
+          <span class="mthh__caption">{{ section.settings.photo_caption | escape }}</span>
+        {%- endif -%}
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "MT-HOMEPAGE-HERO",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Tekst"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label boven titel",
+      "default": "4-STAPPEN SYSTEEM · PLANTAARDIG"
+    },
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Hoofdtitel",
+      "default": "Vier stappen naar je beste huid."
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitel",
+      "default": "Hoogwaardige gezichtsverzorging, exclusief voor mannen. Eén plantaardig systeem dat reinigt, vernieuwt, herstelt en beschermt — dermatoloog-ontwikkeld."
+    },
+    {
+      "type": "header",
+      "content": "Knoppen"
+    },
+    {
+      "type": "text",
+      "id": "cta_primary_text",
+      "label": "Primaire knop tekst",
+      "default": "Shop het systeem · €99,95"
+    },
+    {
+      "type": "url",
+      "id": "cta_primary_url",
+      "label": "Primaire knop URL"
+    },
+    {
+      "type": "text",
+      "id": "cta_secondary_text",
+      "label": "Secundaire knop tekst",
+      "default": "Bekijk alle producten"
+    },
+    {
+      "type": "url",
+      "id": "cta_secondary_url",
+      "label": "Secundaire knop URL"
+    },
+    {
+      "type": "header",
+      "content": "Social proof"
+    },
+    {
+      "type": "text",
+      "id": "social_proof_text",
+      "label": "Social proof tekst",
+      "default": "4,6/5 · 5.000+ tevreden mannen"
+    },
+    {
+      "type": "header",
+      "content": "Foto"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Productfoto rechts"
+    },
+    {
+      "type": "text",
+      "id": "photo_caption",
+      "label": "Foto caption",
+      "default": "[ SIGNATURE SET — DRIJVEND OP WIT ]"
+    },
+    {
+      "type": "header",
+      "content": "Badge"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_badge",
+      "label": "Badge tonen",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge tekst",
+      "default": "Meest gekozen"
+    },
+    {
+      "type": "header",
+      "content": "Afstanden"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "label": "Padding boven",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "label": "Padding onder",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step_pill",
+      "name": "Stap pill",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Stap tekst",
+          "default": "01  Reinigen"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "MT-HOMEPAGE-HERO",
+      "blocks": [
+        { "type": "step_pill", "settings": { "text": "01  Reinigen" } },
+        { "type": "step_pill", "settings": { "text": "02  Vernieuwen" } },
+        { "type": "step_pill", "settings": { "text": "03  Herstel" } },
+        { "type": "step_pill", "settings": { "text": "04  Bescherming" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
