@@ -26,8 +26,14 @@
      SECTION HEADER
   ══════════════════════════════ */
   #MT-IB-{{ section.id }} .mtib__header {
-    max-width: 560px;
     margin-bottom: 56px;
+    text-align: center;
+  }
+
+  @media screen and (min-width: 750px) {
+    #MT-IB-{{ section.id }} .mtib__header {
+      text-align: left;
+    }
   }
 
   #MT-IB-{{ section.id }} .mtib__label {
@@ -62,7 +68,6 @@
     font-weight: 400;
     color: #555550;
     line-height: 1.75;
-    max-width: 480px;
     margin: 0;
   }
 
