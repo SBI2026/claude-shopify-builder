@@ -1,0 +1,225 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+{%- style -%}
+  #MT-INB-{{ section.id }} {
+    padding: 0 {{ section.settings.section_margin | times: 0.4 | round: 0 }}px;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  @media screen and (min-width: 901px) {
+    #MT-INB-{{ section.id }} {
+      padding: 0 {{ section.settings.section_margin }}px;
+    }
+  }
+
+  #MT-INB-{{ section.id }} * { box-sizing: border-box; }
+
+  #MT-INB-{{ section.id }} .mtinb__card {
+    background-color: {{ section.settings.background_color }};
+    border-radius: 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: {{ section.settings.padding_top | times: 0.625 | round: 0 }}px 24px {{ section.settings.padding_bottom | times: 0.625 | round: 0 }}px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    align-items: center;
+  }
+
+  @media screen and (min-width: 901px) {
+    #MT-INB-{{ section.id }} .mtinb__card {
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      padding: {{ section.settings.padding_top }}px 56px {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  /* ── LEFT: TEXT ── */
+  #MT-INB-{{ section.id }} .mtinb__label {
+    display: block;
+    font-family: 'Poppins', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #ff7900;
+    margin-bottom: 16px;
+  }
+
+  #MT-INB-{{ section.id }} .mtinb__title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: #111111;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+
+  @media screen and (min-width: 901px) {
+    #MT-INB-{{ section.id }} .mtinb__title {
+      font-size: 48px;
+    }
+  }
+
+  /* ── RIGHT: PILLS ── */
+  #MT-INB-{{ section.id }} .mtinb__pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-content: flex-start;
+  }
+
+  #MT-INB-{{ section.id }} .mtinb__pill {
+    background-color: #ffffff;
+    border-radius: 999px;
+    padding: 10px 18px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: #111111;
+    white-space: nowrap;
+    line-height: 1.4;
+  }
+
+  @media screen and (min-width: 901px) {
+    #MT-INB-{{ section.id }} .mtinb__pill {
+      padding: 12px 22px;
+      font-size: 14px;
+    }
+  }
+{%- endstyle -%}
+
+<div id="MT-INB-{{ section.id }}">
+  <div class="mtinb__card">
+
+    {%- comment -%} LEFT — label + title {%- endcomment -%}
+    <div class="mtinb__text">
+      {%- if section.settings.label != blank -%}
+        <span class="mtinb__label">{{ section.settings.label | escape }}</span>
+      {%- endif -%}
+      {%- if section.settings.title != blank -%}
+        <h2 class="mtinb__title">{{ section.settings.title | escape }}</h2>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} RIGHT — pill tags {%- endcomment -%}
+    {%- if section.blocks.size > 0 -%}
+      <div class="mtinb__pills">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'pill' and block.settings.text != blank -%}
+            <span class="mtinb__pill" {{ block.shopify_attributes }}>
+              {{ block.settings.text | escape }}
+            </span>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "MT-INGR-N-BL",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Tekst"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label",
+      "default": "ONZE BELOFTE"
+    },
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Titel",
+      "default": "Wat we bewust weglaten."
+    },
+    {
+      "type": "header",
+      "content": "Stijl"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Achtergrond kleur",
+      "default": "#eeeae3"
+    },
+    {
+      "type": "header",
+      "content": "Afstanden"
+    },
+    {
+      "type": "range",
+      "id": "section_margin",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Marge links en rechts (px)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding boven",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding onder",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "pill",
+      "name": "Pill tag",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Tekst",
+          "default": "Geen parabenen"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 20,
+  "presets": [
+    {
+      "name": "MT-INGR-N-BL",
+      "blocks": [
+        { "type": "pill", "settings": { "text": "Geen parabenen" } },
+        { "type": "pill", "settings": { "text": "Geen microplastics" } },
+        { "type": "pill", "settings": { "text": "Geen synthetische kleurstoffen" } },
+        { "type": "pill", "settings": { "text": "Geen dierproeven" } },
+        { "type": "pill", "settings": { "text": "Geen minerale oliën" } },
+        { "type": "pill", "settings": { "text": "Geen onnodige parfum" } },
+        { "type": "pill", "settings": { "text": "Geen SLS/SLES" } },
+        { "type": "pill", "settings": { "text": "Geen valse beloftes" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
