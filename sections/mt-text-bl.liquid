@@ -1,0 +1,735 @@
+{%- assign mfont = section.settings.font_family | default: 'Poppins' -%}
+{%- assign mfont_url = mfont | replace: ' ', '+' -%}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family={{ mfont_url }}:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+{%- style -%}
+  #MT-TB-{{ section.id }} {
+    background-color: {{ section.settings.section_bg }};
+    padding: 40px 20px;
+    font-family: '{{ mfont }}', sans-serif;
+  }
+
+  @media screen and (min-width: 768px) {
+    #MT-TB-{{ section.id }} {
+      padding: {{ section.settings.padding_top }}px {{ section.settings.padding_h }}px {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #MT-TB-{{ section.id }} * { box-sizing: border-box; }
+
+  /* ── OUTER WRAPPER ── */
+  #MT-TB-{{ section.id }} .mttb__wrap {
+    max-width: {{ section.settings.max_width }}px;
+    margin: 0 auto;
+  }
+
+  /* ── GRID ── */
+  #MT-TB-{{ section.id }} .mttb__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: {{ section.settings.grid_gap }}px;
+    align-items: {{ section.settings.grid_align }};
+  }
+
+  @media screen and (min-width: 768px) {
+    #MT-TB-{{ section.id }} .mttb__grid {
+      grid-template-columns: {{ section.settings.grid_columns }};
+    }
+  }
+
+  /* ── IMAGE POSITION ── */
+  {%- if section.settings.image_position == 'right' -%}
+  @media screen and (min-width: 768px) {
+    #MT-TB-{{ section.id }} .mttb__image-col { order: 2; }
+    #MT-TB-{{ section.id }} .mttb__text-col  { order: 1; }
+  }
+  {%- endif -%}
+
+  /* ── IMAGE COLUMN ── */
+  #MT-TB-{{ section.id }} .mttb__image-col { order: -1; }
+
+  @media screen and (min-width: 768px) {
+    #MT-TB-{{ section.id }} .mttb__image-col { order: unset; }
+  }
+
+  #MT-TB-{{ section.id }} .mttb__image-wrap {
+    width: 100%;
+    border-radius: {{ section.settings.image_border_radius }}px;
+    overflow: hidden;
+    background-color: {{ section.settings.image_placeholder_color }};
+    {%- unless section.settings.image_aspect_ratio == 'auto' -%}
+    aspect-ratio: {{ section.settings.image_aspect_ratio }};
+    {%- endunless -%}
+  }
+
+  #MT-TB-{{ section.id }} .mttb__img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: {{ section.settings.image_object_fit }};
+    {%- unless section.settings.image_aspect_ratio == 'auto' -%}
+    position: absolute;
+    inset: 0;
+    {%- endunless -%}
+  }
+
+  {%- unless section.settings.image_aspect_ratio == 'auto' -%}
+  #MT-TB-{{ section.id }} .mttb__image-wrap {
+    position: relative;
+  }
+  {%- endunless -%}
+
+  /* ── LABEL ── */
+  #MT-TB-{{ section.id }} .mttb__label {
+    display: block;
+    font-family: '{{ mfont }}', sans-serif;
+    font-size: {{ section.settings.label_font_size }}px;
+    font-weight: {{ section.settings.label_font_weight }};
+    color: {{ section.settings.label_color }};
+    letter-spacing: {{ section.settings.label_letter_spacing | times: 0.01 }}em;
+    {%- if section.settings.label_uppercase -%}text-transform: uppercase;{%- endif -%}
+    margin-bottom: {{ section.settings.label_margin_bottom }}px;
+    line-height: 1.4;
+  }
+
+  /* ── TITLE ── */
+  #MT-TB-{{ section.id }} .mttb__title {
+    font-family: '{{ mfont }}', sans-serif;
+    font-size: {{ section.settings.title_font_size_mobile }}px;
+    font-weight: {{ section.settings.title_font_weight }};
+    color: {{ section.settings.title_color }};
+    line-height: {{ section.settings.title_line_height }};
+    letter-spacing: {{ section.settings.title_letter_spacing }};
+    margin: 0 0 {{ section.settings.title_margin_bottom }}px;
+  }
+
+  @media screen and (min-width: 768px) {
+    #MT-TB-{{ section.id }} .mttb__title {
+      font-size: {{ section.settings.title_font_size_desktop }}px;
+    }
+  }
+
+  /* ── BODY ── */
+  #MT-TB-{{ section.id }} .mttb__body {
+    font-family: '{{ mfont }}', sans-serif;
+    font-size: {{ section.settings.body_font_size }}px;
+    font-weight: {{ section.settings.body_font_weight }};
+    color: {{ section.settings.body_color }};
+    line-height: {{ section.settings.body_line_height }};
+    max-width: {{ section.settings.body_max_width }}px;
+    margin: 0 0 {{ section.settings.body_margin_bottom }}px;
+  }
+
+  /* ── BUTTON ── */
+  #MT-TB-{{ section.id }} .mttb__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: '{{ mfont }}', sans-serif;
+    font-size: {{ section.settings.button_font_size }}px;
+    font-weight: {{ section.settings.button_font_weight }};
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
+    line-height: 1;
+    border-radius: {{ section.settings.button_border_radius }}px;
+
+    {%- if section.settings.button_style == 'filled' -%}
+      background-color: {{ section.settings.button_bg }};
+      color: {{ section.settings.button_color }};
+      border: 2px solid {{ section.settings.button_bg }};
+      padding: {{ section.settings.button_padding_v }}px {{ section.settings.button_padding_h }}px;
+    {%- elsif section.settings.button_style == 'outline' -%}
+      background-color: transparent;
+      color: {{ section.settings.button_border_color }};
+      border: 2px solid {{ section.settings.button_border_color }};
+      padding: {{ section.settings.button_padding_v }}px {{ section.settings.button_padding_h }}px;
+    {%- else -%}
+      background-color: transparent;
+      color: {{ section.settings.button_color }};
+      border: none;
+      padding: 0;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    {%- endif -%}
+  }
+
+  #MT-TB-{{ section.id }} .mttb__btn:hover {
+    {%- if section.settings.button_style == 'filled' -%}
+      background-color: {{ section.settings.button_hover_bg }};
+      color: {{ section.settings.button_hover_color }};
+      border-color: {{ section.settings.button_hover_bg }};
+    {%- elsif section.settings.button_style == 'outline' -%}
+      background-color: {{ section.settings.button_border_color }};
+      color: {{ section.settings.button_hover_color }};
+    {%- else -%}
+      opacity: 0.65;
+    {%- endif -%}
+  }
+
+  @media screen and (max-width: 767px) {
+    #MT-TB-{{ section.id }} .mttb__btn--full {
+      display: block;
+      width: 100%;
+      text-align: center;
+    }
+  }
+{%- endstyle -%}
+
+{%- assign img_alt = section.settings.title_text | escape -%}
+{%- assign btn_classes = 'mttb__btn' -%}
+{%- if section.settings.button_full_width_mobile -%}
+  {%- assign btn_classes = 'mttb__btn mttb__btn--full' -%}
+{%- endif -%}
+
+<div id="MT-TB-{{ section.id }}">
+  <div class="mttb__wrap">
+    <div class="mttb__grid">
+
+      {%- comment -%} ── IMAGE COLUMN ── {%- endcomment -%}
+      <div class="mttb__image-col">
+        <div class="mttb__image-wrap">
+          {%- if section.settings.image != blank -%}
+            {{
+              section.settings.image
+              | image_url: width: 1400
+              | image_tag:
+                class: 'mttb__img',
+                loading: 'lazy',
+                alt: img_alt,
+                widths: '600, 800, 1000, 1200, 1400'
+            }}
+          {%- endif -%}
+        </div>
+      </div>
+
+      {%- comment -%} ── TEXT COLUMN ── {%- endcomment -%}
+      <div class="mttb__text-col">
+
+        {%- if section.settings.show_label and section.settings.label_text != blank -%}
+          <span class="mttb__label">{{ section.settings.label_text | escape }}</span>
+        {%- endif -%}
+
+        {%- if section.settings.title_text != blank -%}
+          <h2 class="mttb__title">{{ section.settings.title_text | escape }}</h2>
+        {%- endif -%}
+
+        {%- if section.settings.body_text != blank -%}
+          <p class="mttb__body">{{ section.settings.body_text | escape }}</p>
+        {%- endif -%}
+
+        {%- if section.settings.show_button and section.settings.button_text != blank -%}
+          <a href="{{ section.settings.button_url | default: '/' }}" class="{{ btn_classes }}">
+            {{ section.settings.button_text | escape }}
+          </a>
+        {%- endif -%}
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "MT-TEXT-BL",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Lettertype"
+    },
+    {
+      "type": "text",
+      "id": "font_family",
+      "label": "Google Font naam",
+      "default": "Poppins"
+    },
+    {
+      "type": "header",
+      "content": "Afbeelding"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Afbeelding"
+    },
+    {
+      "type": "select",
+      "id": "image_aspect_ratio",
+      "label": "Foto verhouding",
+      "options": [
+        { "value": "auto",  "label": "Automatisch" },
+        { "value": "1/1",   "label": "1:1 (vierkant)" },
+        { "value": "3/4",   "label": "3:4 (portret)" },
+        { "value": "4/3",   "label": "4:3 (landschap)" },
+        { "value": "16/9",  "label": "16:9 (breed)" }
+      ],
+      "default": "auto"
+    },
+    {
+      "type": "select",
+      "id": "image_object_fit",
+      "label": "Foto vulling",
+      "options": [
+        { "value": "cover",   "label": "Bijsnijden (cover)" },
+        { "value": "contain", "label": "Passend (contain)" }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "min": 0,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "label": "Foto afronding (px)",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "image_placeholder_color",
+      "label": "Placeholder kleur (geen foto)",
+      "default": "#f5f4f0"
+    },
+    {
+      "type": "header",
+      "content": "Lay-out"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Foto positie",
+      "options": [
+        { "value": "left",  "label": "Links" },
+        { "value": "right", "label": "Rechts" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "grid_columns",
+      "label": "Kolom breedte verhouding",
+      "options": [
+        { "value": "1fr 1fr",   "label": "50% / 50%" },
+        { "value": "1fr 2fr",   "label": "33% / 67%" },
+        { "value": "2fr 1fr",   "label": "67% / 33%" },
+        { "value": "3fr 2fr",   "label": "60% / 40%" },
+        { "value": "2fr 3fr",   "label": "40% / 60%" }
+      ],
+      "default": "1fr 1fr"
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Ruimte tussen kolommen",
+      "default": 48
+    },
+    {
+      "type": "select",
+      "id": "grid_align",
+      "label": "Verticale uitlijning",
+      "options": [
+        { "value": "start",  "label": "Boven" },
+        { "value": "center", "label": "Midden" },
+        { "value": "end",    "label": "Onder" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Sectie stijl"
+    },
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Achtergrond kleur",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "label": "Padding boven",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "label": "Padding onder",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_h",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding links/rechts",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 800,
+      "max": 1600,
+      "step": 40,
+      "unit": "px",
+      "label": "Maximale breedte sectie",
+      "default": 1400
+    },
+    {
+      "type": "header",
+      "content": "Label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_label",
+      "label": "Label tonen",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "label_text",
+      "label": "Label tekst",
+      "default": "Label"
+    },
+    {
+      "type": "color",
+      "id": "label_color",
+      "label": "Label kleur",
+      "default": "#ff7900"
+    },
+    {
+      "type": "range",
+      "id": "label_font_size",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Label lettergrootte",
+      "default": 11
+    },
+    {
+      "type": "select",
+      "id": "label_font_weight",
+      "label": "Label gewicht",
+      "options": [
+        { "value": "400", "label": "400 — Regular" },
+        { "value": "600", "label": "600 — Semi Bold" },
+        { "value": "700", "label": "700 — Bold" }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "range",
+      "id": "label_letter_spacing",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "label": "Label letter-spacing (×0.01em)",
+      "default": 14
+    },
+    {
+      "type": "checkbox",
+      "id": "label_uppercase",
+      "label": "Label in hoofdletters",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "label_margin_bottom",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "label": "Label ruimte onder",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Titel"
+    },
+    {
+      "type": "textarea",
+      "id": "title_text",
+      "label": "Titel",
+      "default": "Afbeelding met tekst"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Titel kleur",
+      "default": "#111111"
+    },
+    {
+      "type": "range",
+      "id": "title_font_size_desktop",
+      "min": 18,
+      "max": 96,
+      "step": 2,
+      "unit": "px",
+      "label": "Titel grootte desktop (px)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "title_font_size_mobile",
+      "min": 16,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Titel grootte mobiel (px)",
+      "default": 28
+    },
+    {
+      "type": "select",
+      "id": "title_font_weight",
+      "label": "Titel gewicht",
+      "options": [
+        { "value": "300", "label": "300 — Light" },
+        { "value": "400", "label": "400 — Regular" },
+        { "value": "500", "label": "500 — Medium" },
+        { "value": "600", "label": "600 — Semi Bold" },
+        { "value": "700", "label": "700 — Bold" },
+        { "value": "800", "label": "800 — Extra Bold" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "text",
+      "id": "title_line_height",
+      "label": "Titel regelafstand",
+      "default": "1.15"
+    },
+    {
+      "type": "text",
+      "id": "title_letter_spacing",
+      "label": "Titel letter-spacing",
+      "default": "-0.01em"
+    },
+    {
+      "type": "range",
+      "id": "title_margin_bottom",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Titel ruimte onder",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Bodytekst"
+    },
+    {
+      "type": "textarea",
+      "id": "body_text",
+      "label": "Bodytekst",
+      "default": "Plaats een afbeelding bij stukken tekst om de aandacht op je gekozen product of collectie te richten."
+    },
+    {
+      "type": "color",
+      "id": "body_color",
+      "label": "Bodytekst kleur",
+      "default": "#555550"
+    },
+    {
+      "type": "range",
+      "id": "body_font_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Bodytekst grootte",
+      "default": 15
+    },
+    {
+      "type": "select",
+      "id": "body_font_weight",
+      "label": "Bodytekst gewicht",
+      "options": [
+        { "value": "300", "label": "300 — Light" },
+        { "value": "400", "label": "400 — Regular" },
+        { "value": "500", "label": "500 — Medium" },
+        { "value": "600", "label": "600 — Semi Bold" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "text",
+      "id": "body_line_height",
+      "label": "Bodytekst regelafstand",
+      "default": "1.75"
+    },
+    {
+      "type": "range",
+      "id": "body_max_width",
+      "min": 300,
+      "max": 900,
+      "step": 20,
+      "unit": "px",
+      "label": "Bodytekst max breedte",
+      "default": 520
+    },
+    {
+      "type": "range",
+      "id": "body_margin_bottom",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Bodytekst ruimte onder",
+      "default": 28
+    },
+    {
+      "type": "header",
+      "content": "Knop"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_button",
+      "label": "Knop tonen",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Knop tekst",
+      "default": "Knoplabel"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Knop URL"
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Knop stijl",
+      "options": [
+        { "value": "filled",    "label": "Gevuld" },
+        { "value": "outline",   "label": "Omlijnd" },
+        { "value": "text_link", "label": "Tekstlink" }
+      ],
+      "default": "filled"
+    },
+    {
+      "type": "color",
+      "id": "button_bg",
+      "label": "Knop achtergrond",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Knop tekstkleur",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_border_color",
+      "label": "Knop randkleur (omlijnd)",
+      "default": "#111111"
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Knop afronding (100 = pill)",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "min": 11,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Knop lettergrootte",
+      "default": 13
+    },
+    {
+      "type": "select",
+      "id": "button_font_weight",
+      "label": "Knop gewicht",
+      "options": [
+        { "value": "400", "label": "400 — Regular" },
+        { "value": "600", "label": "600 — Semi Bold" },
+        { "value": "700", "label": "700 — Bold" }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "range",
+      "id": "button_padding_v",
+      "min": 8,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Knop padding verticaal",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "button_padding_h",
+      "min": 16,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "label": "Knop padding horizontaal",
+      "default": 28
+    },
+    {
+      "type": "color",
+      "id": "button_hover_bg",
+      "label": "Knop achtergrond (hover)",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_color",
+      "label": "Knop tekstkleur (hover)",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Mobiel"
+    },
+    {
+      "type": "checkbox",
+      "id": "button_full_width_mobile",
+      "label": "Knop volledige breedte op mobiel",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "MT-TEXT-BL"
+    }
+  ]
+}
+{% endschema %}
