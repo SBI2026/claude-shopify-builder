@@ -1,0 +1,815 @@
+{%- assign mfont = section.settings.font_family | default: 'Poppins' -%}
+{%- assign mfont_url = mfont | replace: ' ', '+' -%}
+{%- assign ov_opacity = section.settings.overlay_opacity | divided_by: 100.0 -%}
+
+{%- assign align_d = section.settings.text_align_desktop -%}
+{%- assign align_m = section.settings.text_align_mobile -%}
+
+{%- if align_d == 'left' -%}{%- assign items_d = 'flex-start' -%}
+{%- elsif align_d == 'right' -%}{%- assign items_d = 'flex-end' -%}
+{%- else -%}{%- assign items_d = 'center' -%}{%- endif -%}
+
+{%- if align_m == 'left' -%}{%- assign items_m = 'flex-start' -%}
+{%- elsif align_m == 'right' -%}{%- assign items_m = 'flex-end' -%}
+{%- else -%}{%- assign items_m = 'center' -%}{%- endif -%}
+
+{%- assign valign = section.settings.text_valign -%}
+{%- if valign == 'top' -%}{%- assign justify = 'flex-start' -%}
+{%- elsif valign == 'bottom' -%}{%- assign justify = 'flex-end' -%}
+{%- else -%}{%- assign justify = 'center' -%}{%- endif -%}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family={{ mfont_url }}:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+{%- style -%}
+  #MT-HP-{{ section.id }} * { box-sizing: border-box; }
+
+  /* ── HERO WRAPPER ── */
+  #MT-HP-{{ section.id }} .mthp__hero {
+    position: relative;
+    width: calc(100% - {{ section.settings.hero_margin | times: 2 }}px);
+    margin: 0 {{ section.settings.hero_margin }}px;
+    height: {{ section.settings.hero_height_mobile }}px;
+    border-radius: {{ section.settings.hero_border_radius }}px;
+    overflow: hidden;
+    background-color: #111111;
+  }
+
+  @media screen and (min-width: 768px) {
+    #MT-HP-{{ section.id }} .mthp__hero {
+      height: {{ section.settings.hero_height_desktop }}px;
+    }
+  }
+
+  /* ── BACKGROUND IMAGE ── */
+  #MT-HP-{{ section.id }} .mthp__bg-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: {{ section.settings.image_position }};
+    display: block;
+  }
+
+  /* ── OVERLAY ── */
+  #MT-HP-{{ section.id }} .mthp__overlay {
+    position: absolute;
+    inset: 0;
+    background-color: {{ section.settings.overlay_color }};
+    opacity: {{ ov_opacity }};
+    z-index: 1;
+  }
+
+  /* ── INNER: positions content within hero ── */
+  #MT-HP-{{ section.id }} .mthp__inner {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: {{ justify }};
+    align-items: {{ items_m }};
+    padding: {{ section.settings.content_padding_v }}px {{ section.settings.content_padding_h_mobile }}px;
+  }
+
+  @media screen and (min-width: 768px) {
+    #MT-HP-{{ section.id }} .mthp__inner {
+      align-items: {{ items_d }};
+      padding-left: {{ section.settings.content_padding_h_desktop }}px;
+      padding-right: {{ section.settings.content_padding_h_desktop }}px;
+    }
+  }
+
+  /* ── CONTENT BOX ── */
+  #MT-HP-{{ section.id }} .mthp__content {
+    display: flex;
+    flex-direction: column;
+    align-items: {{ items_m }};
+    text-align: {{ align_m }};
+    max-width: {{ section.settings.content_max_width }}px;
+    width: 100%;
+  }
+
+  @media screen and (min-width: 768px) {
+    #MT-HP-{{ section.id }} .mthp__content {
+      align-items: {{ items_d }};
+      text-align: {{ align_d }};
+    }
+  }
+
+  /* ── LABEL ── */
+  #MT-HP-{{ section.id }} .mthp__label {
+    font-family: '{{ mfont }}', sans-serif;
+    display: inline-block;
+    font-size: {{ section.settings.label_size }}px;
+    font-weight: {{ section.settings.label_weight }};
+    color: {{ section.settings.label_color }};
+    letter-spacing: {{ section.settings.label_spacing | times: 0.01 }}em;
+    text-transform: {{ section.settings.label_transform }};
+    margin: 0 0 {{ section.settings.label_margin_bottom }}px;
+    line-height: 1.4;
+    {%- if section.settings.label_show_pill -%}
+    background-color: {{ section.settings.label_pill_bg }};
+    border-radius: {{ section.settings.label_pill_radius }}px;
+    padding: 5px 16px;
+    {%- endif -%}
+  }
+
+  /* ── HEADING ── */
+  #MT-HP-{{ section.id }} .mthp__heading {
+    font-family: '{{ mfont }}', sans-serif;
+    font-size: {{ section.settings.heading_size_mobile }}px;
+    font-weight: {{ section.settings.heading_weight }};
+    color: {{ section.settings.heading_color }};
+    letter-spacing: {{ section.settings.heading_spacing | times: 0.01 }}em;
+    text-transform: {{ section.settings.heading_transform }};
+    line-height: {{ section.settings.heading_line_height | divided_by: 100.0 }};
+    max-width: {{ section.settings.heading_max_width }}px;
+    margin: 0 0 {{ section.settings.heading_margin_bottom }}px;
+  }
+
+  @media screen and (min-width: 768px) {
+    #MT-HP-{{ section.id }} .mthp__heading {
+      font-size: {{ section.settings.heading_size_desktop }}px;
+    }
+  }
+
+  /* ── SUBTEXT ── */
+  #MT-HP-{{ section.id }} .mthp__subtext {
+    font-family: '{{ mfont }}', sans-serif;
+    font-size: {{ section.settings.subtext_size_mobile }}px;
+    font-weight: {{ section.settings.subtext_weight }};
+    color: {{ section.settings.subtext_color }};
+    line-height: {{ section.settings.subtext_line_height | divided_by: 100.0 }};
+    max-width: {{ section.settings.subtext_max_width }}px;
+    margin: 0 0 {{ section.settings.subtext_margin_bottom }}px;
+  }
+
+  @media screen and (min-width: 768px) {
+    #MT-HP-{{ section.id }} .mthp__subtext {
+      font-size: {{ section.settings.subtext_size_desktop }}px;
+    }
+  }
+
+  /* ── BUTTON ── */
+  #MT-HP-{{ section.id }} .mthp__btn {
+    display: inline-block;
+    font-family: '{{ mfont }}', sans-serif;
+    font-size: {{ section.settings.btn_size }}px;
+    font-weight: {{ section.settings.btn_weight }};
+    color: {{ section.settings.btn_color }};
+    background-color: {{ section.settings.btn_bg }};
+    border-radius: {{ section.settings.btn_radius }}px;
+    border: {{ section.settings.btn_border_width }}px solid {{ section.settings.btn_border_color }};
+    padding: {{ section.settings.btn_padding_v }}px {{ section.settings.btn_padding_h }}px;
+    letter-spacing: {{ section.settings.btn_spacing | times: 0.01 }}em;
+    text-transform: {{ section.settings.btn_transform }};
+    text-decoration: none;
+    margin-top: {{ section.settings.btn_margin_top }}px;
+    line-height: 1;
+    cursor: pointer;
+  }
+{%- endstyle -%}
+
+<div id="MT-HP-{{ section.id }}">
+  <div class="mthp__hero">
+
+    {%- if section.settings.hero_image != blank -%}
+      {{
+        section.settings.hero_image
+        | image_url: width: 2400
+        | image_tag:
+          class: 'mthp__bg-img',
+          loading: 'eager',
+          fetchpriority: 'high',
+          alt: section.settings.heading,
+          widths: '800, 1200, 1600, 2000, 2400'
+      }}
+    {%- endif -%}
+
+    <div class="mthp__overlay"></div>
+
+    <div class="mthp__inner">
+      <div class="mthp__content">
+
+        {%- if section.settings.show_label and section.settings.label_text != blank -%}
+          <span class="mthp__label">{{ section.settings.label_text | escape }}</span>
+        {%- endif -%}
+
+        {%- if section.settings.heading != blank -%}
+          <h2 class="mthp__heading">{{ section.settings.heading | escape }}</h2>
+        {%- endif -%}
+
+        {%- if section.settings.subtext != blank -%}
+          <p class="mthp__subtext">{{ section.settings.subtext | escape }}</p>
+        {%- endif -%}
+
+        {%- if section.settings.show_btn and section.settings.btn_text != blank -%}
+          <a class="mthp__btn" href="{{ section.settings.btn_url }}">
+            {{ section.settings.btn_text | escape }}
+          </a>
+        {%- endif -%}
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "MT-HERO-PIC",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Lettertype"
+    },
+    {
+      "type": "text",
+      "id": "font_family",
+      "label": "Google Font naam",
+      "default": "Poppins"
+    },
+    {
+      "type": "header",
+      "content": "Foto"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Achtergrond foto"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Foto uitlijning",
+      "options": [
+        { "value": "center center", "label": "Midden" },
+        { "value": "top center",    "label": "Boven" },
+        { "value": "bottom center", "label": "Onder" },
+        { "value": "center left",   "label": "Links" },
+        { "value": "center right",  "label": "Rechts" }
+      ],
+      "default": "center center"
+    },
+    {
+      "type": "header",
+      "content": "Sectie afmetingen"
+    },
+    {
+      "type": "range",
+      "id": "hero_height_desktop",
+      "min": 300,
+      "max": 900,
+      "step": 20,
+      "unit": "px",
+      "label": "Hoogte desktop",
+      "default": 620
+    },
+    {
+      "type": "range",
+      "id": "hero_height_mobile",
+      "min": 200,
+      "max": 700,
+      "step": 20,
+      "unit": "px",
+      "label": "Hoogte mobiel",
+      "default": 480
+    },
+    {
+      "type": "range",
+      "id": "hero_margin",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Marge links/rechts",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "hero_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "label": "Afronding hoeken",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Overlay"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay kleur",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "label": "Overlay donkerte",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Uitlijning"
+    },
+    {
+      "type": "select",
+      "id": "text_align_desktop",
+      "label": "Tekst uitlijning (desktop)",
+      "options": [
+        { "value": "left",   "label": "Links" },
+        { "value": "center", "label": "Midden" },
+        { "value": "right",  "label": "Rechts" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "text_align_mobile",
+      "label": "Tekst uitlijning (mobiel)",
+      "options": [
+        { "value": "left",   "label": "Links" },
+        { "value": "center", "label": "Midden" },
+        { "value": "right",  "label": "Rechts" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "text_valign",
+      "label": "Verticale positie tekst",
+      "options": [
+        { "value": "top",    "label": "Boven" },
+        { "value": "center", "label": "Midden" },
+        { "value": "bottom", "label": "Onder" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "min": 400,
+      "max": 1600,
+      "step": 40,
+      "unit": "px",
+      "label": "Max breedte tekst",
+      "default": 800
+    },
+    {
+      "type": "range",
+      "id": "content_padding_h_desktop",
+      "min": 0,
+      "max": 120,
+      "step": 8,
+      "unit": "px",
+      "label": "Zijkant afstand (desktop)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "content_padding_h_mobile",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Zijkant afstand (mobiel)",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "content_padding_v",
+      "min": 0,
+      "max": 80,
+      "step": 8,
+      "unit": "px",
+      "label": "Boven/onder afstand (bij top/bottom uitlijning)",
+      "default": 48
+    },
+    {
+      "type": "header",
+      "content": "Label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_label",
+      "label": "Label tonen",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "label_text",
+      "label": "Label tekst",
+      "default": "Nieuw"
+    },
+    {
+      "type": "color",
+      "id": "label_color",
+      "label": "Label kleur",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "label_size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Label lettergrootte",
+      "default": 12
+    },
+    {
+      "type": "select",
+      "id": "label_weight",
+      "label": "Label gewicht",
+      "options": [
+        { "value": "300", "label": "300 — Light" },
+        { "value": "400", "label": "400 — Regular" },
+        { "value": "500", "label": "500 — Medium" },
+        { "value": "600", "label": "600 — Semi Bold" },
+        { "value": "700", "label": "700 — Bold" }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "range",
+      "id": "label_spacing",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "label": "Label letter-spacing (×0.01em)",
+      "default": 4
+    },
+    {
+      "type": "select",
+      "id": "label_transform",
+      "label": "Label tekst opmaak",
+      "options": [
+        { "value": "none",      "label": "Normaal" },
+        { "value": "uppercase", "label": "HOOFDLETTERS" },
+        { "value": "lowercase", "label": "kleine letters" }
+      ],
+      "default": "uppercase"
+    },
+    {
+      "type": "range",
+      "id": "label_margin_bottom",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "label": "Label ruimte onder",
+      "default": 16
+    },
+    {
+      "type": "checkbox",
+      "id": "label_show_pill",
+      "label": "Pill achtergrond tonen",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "label_pill_bg",
+      "label": "Pill achtergrond kleur",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "label_pill_radius",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Pill afronding (100 = pill vorm)",
+      "default": 100
+    },
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading tekst",
+      "default": "Jouw huid. Jouw routine."
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading kleur",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "heading_size_desktop",
+      "min": 16,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Heading grootte (desktop)",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "min": 14,
+      "max": 72,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading grootte (mobiel)",
+      "default": 36
+    },
+    {
+      "type": "select",
+      "id": "heading_weight",
+      "label": "Heading gewicht",
+      "options": [
+        { "value": "300", "label": "300 — Light" },
+        { "value": "400", "label": "400 — Regular" },
+        { "value": "500", "label": "500 — Medium" },
+        { "value": "600", "label": "600 — Semi Bold" },
+        { "value": "700", "label": "700 — Bold" },
+        { "value": "800", "label": "800 — Extra Bold" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "range",
+      "id": "heading_line_height",
+      "min": 90,
+      "max": 200,
+      "step": 5,
+      "label": "Heading regelafstand (÷100)",
+      "default": 110
+    },
+    {
+      "type": "range",
+      "id": "heading_spacing",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "label": "Heading letter-spacing (×0.01em)",
+      "default": 0
+    },
+    {
+      "type": "select",
+      "id": "heading_transform",
+      "label": "Heading tekst opmaak",
+      "options": [
+        { "value": "none",      "label": "Normaal" },
+        { "value": "uppercase", "label": "HOOFDLETTERS" },
+        { "value": "lowercase", "label": "kleine letters" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "range",
+      "id": "heading_max_width",
+      "min": 400,
+      "max": 1400,
+      "step": 40,
+      "unit": "px",
+      "label": "Heading max breedte",
+      "default": 800
+    },
+    {
+      "type": "range",
+      "id": "heading_margin_bottom",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Heading ruimte onder",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Subtekst"
+    },
+    {
+      "type": "textarea",
+      "id": "subtext",
+      "label": "Subtekst",
+      "default": ""
+    },
+    {
+      "type": "color",
+      "id": "subtext_color",
+      "label": "Subtekst kleur",
+      "default": "#eeeeee"
+    },
+    {
+      "type": "range",
+      "id": "subtext_size_desktop",
+      "min": 10,
+      "max": 28,
+      "step": 2,
+      "unit": "px",
+      "label": "Subtekst grootte (desktop)",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "subtext_size_mobile",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Subtekst grootte (mobiel)",
+      "default": 15
+    },
+    {
+      "type": "select",
+      "id": "subtext_weight",
+      "label": "Subtekst gewicht",
+      "options": [
+        { "value": "300", "label": "300 — Light" },
+        { "value": "400", "label": "400 — Regular" },
+        { "value": "500", "label": "500 — Medium" },
+        { "value": "600", "label": "600 — Semi Bold" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "range",
+      "id": "subtext_line_height",
+      "min": 100,
+      "max": 220,
+      "step": 5,
+      "label": "Subtekst regelafstand (÷100)",
+      "default": 160
+    },
+    {
+      "type": "range",
+      "id": "subtext_max_width",
+      "min": 300,
+      "max": 900,
+      "step": 20,
+      "unit": "px",
+      "label": "Subtekst max breedte",
+      "default": 560
+    },
+    {
+      "type": "range",
+      "id": "subtext_margin_bottom",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Subtekst ruimte onder",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Knop"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_btn",
+      "label": "Knop tonen",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "btn_text",
+      "label": "Knop tekst",
+      "default": "Shop nu"
+    },
+    {
+      "type": "url",
+      "id": "btn_url",
+      "label": "Knop URL"
+    },
+    {
+      "type": "color",
+      "id": "btn_bg",
+      "label": "Knop achtergrond",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "btn_color",
+      "label": "Knop tekstkleur",
+      "default": "#111111"
+    },
+    {
+      "type": "range",
+      "id": "btn_radius",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Knop afronding (100 = pill)",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "btn_border_width",
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "label": "Knop rand dikte",
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "btn_border_color",
+      "label": "Knop rand kleur",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "btn_size",
+      "min": 11,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "label": "Knop lettergrootte",
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "btn_weight",
+      "label": "Knop gewicht",
+      "options": [
+        { "value": "300", "label": "300 — Light" },
+        { "value": "400", "label": "400 — Regular" },
+        { "value": "500", "label": "500 — Medium" },
+        { "value": "600", "label": "600 — Semi Bold" },
+        { "value": "700", "label": "700 — Bold" }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "range",
+      "id": "btn_padding_v",
+      "min": 8,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Knop padding verticaal",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "btn_padding_h",
+      "min": 12,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Knop padding horizontaal",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "btn_spacing",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "label": "Knop letter-spacing (×0.01em)",
+      "default": 2
+    },
+    {
+      "type": "select",
+      "id": "btn_transform",
+      "label": "Knop tekst opmaak",
+      "options": [
+        { "value": "none",      "label": "Normaal" },
+        { "value": "uppercase", "label": "HOOFDLETTERS" },
+        { "value": "lowercase", "label": "kleine letters" }
+      ],
+      "default": "uppercase"
+    },
+    {
+      "type": "range",
+      "id": "btn_margin_top",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Knop ruimte boven",
+      "default": 28
+    }
+  ],
+  "presets": [
+    {
+      "name": "MT-HERO-PIC"
+    }
+  ]
+}
+{% endschema %}
