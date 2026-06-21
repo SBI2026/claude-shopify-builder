@@ -1,0 +1,864 @@
+{%- assign mfont = section.settings.font_family | default: 'Poppins' -%}
+{%- assign mfont_url = mfont | replace: ' ', '+' -%}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family={{ mfont_url }}:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+{%- style -%}
+  /* ── CSS CUSTOM PROPERTIES: mobile first ── */
+  #MT-RPB-{{ section.id }} {
+    --cols:          {{ section.settings.mobile_columns }};
+    --gap-h:         {{ section.settings.mobile_gap_h }}px;
+    --gap-v:         {{ section.settings.mobile_gap_v }}px;
+    --pt:            {{ section.settings.mobile_padding_top }}px;
+    --pb:            {{ section.settings.mobile_padding_bottom }}px;
+    --ph:            {{ section.settings.mobile_padding_h }}px;
+    --photo-aspect:  {{ section.settings.photo_aspect_mobile }};
+    --photo-radius:  {{ section.settings.photo_radius_mobile }}px;
+    --footer-pt:     {{ section.settings.footer_padding_top_mobile }}px;
+    --name-size:     {{ section.settings.name_mobile_size }}px;
+    --name-weight:   {{ section.settings.name_mobile_weight }};
+    --price-size:    {{ section.settings.price_mobile_size }}px;
+    --title-size:    {{ section.settings.title_mobile_size }}px;
+    --title-mb:      {{ section.settings.title_mobile_margin }}px;
+
+    /* these don't have separate mobile versions — use desktop values always */
+    --name-transform:  {{ section.settings.name_desktop_transform }};
+    --name-spacing:    {{ section.settings.name_desktop_spacing | times: 0.01 }}em;
+    --name-color:      {{ section.settings.name_desktop_color }};
+    --name-mb:         {{ section.settings.name_desktop_margin }}px;
+    --price-weight:    {{ section.settings.price_desktop_weight }};
+    --price-color:     {{ section.settings.price_desktop_color }};
+    --price-sale-color: {{ section.settings.price_sale_color }};
+    --title-color:     {{ section.settings.title_desktop_color }};
+    --title-weight:    {{ section.settings.title_desktop_weight }};
+    --title-spacing:   {{ section.settings.title_desktop_letter_spacing | times: 0.01 }}em;
+    --title-transform: {{ section.settings.title_desktop_transform }};
+  }
+
+  @media screen and (min-width: 768px) {
+    #MT-RPB-{{ section.id }} {
+      --cols:         {{ section.settings.desktop_columns }};
+      --gap-h:        {{ section.settings.desktop_gap_h }}px;
+      --gap-v:        {{ section.settings.desktop_gap_v }}px;
+      --pt:           {{ section.settings.desktop_padding_top }}px;
+      --pb:           {{ section.settings.desktop_padding_bottom }}px;
+      --ph:           {{ section.settings.desktop_padding_h }}px;
+      --photo-aspect: {{ section.settings.photo_aspect_desktop }};
+      --photo-radius: {{ section.settings.photo_radius_desktop }}px;
+      --footer-pt:    {{ section.settings.footer_padding_top_desktop }}px;
+      --name-size:    {{ section.settings.name_desktop_size }}px;
+      --name-weight:  {{ section.settings.name_desktop_weight }};
+      --price-size:   {{ section.settings.price_desktop_size }}px;
+      --title-size:   {{ section.settings.title_desktop_size }}px;
+      --title-mb:     {{ section.settings.title_desktop_margin }}px;
+    }
+  }
+
+  /* ── SECTION ── */
+  #MT-RPB-{{ section.id }} {
+    background-color: {{ section.settings.section_bg }};
+    padding: var(--pt) var(--ph) var(--pb);
+    font-family: '{{ mfont }}', sans-serif;
+  }
+
+  #MT-RPB-{{ section.id }} * { box-sizing: border-box; }
+
+  #MT-RPB-{{ section.id }} .mtrpb__wrap {
+    max-width: {{ section.settings.desktop_max_width }}px;
+    margin: 0 auto;
+  }
+
+  /* ── SECTION TITLE ── */
+  #MT-RPB-{{ section.id }} .mtrpb__title {
+    font-family: '{{ mfont }}', sans-serif;
+    font-size: var(--title-size);
+    font-weight: var(--title-weight);
+    color: var(--title-color);
+    letter-spacing: var(--title-spacing);
+    text-transform: var(--title-transform);
+    margin: 0 0 var(--title-mb);
+    line-height: 1.2;
+  }
+
+  /* ── GRID ── */
+  #MT-RPB-{{ section.id }} .mtrpb__grid {
+    display: grid;
+    grid-template-columns: repeat(var(--cols), 1fr);
+    column-gap: var(--gap-h);
+    row-gap: var(--gap-v);
+  }
+
+  /* ── CARD ── */
+  #MT-RPB-{{ section.id }} .mtrpb__card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+  }
+
+  /* ── PHOTO ── */
+  #MT-RPB-{{ section.id }} .mtrpb__photo {
+    position: relative;
+    width: 100%;
+    aspect-ratio: var(--photo-aspect);
+    border-radius: var(--photo-radius);
+    overflow: hidden;
+    background-color: {{ section.settings.photo_bg }};
+  }
+
+  #MT-RPB-{{ section.id }} .mtrpb__photo-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* ── PILL BADGE ── */
+  #MT-RPB-{{ section.id }} .mtrpb__pill {
+    position: absolute;
+    top: {{ section.settings.pill_position_top }}px;
+    left: {{ section.settings.pill_position_left }}px;
+    z-index: 2;
+    font-family: '{{ mfont }}', sans-serif;
+    font-size: {{ section.settings.pill_font_size }}px;
+    font-weight: {{ section.settings.pill_font_weight }};
+    border-radius: {{ section.settings.pill_border_radius }}px;
+    padding: {{ section.settings.pill_padding_v }}px {{ section.settings.pill_padding_h }}px;
+    line-height: 1.3;
+    white-space: nowrap;
+  }
+
+  /* ── FOOTER ── */
+  #MT-RPB-{{ section.id }} .mtrpb__footer {
+    padding-top: var(--footer-pt);
+  }
+
+  /* ── NAME LINE ── */
+  #MT-RPB-{{ section.id }} .mtrpb__name {
+    font-family: '{{ mfont }}', sans-serif;
+    font-size: var(--name-size);
+    font-weight: var(--name-weight);
+    color: var(--name-color);
+    letter-spacing: var(--name-spacing);
+    text-transform: var(--name-transform);
+    margin: 0 0 var(--name-mb);
+    line-height: 1.3;
+    display: block;
+  }
+
+  /* ── PRICE ── */
+  #MT-RPB-{{ section.id }} .mtrpb__price {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  #MT-RPB-{{ section.id }} .mtrpb__price-current {
+    font-family: '{{ mfont }}', sans-serif;
+    font-size: var(--price-size);
+    font-weight: var(--price-weight);
+    color: var(--price-color);
+    line-height: 1.3;
+  }
+
+  #MT-RPB-{{ section.id }} .mtrpb__price-current--sale {
+    color: var(--price-sale-color);
+  }
+
+  #MT-RPB-{{ section.id }} .mtrpb__price-compare {
+    font-family: '{{ mfont }}', sans-serif;
+    font-size: var(--price-size);
+    font-weight: var(--price-weight);
+    color: #aaaaaa;
+    text-decoration: line-through;
+    line-height: 1.3;
+  }
+{%- endstyle -%}
+
+<div id="MT-RPB-{{ section.id }}">
+  <div class="mtrpb__wrap">
+
+    {%- if section.settings.show_title and section.settings.title_text != blank -%}
+      <h2 class="mtrpb__title">{{ section.settings.title_text | escape }}</h2>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="mtrpb__grid">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'product_card' -%}
+            {%- assign card_product = block.settings.product -%}
+            {%- assign card_url = '#' -%}
+            {%- if card_product != blank -%}
+              {%- assign card_url = card_product.url -%}
+            {%- endif -%}
+
+            <a href="{{ card_url }}" class="mtrpb__card" {{ block.shopify_attributes }}>
+
+              {%- comment -%} Photo {%- endcomment -%}
+              <div class="mtrpb__photo">
+                {%- if card_product != blank and card_product.featured_image != blank -%}
+                  {{
+                    card_product.featured_image
+                    | image_url: width: 800
+                    | image_tag:
+                      class: 'mtrpb__photo-img',
+                      loading: forloop.first ? 'eager' : 'lazy',
+                      alt: card_product.title,
+                      widths: '400, 600, 800'
+                  }}
+                {%- endif -%}
+
+                {%- if block.settings.show_pill and block.settings.pill_text != blank -%}
+                  <span
+                    class="mtrpb__pill"
+                    style="background-color: {{ block.settings.pill_bg }}; color: {{ block.settings.pill_color }};"
+                  >{{ block.settings.pill_text | escape }}</span>
+                {%- endif -%}
+              </div>
+
+              {%- comment -%} Footer {%- endcomment -%}
+              <div class="mtrpb__footer">
+
+                {%- if block.settings.custom_name_line != blank -%}
+                  <span class="mtrpb__name">{{ block.settings.custom_name_line | escape }}</span>
+                {%- elsif card_product != blank -%}
+                  {%- if card_product.type != blank -%}
+                    {%- assign name_line = card_product.title | append: ' · ' | append: card_product.type -%}
+                  {%- else -%}
+                    {%- assign name_line = card_product.title -%}
+                  {%- endif -%}
+                  <span class="mtrpb__name">{{ name_line | escape }}</span>
+                {%- endif -%}
+
+                {%- if card_product != blank -%}
+                  {%- assign on_sale = false -%}
+                  {%- if card_product.compare_at_price > card_product.price -%}
+                    {%- assign on_sale = true -%}
+                  {%- endif -%}
+                  <div class="mtrpb__price">
+                    {%- if on_sale -%}
+                      <span class="mtrpb__price-compare">{{ card_product.compare_at_price | money }}</span>
+                      <span class="mtrpb__price-current mtrpb__price-current--sale">{{ card_product.price | money }}</span>
+                    {%- else -%}
+                      <span class="mtrpb__price-current">{{ card_product.price | money }}</span>
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+
+              </div>
+
+            </a>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "MT-SHOP-PR-BL",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Lettertype"
+    },
+    {
+      "type": "text",
+      "id": "font_family",
+      "label": "Google Font naam",
+      "default": "Poppins"
+    },
+    {
+      "type": "header",
+      "content": "Sectie titel"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "Titel tonen",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "title_text",
+      "label": "Titel tekst",
+      "default": "YOU MIGHT ALSO LIKE"
+    },
+    {
+      "type": "color",
+      "id": "title_desktop_color",
+      "label": "Titel kleur",
+      "default": "#111111"
+    },
+    {
+      "type": "range",
+      "id": "title_desktop_size",
+      "min": 12,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Titel grootte desktop",
+      "default": 22
+    },
+    {
+      "type": "select",
+      "id": "title_desktop_weight",
+      "label": "Titel gewicht",
+      "options": [
+        { "value": "300", "label": "300 — Light" },
+        { "value": "400", "label": "400 — Regular" },
+        { "value": "500", "label": "500 — Medium" },
+        { "value": "600", "label": "600 — Semi Bold" },
+        { "value": "700", "label": "700 — Bold" },
+        { "value": "800", "label": "800 — Extra Bold" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "range",
+      "id": "title_desktop_letter_spacing",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "label": "Titel letter-spacing (×0.01em)",
+      "default": 8
+    },
+    {
+      "type": "select",
+      "id": "title_desktop_transform",
+      "label": "Titel tekst opmaak",
+      "options": [
+        { "value": "none",      "label": "Normaal" },
+        { "value": "uppercase", "label": "HOOFDLETTERS" },
+        { "value": "lowercase", "label": "kleine letters" }
+      ],
+      "default": "uppercase"
+    },
+    {
+      "type": "range",
+      "id": "title_desktop_margin",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Titel ruimte onder (desktop)",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "title_mobile_size",
+      "min": 12,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Titel grootte mobiel",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "title_mobile_margin",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Titel ruimte onder (mobiel)",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Desktop lay-out"
+    },
+    {
+      "type": "range",
+      "id": "desktop_columns",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "label": "Kolommen (desktop)",
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "desktop_gap_h",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Desktop horizontale ruimte (px)",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "desktop_gap_v",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Desktop verticale ruimte (px)",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "desktop_padding_top",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "label": "Padding boven (desktop)",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "desktop_padding_bottom",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "label": "Padding onder (desktop)",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "desktop_padding_h",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding links/rechts (desktop)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "desktop_max_width",
+      "min": 800,
+      "max": 1600,
+      "step": 40,
+      "unit": "px",
+      "label": "Maximale breedte sectie",
+      "default": 1400
+    },
+    {
+      "type": "header",
+      "content": "Mobiel lay-out"
+    },
+    {
+      "type": "range",
+      "id": "mobile_columns",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "label": "Kolommen (mobiel)",
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "mobile_gap_h",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "label": "Mobiel horizontale ruimte (px)",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "mobile_gap_v",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "label": "Mobiel verticale ruimte (px)",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding boven (mobiel)",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding onder (mobiel)",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_h",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding links/rechts (mobiel)",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Sectie stijl"
+    },
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Achtergrond kleur",
+      "default": "#f5f5f3"
+    },
+    {
+      "type": "header",
+      "content": "Foto"
+    },
+    {
+      "type": "color",
+      "id": "photo_bg",
+      "label": "Foto achtergrond",
+      "default": "#f0ede8"
+    },
+    {
+      "type": "select",
+      "id": "photo_aspect_desktop",
+      "label": "Foto verhouding (desktop)",
+      "options": [
+        { "value": "1/1",  "label": "1:1 — Vierkant" },
+        { "value": "3/4",  "label": "3:4 — Portret" },
+        { "value": "4/3",  "label": "4:3 — Landschap" },
+        { "value": "4/5",  "label": "4:5 — Portret breed" },
+        { "value": "auto", "label": "Automatisch" }
+      ],
+      "default": "3/4"
+    },
+    {
+      "type": "select",
+      "id": "photo_aspect_mobile",
+      "label": "Foto verhouding (mobiel)",
+      "options": [
+        { "value": "1/1",  "label": "1:1 — Vierkant" },
+        { "value": "3/4",  "label": "3:4 — Portret" },
+        { "value": "4/3",  "label": "4:3 — Landschap" },
+        { "value": "4/5",  "label": "4:5 — Portret breed" },
+        { "value": "auto", "label": "Automatisch" }
+      ],
+      "default": "3/4"
+    },
+    {
+      "type": "range",
+      "id": "photo_radius_desktop",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "label": "Foto afronding (desktop)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "photo_radius_mobile",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "label": "Foto afronding (mobiel)",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Pill badge"
+    },
+    {
+      "type": "range",
+      "id": "pill_font_size",
+      "min": 9,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "label": "Pill lettergrootte",
+      "default": 10
+    },
+    {
+      "type": "select",
+      "id": "pill_font_weight",
+      "label": "Pill gewicht",
+      "options": [
+        { "value": "400", "label": "400 — Regular" },
+        { "value": "600", "label": "600 — Semi Bold" },
+        { "value": "700", "label": "700 — Bold" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "range",
+      "id": "pill_border_radius",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Pill afronding (100 = pill)",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "pill_padding_v",
+      "min": 2,
+      "max": 16,
+      "step": 2,
+      "unit": "px",
+      "label": "Pill padding verticaal",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "pill_padding_h",
+      "min": 4,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Pill padding horizontaal",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "pill_position_top",
+      "min": 4,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Pill positie van boven",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "pill_position_left",
+      "min": 4,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Pill positie van links",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Kaart footer — desktop"
+    },
+    {
+      "type": "range",
+      "id": "footer_padding_top_desktop",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Ruimte boven footer (desktop)",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "name_desktop_size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Naam lettergrootte (desktop)",
+      "default": 13
+    },
+    {
+      "type": "select",
+      "id": "name_desktop_weight",
+      "label": "Naam gewicht (desktop)",
+      "options": [
+        { "value": "300", "label": "300 — Light" },
+        { "value": "400", "label": "400 — Regular" },
+        { "value": "500", "label": "500 — Medium" },
+        { "value": "600", "label": "600 — Semi Bold" },
+        { "value": "700", "label": "700 — Bold" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "range",
+      "id": "name_desktop_spacing",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "label": "Naam letter-spacing (×0.01em)",
+      "default": 4
+    },
+    {
+      "type": "select",
+      "id": "name_desktop_transform",
+      "label": "Naam tekst opmaak",
+      "options": [
+        { "value": "none",      "label": "Normaal" },
+        { "value": "uppercase", "label": "HOOFDLETTERS" },
+        { "value": "lowercase", "label": "kleine letters" }
+      ],
+      "default": "uppercase"
+    },
+    {
+      "type": "color",
+      "id": "name_desktop_color",
+      "label": "Naam kleur",
+      "default": "#111111"
+    },
+    {
+      "type": "range",
+      "id": "name_desktop_margin",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Naam ruimte onder",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "price_desktop_size",
+      "min": 10,
+      "max": 28,
+      "step": 2,
+      "unit": "px",
+      "label": "Prijs lettergrootte (desktop)",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "price_desktop_weight",
+      "label": "Prijs gewicht",
+      "options": [
+        { "value": "300", "label": "300 — Light" },
+        { "value": "400", "label": "400 — Regular" },
+        { "value": "500", "label": "500 — Medium" },
+        { "value": "600", "label": "600 — Semi Bold" },
+        { "value": "700", "label": "700 — Bold" },
+        { "value": "800", "label": "800 — Extra Bold" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "color",
+      "id": "price_desktop_color",
+      "label": "Prijs kleur",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "price_sale_color",
+      "label": "Prijs kleur (sale)",
+      "default": "#ff7900"
+    },
+    {
+      "type": "header",
+      "content": "Kaart footer — mobiel"
+    },
+    {
+      "type": "range",
+      "id": "footer_padding_top_mobile",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Ruimte boven footer (mobiel)",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "name_mobile_size",
+      "min": 9,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Naam lettergrootte (mobiel)",
+      "default": 11
+    },
+    {
+      "type": "select",
+      "id": "name_mobile_weight",
+      "label": "Naam gewicht (mobiel)",
+      "options": [
+        { "value": "300", "label": "300 — Light" },
+        { "value": "400", "label": "400 — Regular" },
+        { "value": "500", "label": "500 — Medium" },
+        { "value": "600", "label": "600 — Semi Bold" },
+        { "value": "700", "label": "700 — Bold" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "range",
+      "id": "price_mobile_size",
+      "min": 9,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Prijs lettergrootte (mobiel)",
+      "default": 14
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product_card",
+      "name": "Product kaart",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "text",
+          "id": "custom_name_line",
+          "label": "Eigen naamregel (laat leeg voor automatisch)"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_pill",
+          "label": "Toon pill badge",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "pill_text",
+          "label": "Pill tekst",
+          "default": "Bestseller"
+        },
+        {
+          "type": "color",
+          "id": "pill_bg",
+          "label": "Pill achtergrond",
+          "default": "#ff7900"
+        },
+        {
+          "type": "color",
+          "id": "pill_color",
+          "label": "Pill tekstkleur",
+          "default": "#ffffff"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "MT-RELATED-BL",
+      "blocks": [
+        { "type": "product_card" },
+        { "type": "product_card" },
+        { "type": "product_card" }
+      ]
+    }
+  ]
+}
+{% endschema %}
