@@ -241,7 +241,7 @@
         {%- endif -%}
 
         {%- if section.settings.body_text != blank -%}
-          <p class="mttb__body">{{ section.settings.body_text | escape }}</p>
+          <p class="mttb__body">{{ section.settings.body_text | escape | newline_to_br }}</p>
         {%- endif -%}
 
         {%- if section.settings.footer_type == 'button' -%}
