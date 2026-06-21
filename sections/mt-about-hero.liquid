@@ -1,10 +1,6 @@
-{%- assign mfont = section.settings.font_family | default: 'Poppins' -%}
-{%- assign mfont_url = mfont | replace: ' ', '+' -%}
+{%- assign mfont = section.settings.font_family -%}
+{%- assign mfont_bold = mfont | font_modify: 'weight', 'bold' -%}
 {%- assign ov_opacity = section.settings.hero_overlay_opacity | divided_by: 100.0 -%}
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family={{ mfont_url }}:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
 {%- comment -%} Build accent heading HTML {%- endcomment -%}
 {%- assign heading_html_out = '' -%}
@@ -34,8 +30,11 @@
 {%- endif -%}
 
 {%- style -%}
+  {{ mfont | font_face }}
+  {%- if mfont_bold -%}{{ mfont_bold | font_face }}{%- endif -%}
+
   #MT-AH-{{ section.id }} {
-    font-family: '{{ mfont }}', sans-serif;
+    font-family: {{ mfont.family }}, sans-serif;
   }
 
   #MT-AH-{{ section.id }} * { box-sizing: border-box; }
@@ -85,7 +84,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 2;
-    font-family: '{{ mfont }}', sans-serif;
+    font-family: {{ mfont.family }}, sans-serif;
     font-size: 36px;
     font-weight: {{ section.settings.hero_title_weight }};
     color: {{ section.settings.hero_title_color }};
@@ -122,7 +121,7 @@
     background-color: {{ section.settings.label_bg }};
     border: 0.5px solid #e0e0e0;
     border-radius: {{ section.settings.label_border_radius }}px;
-    font-family: '{{ mfont }}', sans-serif;
+    font-family: {{ mfont.family }}, sans-serif;
     font-size: {{ section.settings.label_size }}px;
     font-weight: {{ section.settings.label_weight }};
     color: {{ section.settings.label_color }};
@@ -133,7 +132,7 @@
 
   /* ── Heading ── */
   #MT-AH-{{ section.id }} .mtah__heading {
-    font-family: '{{ mfont }}', sans-serif;
+    font-family: {{ mfont.family }}, sans-serif;
     font-size: 24px;
     font-weight: {{ section.settings.heading_weight }};
     color: {{ section.settings.heading_color }};
@@ -201,13 +200,13 @@
 
   /* ── Card text ── */
   #MT-AH-{{ section.id }} .mtah__card-title {
-    font-family: '{{ mfont }}', sans-serif;
+    font-family: {{ mfont.family }}, sans-serif;
     margin: 0;
     line-height: 1.2;
   }
 
   #MT-AH-{{ section.id }} .mtah__card-desc {
-    font-family: '{{ mfont }}', sans-serif;
+    font-family: {{ mfont.family }}, sans-serif;
     font-weight: 400;
     line-height: 1.65;
     margin: 0;
@@ -311,10 +310,10 @@
       "content": "Lettertype"
     },
     {
-      "type": "text",
+      "type": "font_picker",
       "id": "font_family",
-      "label": "Google Font naam",
-      "default": "Poppins"
+      "label": "Lettertype",
+      "default": "poppins_n4"
     },
     {
       "type": "header",
