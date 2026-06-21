@@ -40,20 +40,18 @@
     }
   }
 
-  /* ── IMAGE POSITION ── */
+  /* ── IMAGE POSITION — mobiel altijd bovenaan ── */
+  @media screen and (max-width: 767px) {
+    #MT-TB-{{ section.id }} .mttb__image-col { order: -1; }
+  }
+
+  /* ── IMAGE POSITION — desktop wissel ── */
   {%- if section.settings.image_position == 'right' -%}
   @media screen and (min-width: 768px) {
     #MT-TB-{{ section.id }} .mttb__image-col { order: 2; }
     #MT-TB-{{ section.id }} .mttb__text-col  { order: 1; }
   }
   {%- endif -%}
-
-  /* ── IMAGE COLUMN ── */
-  #MT-TB-{{ section.id }} .mttb__image-col { order: -1; }
-
-  @media screen and (min-width: 768px) {
-    #MT-TB-{{ section.id }} .mttb__image-col { order: unset; }
-  }
 
   #MT-TB-{{ section.id }} .mttb__image-wrap {
     width: 100%;
