@@ -130,14 +130,14 @@
     line-height: 1.4;
   }
 
-  /* ── Heading ── */
+  /* ── Heading (CHANGE 1: full width) ── */
   #MT-AH-{{ section.id }} .mtah__heading {
     font-family: {{ mfont.family }}, sans-serif;
     font-size: 24px;
     font-weight: {{ section.settings.heading_weight }};
     color: {{ section.settings.heading_color }};
     line-height: {{ section.settings.heading_line_height }};
-    max-width: {{ section.settings.heading_max_width }}px;
+    max-width: 100%;
     margin: 0 0 {{ section.settings.heading_margin_bottom }}px;
   }
 
@@ -151,65 +151,84 @@
     color: {{ section.settings.accent_color }};
   }
 
-  /* ── Cards grid ── */
+  /* ── Product cards grid (CHANGE 2) ── */
   #MT-AH-{{ section.id }} .mtah__cards {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
     gap: {{ section.settings.cards_gap }}px;
   }
 
   @media screen and (min-width: 768px) {
     #MT-AH-{{ section.id }} .mtah__cards {
-      grid-template-columns: repeat({{ section.settings.cards_columns }}, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     }
   }
 
-  /* ── Card base ── */
+  /* ── Card link wrapper ── */
   #MT-AH-{{ section.id }} .mtah__card {
-    border: 0.5px solid #e8e8e4;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
+    cursor: pointer;
+    text-decoration: none;
   }
 
-  /* ── Per-block card overrides ── */
-  {%- for block in section.blocks -%}
-    {%- if block.type == 'feature_card' -%}
-    #MT-AH-{{ section.id }} .mtah__card--{{ block.id }} {
-      background-color: {{ block.settings.card_bg }};
-      border-radius: {{ block.settings.card_border_radius }}px;
-      padding: {{ block.settings.card_padding }}px;
-      min-height: {{ block.settings.card_min_height }}px;
-    }
-    {%- endif -%}
-  {%- endfor -%}
-
-  /* ── Card icon ── */
-  #MT-AH-{{ section.id }} .mtah__icon-wrap {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 12px;
-    flex-shrink: 0;
-    align-self: flex-start;
+  /* ── Photo area ── */
+  #MT-AH-{{ section.id }} .mtah__card-photo {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
   }
 
-  #MT-AH-{{ section.id }} .mtah__icon-img {
-    display: block;
+  #MT-AH-{{ section.id }} .mtah__card-photo-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
+    display: block;
   }
 
-  /* ── Card text ── */
-  #MT-AH-{{ section.id }} .mtah__card-title {
+  /* ── Number overlay ── */
+  #MT-AH-{{ section.id }} .mtah__card-number {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    z-index: 2;
     font-family: {{ mfont.family }}, sans-serif;
-    margin: 0;
-    line-height: 1.2;
+    line-height: 1;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    pointer-events: none;
   }
 
-  #MT-AH-{{ section.id }} .mtah__card-desc {
+  /* ── Card footer ── */
+  #MT-AH-{{ section.id }} .mtah__card-footer {
+    padding: 14px 0 0;
+    text-align: center;
+  }
+
+  #MT-AH-{{ section.id }} .mtah__card-name {
+    font-family: {{ mfont.family }}, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin: 0 0 6px;
+    line-height: 1.3;
+  }
+
+  #MT-AH-{{ section.id }} .mtah__card-line {
+    display: block;
+    width: 32px;
+    height: 1px;
+    margin: 6px auto;
+  }
+
+  #MT-AH-{{ section.id }} .mtah__card-subtitle {
+    display: block;
     font-family: {{ mfont.family }}, sans-serif;
     font-weight: 400;
-    line-height: 1.65;
-    margin: 0;
+    text-align: center;
+    line-height: 1.4;
   }
 {%- endstyle -%}
 
@@ -248,45 +267,82 @@
     {%- if section.blocks.size > 0 -%}
       <div class="mtah__cards">
         {%- for block in section.blocks -%}
-          {%- if block.type == 'feature_card' -%}
-            <div class="mtah__card mtah__card--{{ block.id }}" {{ block.shopify_attributes }}>
+          {%- if block.type == 'product_card' -%}
 
-              {%- comment -%} Icon {%- endcomment -%}
-              {%- if block.settings.icon_image != blank -%}
-                <div
-                  class="mtah__icon-wrap"
-                  style="background-color: {{ block.settings.icon_bg }}; border-radius: {{ block.settings.icon_radius }}px; width: {{ block.settings.icon_size | plus: 24 }}px; height: {{ block.settings.icon_size | plus: 24 }}px; margin-bottom: {{ block.settings.icon_margin_bottom }}px;"
-                >
+            {%- comment -%} Resolve link URL {%- endcomment -%}
+            {%- assign card_url = '#' -%}
+            {%- if block.settings.product != blank -%}
+              {%- assign card_url = block.settings.product.url -%}
+            {%- endif -%}
+
+            <a
+              href="{{ card_url }}"
+              class="mtah__card"
+              style="border-radius: {{ block.settings.card_border_radius }}px;"
+              {{ block.shopify_attributes }}
+            >
+
+              {%- comment -%} Photo {%- endcomment -%}
+              <div class="mtah__card-photo" style="background-color: {{ block.settings.photo_bg }};">
+
+                {%- if block.settings.custom_image != blank -%}
                   {{
-                    block.settings.icon_image
-                    | image_url: width: 192
+                    block.settings.custom_image
+                    | image_url: width: 600
                     | image_tag:
-                      class: 'mtah__icon-img',
+                      class: 'mtah__card-photo-img',
                       loading: 'lazy',
                       alt: block.settings.card_title,
-                      widths: '48, 96, 192',
-                      style: "width: " | append: block.settings.icon_size | append: "px; height: " | append: block.settings.icon_size | append: "px; border-radius: " | append: block.settings.icon_radius | append: "px;"
+                      widths: '300, 450, 600'
                   }}
-                </div>
-              {%- endif -%}
+                {%- elsif block.settings.product != blank and block.settings.product.featured_image != blank -%}
+                  {{
+                    block.settings.product.featured_image
+                    | image_url: width: 600
+                    | image_tag:
+                      class: 'mtah__card-photo-img',
+                      loading: 'lazy',
+                      alt: block.settings.product.title,
+                      widths: '300, 450, 600'
+                  }}
+                {%- endif -%}
 
-              {%- comment -%} Title {%- endcomment -%}
-              {%- if block.settings.card_title != blank -%}
-                <p
-                  class="mtah__card-title"
-                  style="font-size: {{ block.settings.card_title_size }}px; font-weight: {{ block.settings.card_title_weight }}; color: {{ block.settings.card_title_color }}; margin-bottom: {{ block.settings.card_title_margin_bottom }}px;"
-                >{{ block.settings.card_title | escape }}</p>
-              {%- endif -%}
+                {%- if block.settings.number != blank -%}
+                  <span
+                    class="mtah__card-number"
+                    style="font-size: {{ block.settings.number_size }}px; font-weight: {{ block.settings.number_weight }}; color: {{ block.settings.number_color }};"
+                  >{{ block.settings.number | escape }}</span>
+                {%- endif -%}
 
-              {%- comment -%} Description {%- endcomment -%}
-              {%- if block.settings.card_desc != blank -%}
-                <p
-                  class="mtah__card-desc"
-                  style="font-size: {{ block.settings.card_desc_size }}px; color: {{ block.settings.card_desc_color }};"
-                >{{ block.settings.card_desc | escape }}</p>
-              {%- endif -%}
+              </div>
 
-            </div>
+              {%- comment -%} Footer {%- endcomment -%}
+              <div class="mtah__card-footer">
+
+                {%- assign display_name = block.settings.card_title -%}
+                {%- if block.settings.product != blank and block.settings.product.title != blank -%}
+                  {%- assign display_name = block.settings.product.title -%}
+                {%- endif -%}
+                {%- if display_name != blank -%}
+                  <p
+                    class="mtah__card-name"
+                    style="font-size: {{ block.settings.title_size }}px; font-weight: {{ block.settings.title_weight }}; color: {{ block.settings.title_color }};"
+                  >{{ display_name | escape }}</p>
+                {%- endif -%}
+
+                <span class="mtah__card-line" style="background-color: {{ block.settings.line_color }};"></span>
+
+                {%- if block.settings.card_subtitle != blank -%}
+                  <span
+                    class="mtah__card-subtitle"
+                    style="font-size: {{ block.settings.subtitle_size }}px; color: {{ block.settings.subtitle_color }};"
+                  >{{ block.settings.card_subtitle | escape }}</span>
+                {%- endif -%}
+
+              </div>
+
+            </a>
+
           {%- endif -%}
         {%- endfor -%}
       </div>
@@ -567,16 +623,6 @@
     },
     {
       "type": "range",
-      "id": "heading_max_width",
-      "min": 400,
-      "max": 1400,
-      "step": 20,
-      "unit": "px",
-      "label": "Heading max breedte (px)",
-      "default": 700
-    },
-    {
-      "type": "range",
       "id": "heading_margin_bottom",
       "min": 0,
       "max": 80,
@@ -603,73 +649,79 @@
     },
     {
       "type": "range",
-      "id": "cards_columns",
-      "min": 1,
-      "max": 4,
-      "step": 1,
-      "label": "Aantal kolommen kaarten",
-      "default": 3
-    },
-    {
-      "type": "range",
       "id": "cards_gap",
       "min": 8,
-      "max": 48,
+      "max": 32,
       "step": 4,
       "unit": "px",
       "label": "Ruimte tussen kaarten (px)",
-      "default": 16
+      "default": 12
     }
   ],
   "blocks": [
     {
-      "type": "feature_card",
-      "name": "Feature kaart",
+      "type": "product_card",
+      "name": "Product kaart",
       "settings": [
         {
           "type": "header",
-          "content": "Icoon"
+          "content": "Product"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Koppel product"
         },
         {
           "type": "image_picker",
-          "id": "icon_image",
-          "label": "Icoon afbeelding"
+          "id": "custom_image",
+          "label": "Eigen foto (overschrijft productfoto)"
         },
         {
           "type": "color",
-          "id": "icon_bg",
-          "label": "Icoon achtergrond",
-          "default": "#111111"
+          "id": "photo_bg",
+          "label": "Foto achtergrond",
+          "default": "#f5f4f0"
+        },
+        {
+          "type": "header",
+          "content": "Nummer"
+        },
+        {
+          "type": "text",
+          "id": "number",
+          "label": "Nummer",
+          "default": "01"
         },
         {
           "type": "range",
-          "id": "icon_size",
+          "id": "number_size",
           "min": 32,
-          "max": 96,
+          "max": 120,
           "step": 4,
           "unit": "px",
-          "label": "Icoon grootte (px)",
-          "default": 48
+          "label": "Nummer grootte (px)",
+          "default": 64
         },
         {
-          "type": "range",
-          "id": "icon_radius",
-          "min": 0,
-          "max": 24,
-          "step": 2,
-          "unit": "px",
-          "label": "Icoon afronding (px)",
-          "default": 12
+          "type": "select",
+          "id": "number_weight",
+          "label": "Nummer gewicht",
+          "options": [
+            { "value": "300", "label": "300 — Light" },
+            { "value": "400", "label": "400 — Regular" },
+            { "value": "500", "label": "500 — Medium" },
+            { "value": "600", "label": "600 — Semi Bold" },
+            { "value": "700", "label": "700 — Bold" },
+            { "value": "800", "label": "800 — Extra Bold" }
+          ],
+          "default": "300"
         },
         {
-          "type": "range",
-          "id": "icon_margin_bottom",
-          "min": 0,
-          "max": 40,
-          "step": 4,
-          "unit": "px",
-          "label": "Icoon marge onder",
-          "default": 32
+          "type": "color",
+          "id": "number_color",
+          "label": "Nummer kleur",
+          "default": "#ffffff"
         },
         {
           "type": "header",
@@ -678,25 +730,24 @@
         {
           "type": "text",
           "id": "card_title",
-          "label": "Titel",
-          "default": "Clarity"
+          "label": "Naam (als geen product)",
+          "default": "Product naam"
         },
         {
           "type": "range",
-          "id": "card_title_size",
-          "min": 14,
-          "max": 40,
+          "id": "title_size",
+          "min": 11,
+          "max": 24,
           "step": 1,
           "unit": "px",
-          "label": "Titel grootte",
-          "default": 22
+          "label": "Naam lettergrootte",
+          "default": 14
         },
         {
           "type": "select",
-          "id": "card_title_weight",
-          "label": "Titel gewicht",
+          "id": "title_weight",
+          "label": "Naam gewicht",
           "options": [
-            { "value": "300", "label": "300 — Light" },
             { "value": "400", "label": "400 — Regular" },
             { "value": "500", "label": "500 — Medium" },
             { "value": "600", "label": "600 — Semi Bold" },
@@ -706,51 +757,41 @@
         },
         {
           "type": "color",
-          "id": "card_title_color",
-          "label": "Titel kleur",
+          "id": "title_color",
+          "label": "Naam kleur",
           "default": "#111111"
         },
         {
-          "type": "range",
-          "id": "card_title_margin_bottom",
-          "min": 0,
-          "max": 24,
-          "step": 2,
-          "unit": "px",
-          "label": "Titel marge onder",
-          "default": 8
+          "type": "color",
+          "id": "line_color",
+          "label": "Lijn kleur",
+          "default": "#111111"
         },
         {
-          "type": "textarea",
-          "id": "card_desc",
-          "label": "Omschrijving",
-          "default": "Information is organized so you always clearly know what matters now."
+          "type": "text",
+          "id": "card_subtitle",
+          "label": "Subtitel",
+          "default": "Stap 1"
         },
         {
           "type": "range",
-          "id": "card_desc_size",
-          "min": 11,
-          "max": 20,
+          "id": "subtitle_size",
+          "min": 10,
+          "max": 18,
           "step": 1,
           "unit": "px",
-          "label": "Omschrijving grootte",
-          "default": 13
+          "label": "Subtitel grootte",
+          "default": 12
         },
         {
           "type": "color",
-          "id": "card_desc_color",
-          "label": "Omschrijving kleur",
-          "default": "#555550"
+          "id": "subtitle_color",
+          "label": "Subtitel kleur",
+          "default": "#888884"
         },
         {
           "type": "header",
           "content": "Kaart stijl"
-        },
-        {
-          "type": "color",
-          "id": "card_bg",
-          "label": "Kaart achtergrond",
-          "default": "#ffffff"
         },
         {
           "type": "range",
@@ -759,28 +800,8 @@
           "max": 32,
           "step": 2,
           "unit": "px",
-          "label": "Kaart afronding",
+          "label": "Afronding (px)",
           "default": 16
-        },
-        {
-          "type": "range",
-          "id": "card_padding",
-          "min": 16,
-          "max": 48,
-          "step": 4,
-          "unit": "px",
-          "label": "Kaart padding",
-          "default": 24
-        },
-        {
-          "type": "range",
-          "id": "card_min_height",
-          "min": 100,
-          "max": 400,
-          "step": 20,
-          "unit": "px",
-          "label": "Kaart minimale hoogte",
-          "default": 200
         }
       ]
     }
@@ -791,24 +812,35 @@
       "name": "MT-ABOUT-HERO",
       "blocks": [
         {
-          "type": "feature_card",
+          "type": "product_card",
           "settings": {
-            "card_title": "Clarity",
-            "card_desc": "Information is organized so you always clearly know what matters now."
+            "number": "01",
+            "card_title": "Reinigen",
+            "card_subtitle": "Stap 1"
           }
         },
         {
-          "type": "feature_card",
+          "type": "product_card",
           "settings": {
-            "card_title": "Adaptability",
-            "card_desc": "Your day changes — your plan should adjust with it, not work against you."
+            "number": "02",
+            "card_title": "Vernieuwen",
+            "card_subtitle": "Stap 2"
           }
         },
         {
-          "type": "feature_card",
+          "type": "product_card",
           "settings": {
-            "card_title": "Focus",
-            "card_desc": "Everything works together, so you move through your day without friction."
+            "number": "03",
+            "card_title": "Herstel",
+            "card_subtitle": "Stap 3"
+          }
+        },
+        {
+          "type": "product_card",
+          "settings": {
+            "number": "04",
+            "card_title": "Bescherming",
+            "card_subtitle": "Stap 4"
           }
         }
       ]
