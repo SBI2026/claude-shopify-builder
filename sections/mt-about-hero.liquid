@@ -1,0 +1,819 @@
+{%- assign mfont = section.settings.font_family | default: 'Poppins' -%}
+{%- assign mfont_url = mfont | replace: ' ', '+' -%}
+{%- assign ov_opacity = section.settings.hero_overlay_opacity | divided_by: 100.0 -%}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family={{ mfont_url }}:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+{%- comment -%} Build accent heading HTML {%- endcomment -%}
+{%- assign heading_html_out = '' -%}
+{%- if section.settings.heading != blank -%}
+  {%- assign accent_raw = section.settings.accent_words | split: ',' -%}
+  {%- assign accent_joined = '' -%}
+  {%- for aw in accent_raw -%}
+    {%- assign aw_clean = aw | strip | downcase -%}
+    {%- if forloop.first -%}
+      {%- assign accent_joined = aw_clean -%}
+    {%- else -%}
+      {%- assign accent_joined = accent_joined | append: '~~' | append: aw_clean -%}
+    {%- endif -%}
+  {%- endfor -%}
+  {%- assign accent_list = accent_joined | split: '~~' -%}
+  {%- assign h_words = section.settings.heading | split: ' ' -%}
+  {%- capture heading_html_out -%}
+    {%- for hw in h_words -%}
+      {%- assign hw_base = hw | downcase | remove: ',' | remove: '.' | remove: '!' | remove: '?' | remove: ':' | remove: ';' -%}
+      {%- assign hw_accent = false -%}
+      {%- for aw in accent_list -%}
+        {%- if hw_base == aw -%}{%- assign hw_accent = true -%}{%- endif -%}
+      {%- endfor -%}
+      {%- if hw_accent -%}<span class="mtah__accent">{{ hw | escape }}</span>{%- else -%}{{ hw | escape }}{%- endif -%}{% unless forloop.last %} {% endunless %}
+    {%- endfor -%}
+  {%- endcapture -%}
+{%- endif -%}
+
+{%- style -%}
+  #MT-AH-{{ section.id }} {
+    font-family: '{{ mfont }}', sans-serif;
+  }
+
+  #MT-AH-{{ section.id }} * { box-sizing: border-box; }
+
+  /* ══════════════════════
+     PART 1 — HERO
+  ══════════════════════ */
+  #MT-AH-{{ section.id }} .mtah__hero {
+    position: relative;
+    width: calc(100% - {{ section.settings.hero_margin | times: 1 }}px);
+    margin-left: {{ section.settings.hero_margin | divided_by: 2 | round: 0 }}px;
+    margin-right: {{ section.settings.hero_margin | divided_by: 2 | round: 0 }}px;
+    height: {{ section.settings.hero_height | times: 0.65 | round: 0 }}px;
+    border-radius: {{ section.settings.hero_border_radius }}px;
+    overflow: hidden;
+    background-color: #111111;
+  }
+
+  @media screen and (min-width: 768px) {
+    #MT-AH-{{ section.id }} .mtah__hero {
+      width: calc(100% - {{ section.settings.hero_margin | times: 2 }}px);
+      margin-left: {{ section.settings.hero_margin }}px;
+      margin-right: {{ section.settings.hero_margin }}px;
+      height: {{ section.settings.hero_height }}px;
+    }
+  }
+
+  #MT-AH-{{ section.id }} .mtah__hero-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  #MT-AH-{{ section.id }} .mtah__overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, {{ ov_opacity }});
+    z-index: 1;
+  }
+
+  #MT-AH-{{ section.id }} .mtah__hero-title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    font-family: '{{ mfont }}', sans-serif;
+    font-size: 36px;
+    font-weight: {{ section.settings.hero_title_weight }};
+    color: {{ section.settings.hero_title_color }};
+    letter-spacing: {{ section.settings.hero_title_spacing }}px;
+    text-align: center;
+    margin: 0;
+    white-space: nowrap;
+    line-height: 1.1;
+  }
+
+  @media screen and (min-width: 768px) {
+    #MT-AH-{{ section.id }} .mtah__hero-title {
+      font-size: {{ section.settings.hero_title_size }}px;
+    }
+  }
+
+  /* ══════════════════════
+     PART 2 — CONTENT
+  ══════════════════════ */
+  #MT-AH-{{ section.id }} .mtah__content {
+    background-color: {{ section.settings.content_bg }};
+    padding: 32px 20px;
+  }
+
+  @media screen and (min-width: 768px) {
+    #MT-AH-{{ section.id }} .mtah__content {
+      padding: {{ section.settings.content_padding_top }}px {{ section.settings.content_padding_h }}px {{ section.settings.content_padding_bottom }}px;
+    }
+  }
+
+  /* ── Label pill ── */
+  #MT-AH-{{ section.id }} .mtah__label {
+    display: inline-block;
+    background-color: {{ section.settings.label_bg }};
+    border: 0.5px solid #e0e0e0;
+    border-radius: {{ section.settings.label_border_radius }}px;
+    font-family: '{{ mfont }}', sans-serif;
+    font-size: {{ section.settings.label_size }}px;
+    font-weight: {{ section.settings.label_weight }};
+    color: {{ section.settings.label_color }};
+    padding: 6px 14px;
+    margin-bottom: {{ section.settings.label_margin_bottom }}px;
+    line-height: 1.4;
+  }
+
+  /* ── Heading ── */
+  #MT-AH-{{ section.id }} .mtah__heading {
+    font-family: '{{ mfont }}', sans-serif;
+    font-size: 24px;
+    font-weight: {{ section.settings.heading_weight }};
+    color: {{ section.settings.heading_color }};
+    line-height: {{ section.settings.heading_line_height }};
+    max-width: {{ section.settings.heading_max_width }}px;
+    margin: 0 0 {{ section.settings.heading_margin_bottom }}px;
+  }
+
+  @media screen and (min-width: 768px) {
+    #MT-AH-{{ section.id }} .mtah__heading {
+      font-size: {{ section.settings.heading_size }}px;
+    }
+  }
+
+  #MT-AH-{{ section.id }} .mtah__accent {
+    color: {{ section.settings.accent_color }};
+  }
+
+  /* ── Cards grid ── */
+  #MT-AH-{{ section.id }} .mtah__cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: {{ section.settings.cards_gap }}px;
+  }
+
+  @media screen and (min-width: 768px) {
+    #MT-AH-{{ section.id }} .mtah__cards {
+      grid-template-columns: repeat({{ section.settings.cards_columns }}, 1fr);
+    }
+  }
+
+  /* ── Card base ── */
+  #MT-AH-{{ section.id }} .mtah__card {
+    border: 0.5px solid #e8e8e4;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Per-block card overrides ── */
+  {%- for block in section.blocks -%}
+    {%- if block.type == 'feature_card' -%}
+    #MT-AH-{{ section.id }} .mtah__card--{{ block.id }} {
+      background-color: {{ block.settings.card_bg }};
+      border-radius: {{ block.settings.card_border_radius }}px;
+      padding: {{ block.settings.card_padding }}px;
+      min-height: {{ block.settings.card_min_height }}px;
+    }
+    {%- endif -%}
+  {%- endfor -%}
+
+  /* ── Card icon ── */
+  #MT-AH-{{ section.id }} .mtah__icon-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    flex-shrink: 0;
+    align-self: flex-start;
+  }
+
+  #MT-AH-{{ section.id }} .mtah__icon-img {
+    display: block;
+    object-fit: cover;
+  }
+
+  /* ── Card text ── */
+  #MT-AH-{{ section.id }} .mtah__card-title {
+    font-family: '{{ mfont }}', sans-serif;
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  #MT-AH-{{ section.id }} .mtah__card-desc {
+    font-family: '{{ mfont }}', sans-serif;
+    font-weight: 400;
+    line-height: 1.65;
+    margin: 0;
+  }
+{%- endstyle -%}
+
+<div id="MT-AH-{{ section.id }}">
+
+  {%- comment -%} ══ PART 1: HERO BANNER ══ {%- endcomment -%}
+  <div class="mtah__hero">
+    {%- if section.settings.hero_image != blank -%}
+      {{
+        section.settings.hero_image
+        | image_url: width: 2000
+        | image_tag:
+          class: 'mtah__hero-img',
+          loading: 'eager',
+          alt: section.settings.hero_title,
+          widths: '800, 1200, 1600, 2000'
+      }}
+    {%- endif -%}
+    <div class="mtah__overlay"></div>
+    {%- if section.settings.hero_title != blank -%}
+      <h1 class="mtah__hero-title">{{ section.settings.hero_title | escape }}</h1>
+    {%- endif -%}
+  </div>
+
+  {%- comment -%} ══ PART 2: CONTENT SECTION ══ {%- endcomment -%}
+  <div class="mtah__content">
+
+    {%- if section.settings.label_text != blank -%}
+      <span class="mtah__label">{{ section.settings.label_text | escape }}</span>
+    {%- endif -%}
+
+    {%- if section.settings.heading != blank -%}
+      <h2 class="mtah__heading">{{ heading_html_out }}</h2>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="mtah__cards">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'feature_card' -%}
+            <div class="mtah__card mtah__card--{{ block.id }}" {{ block.shopify_attributes }}>
+
+              {%- comment -%} Icon {%- endcomment -%}
+              {%- if block.settings.icon_image != blank -%}
+                <div
+                  class="mtah__icon-wrap"
+                  style="background-color: {{ block.settings.icon_bg }}; border-radius: {{ block.settings.icon_radius }}px; width: {{ block.settings.icon_size | plus: 24 }}px; height: {{ block.settings.icon_size | plus: 24 }}px; margin-bottom: {{ block.settings.icon_margin_bottom }}px;"
+                >
+                  {{
+                    block.settings.icon_image
+                    | image_url: width: 192
+                    | image_tag:
+                      class: 'mtah__icon-img',
+                      loading: 'lazy',
+                      alt: block.settings.card_title,
+                      widths: '48, 96, 192',
+                      style: "width: " | append: block.settings.icon_size | append: "px; height: " | append: block.settings.icon_size | append: "px; border-radius: " | append: block.settings.icon_radius | append: "px;"
+                  }}
+                </div>
+              {%- endif -%}
+
+              {%- comment -%} Title {%- endcomment -%}
+              {%- if block.settings.card_title != blank -%}
+                <p
+                  class="mtah__card-title"
+                  style="font-size: {{ block.settings.card_title_size }}px; font-weight: {{ block.settings.card_title_weight }}; color: {{ block.settings.card_title_color }}; margin-bottom: {{ block.settings.card_title_margin_bottom }}px;"
+                >{{ block.settings.card_title | escape }}</p>
+              {%- endif -%}
+
+              {%- comment -%} Description {%- endcomment -%}
+              {%- if block.settings.card_desc != blank -%}
+                <p
+                  class="mtah__card-desc"
+                  style="font-size: {{ block.settings.card_desc_size }}px; color: {{ block.settings.card_desc_color }};"
+                >{{ block.settings.card_desc | escape }}</p>
+              {%- endif -%}
+
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+  </div>
+
+</div>
+
+{% schema %}
+{
+  "name": "MT-ABOUT-HERO",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Lettertype"
+    },
+    {
+      "type": "text",
+      "id": "font_family",
+      "label": "Google Font naam",
+      "default": "Poppins"
+    },
+    {
+      "type": "header",
+      "content": "Hero — afbeelding"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero achtergrond foto"
+    },
+    {
+      "type": "range",
+      "id": "hero_height",
+      "min": 300,
+      "max": 800,
+      "step": 20,
+      "unit": "px",
+      "label": "Hero hoogte (px)",
+      "default": 500
+    },
+    {
+      "type": "range",
+      "id": "hero_overlay_opacity",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "label": "Overlay donkerte (%)",
+      "default": 45
+    },
+    {
+      "type": "range",
+      "id": "hero_border_radius",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Hero afronding (px)",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "hero_margin",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Hero marge links/rechts (px)",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Hero — titel"
+    },
+    {
+      "type": "text",
+      "id": "hero_title",
+      "label": "Hero titel",
+      "default": "About Us"
+    },
+    {
+      "type": "range",
+      "id": "hero_title_size",
+      "min": 24,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "label": "Hero titel grootte (px)",
+      "default": 64
+    },
+    {
+      "type": "select",
+      "id": "hero_title_weight",
+      "label": "Hero titel gewicht",
+      "options": [
+        { "value": "300", "label": "300 — Light" },
+        { "value": "400", "label": "400 — Regular" },
+        { "value": "500", "label": "500 — Medium" },
+        { "value": "600", "label": "600 — Semi Bold" },
+        { "value": "700", "label": "700 — Bold" },
+        { "value": "800", "label": "800 — Extra Bold" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "color",
+      "id": "hero_title_color",
+      "label": "Hero titel kleur",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "hero_title_spacing",
+      "min": -5,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "label": "Hero titel letter-spacing (px)",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Content — achtergrond & afstanden"
+    },
+    {
+      "type": "color",
+      "id": "content_bg",
+      "label": "Content achtergrond",
+      "default": "#f5f5f3"
+    },
+    {
+      "type": "range",
+      "id": "content_padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding boven",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "content_padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding onder",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "content_padding_h",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Content padding links/rechts",
+      "default": 32
+    },
+    {
+      "type": "header",
+      "content": "Label"
+    },
+    {
+      "type": "text",
+      "id": "label_text",
+      "label": "Label tekst",
+      "default": "Principles"
+    },
+    {
+      "type": "color",
+      "id": "label_bg",
+      "label": "Label achtergrond",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "label_color",
+      "label": "Label tekstkleur",
+      "default": "#111111"
+    },
+    {
+      "type": "range",
+      "id": "label_size",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Label tekstgrootte (px)",
+      "default": 13
+    },
+    {
+      "type": "select",
+      "id": "label_weight",
+      "label": "Label gewicht",
+      "options": [
+        { "value": "300", "label": "300 — Light" },
+        { "value": "400", "label": "400 — Regular" },
+        { "value": "500", "label": "500 — Medium" },
+        { "value": "600", "label": "600 — Semi Bold" },
+        { "value": "700", "label": "700 — Bold" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "range",
+      "id": "label_border_radius",
+      "min": 0,
+      "max": 999,
+      "step": 4,
+      "unit": "px",
+      "label": "Label afronding",
+      "default": 999
+    },
+    {
+      "type": "range",
+      "id": "label_margin_bottom",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Label marge onder",
+      "default": 24
+    },
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading tekst",
+      "default": "Reverso is built on a simple idea: skincare should feel simple, not overwhelming. We focus on what actually works."
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 18,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading grootte (px)",
+      "default": 36
+    },
+    {
+      "type": "select",
+      "id": "heading_weight",
+      "label": "Heading gewicht",
+      "options": [
+        { "value": "300", "label": "300 — Light" },
+        { "value": "400", "label": "400 — Regular" },
+        { "value": "500", "label": "500 — Medium" },
+        { "value": "600", "label": "600 — Semi Bold" },
+        { "value": "700", "label": "700 — Bold" },
+        { "value": "800", "label": "800 — Extra Bold" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading kleur",
+      "default": "#111111"
+    },
+    {
+      "type": "text",
+      "id": "heading_line_height",
+      "label": "Heading regelafstand",
+      "default": "1.2"
+    },
+    {
+      "type": "range",
+      "id": "heading_max_width",
+      "min": 400,
+      "max": 1400,
+      "step": 20,
+      "unit": "px",
+      "label": "Heading max breedte (px)",
+      "default": 700
+    },
+    {
+      "type": "range",
+      "id": "heading_margin_bottom",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Heading marge onder",
+      "default": 40
+    },
+    {
+      "type": "text",
+      "id": "accent_words",
+      "label": "Accentwoorden (komma-gescheiden)",
+      "default": "simple, clear,"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent kleur tekst",
+      "default": "#ff7900"
+    },
+    {
+      "type": "header",
+      "content": "Kaarten grid"
+    },
+    {
+      "type": "range",
+      "id": "cards_columns",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "label": "Aantal kolommen kaarten",
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "cards_gap",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "label": "Ruimte tussen kaarten (px)",
+      "default": 16
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature_card",
+      "name": "Feature kaart",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Icoon"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image",
+          "label": "Icoon afbeelding"
+        },
+        {
+          "type": "color",
+          "id": "icon_bg",
+          "label": "Icoon achtergrond",
+          "default": "#111111"
+        },
+        {
+          "type": "range",
+          "id": "icon_size",
+          "min": 32,
+          "max": 96,
+          "step": 4,
+          "unit": "px",
+          "label": "Icoon grootte (px)",
+          "default": 48
+        },
+        {
+          "type": "range",
+          "id": "icon_radius",
+          "min": 0,
+          "max": 24,
+          "step": 2,
+          "unit": "px",
+          "label": "Icoon afronding (px)",
+          "default": 12
+        },
+        {
+          "type": "range",
+          "id": "icon_margin_bottom",
+          "min": 0,
+          "max": 40,
+          "step": 4,
+          "unit": "px",
+          "label": "Icoon marge onder",
+          "default": 32
+        },
+        {
+          "type": "header",
+          "content": "Tekst"
+        },
+        {
+          "type": "text",
+          "id": "card_title",
+          "label": "Titel",
+          "default": "Clarity"
+        },
+        {
+          "type": "range",
+          "id": "card_title_size",
+          "min": 14,
+          "max": 40,
+          "step": 1,
+          "unit": "px",
+          "label": "Titel grootte",
+          "default": 22
+        },
+        {
+          "type": "select",
+          "id": "card_title_weight",
+          "label": "Titel gewicht",
+          "options": [
+            { "value": "300", "label": "300 — Light" },
+            { "value": "400", "label": "400 — Regular" },
+            { "value": "500", "label": "500 — Medium" },
+            { "value": "600", "label": "600 — Semi Bold" },
+            { "value": "700", "label": "700 — Bold" }
+          ],
+          "default": "600"
+        },
+        {
+          "type": "color",
+          "id": "card_title_color",
+          "label": "Titel kleur",
+          "default": "#111111"
+        },
+        {
+          "type": "range",
+          "id": "card_title_margin_bottom",
+          "min": 0,
+          "max": 24,
+          "step": 2,
+          "unit": "px",
+          "label": "Titel marge onder",
+          "default": 8
+        },
+        {
+          "type": "textarea",
+          "id": "card_desc",
+          "label": "Omschrijving",
+          "default": "Information is organized so you always clearly know what matters now."
+        },
+        {
+          "type": "range",
+          "id": "card_desc_size",
+          "min": 11,
+          "max": 20,
+          "step": 1,
+          "unit": "px",
+          "label": "Omschrijving grootte",
+          "default": 13
+        },
+        {
+          "type": "color",
+          "id": "card_desc_color",
+          "label": "Omschrijving kleur",
+          "default": "#555550"
+        },
+        {
+          "type": "header",
+          "content": "Kaart stijl"
+        },
+        {
+          "type": "color",
+          "id": "card_bg",
+          "label": "Kaart achtergrond",
+          "default": "#ffffff"
+        },
+        {
+          "type": "range",
+          "id": "card_border_radius",
+          "min": 0,
+          "max": 32,
+          "step": 2,
+          "unit": "px",
+          "label": "Kaart afronding",
+          "default": 16
+        },
+        {
+          "type": "range",
+          "id": "card_padding",
+          "min": 16,
+          "max": 48,
+          "step": 4,
+          "unit": "px",
+          "label": "Kaart padding",
+          "default": 24
+        },
+        {
+          "type": "range",
+          "id": "card_min_height",
+          "min": 100,
+          "max": 400,
+          "step": 20,
+          "unit": "px",
+          "label": "Kaart minimale hoogte",
+          "default": 200
+        }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "MT-ABOUT-HERO",
+      "blocks": [
+        {
+          "type": "feature_card",
+          "settings": {
+            "card_title": "Clarity",
+            "card_desc": "Information is organized so you always clearly know what matters now."
+          }
+        },
+        {
+          "type": "feature_card",
+          "settings": {
+            "card_title": "Adaptability",
+            "card_desc": "Your day changes — your plan should adjust with it, not work against you."
+          }
+        },
+        {
+          "type": "feature_card",
+          "settings": {
+            "card_title": "Focus",
+            "card_desc": "Everything works together, so you move through your day without friction."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
