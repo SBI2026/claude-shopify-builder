@@ -151,16 +151,28 @@
     color: {{ section.settings.accent_color }};
   }
 
-  /* ── Product cards grid (CHANGE 2) ── */
+  /* ── Product cards grid ── */
   #MT-AH-{{ section.id }} .mtah__cards {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
     gap: {{ section.settings.cards_gap }}px;
+    padding-bottom: 8px;
+    scrollbar-width: none;
+  }
+
+  #MT-AH-{{ section.id }} .mtah__cards::-webkit-scrollbar {
+    display: none;
   }
 
   @media screen and (min-width: 768px) {
     #MT-AH-{{ section.id }} .mtah__cards {
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      overflow-x: unset;
+      scroll-snap-type: unset;
+      padding-bottom: 0;
     }
   }
 
@@ -171,6 +183,15 @@
     overflow: hidden;
     cursor: pointer;
     text-decoration: none;
+    flex: 0 0 68vw;
+    scroll-snap-align: start;
+  }
+
+  @media screen and (min-width: 768px) {
+    #MT-AH-{{ section.id }} .mtah__card {
+      flex: unset;
+      scroll-snap-align: unset;
+    }
   }
 
   /* ── Photo area ── */
