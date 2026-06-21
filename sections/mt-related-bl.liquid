@@ -70,6 +70,15 @@
     margin: 0 auto;
   }
 
+  /* ── HEADER ROW (title + arrows) ── */
+  #MT-RPB-{{ section.id }} .mtrpb__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: var(--title-mb);
+  }
+
   /* ── SECTION TITLE ── */
   #MT-RPB-{{ section.id }} .mtrpb__title {
     font-family: '{{ mfont }}', sans-serif;
@@ -78,11 +87,37 @@
     color: var(--title-color);
     letter-spacing: var(--title-spacing);
     text-transform: var(--title-transform);
-    margin: 0 0 var(--title-mb);
+    margin: 0;
     line-height: 1.2;
   }
 
-  /* ── GRID ── */
+  /* ── ARROWS ── */
+  #MT-RPB-{{ section.id }} .mtrpb__nav {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  #MT-RPB-{{ section.id }} .mtrpb__arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: {{ section.settings.arrow_size }}px;
+    height: {{ section.settings.arrow_size }}px;
+    border-radius: 50%;
+    background-color: {{ section.settings.arrow_bg }};
+    color: {{ section.settings.arrow_color }};
+    border: 1px solid rgba(0,0,0,0.08);
+    cursor: pointer;
+    flex-shrink: 0;
+    padding: 0;
+  }
+
+  @media screen and (min-width: 768px) {
+    #MT-RPB-{{ section.id }} .mtrpb__nav { display: none; }
+  }
+
+  /* ── GRID (desktop) ── */
   #MT-RPB-{{ section.id }} .mtrpb__grid {
     display: grid;
     grid-template-columns: repeat(var(--cols), 1fr);
@@ -90,11 +125,32 @@
     row-gap: var(--gap-v);
   }
 
+  /* ── GRID → SLIDER (mobile) ── */
+  @media screen and (max-width: 767px) {
+    #MT-RPB-{{ section.id }} .mtrpb__grid {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding-bottom: 4px;
+    }
+
+    #MT-RPB-{{ section.id }} .mtrpb__grid::-webkit-scrollbar { display: none; }
+  }
+
   /* ── CARD ── */
   #MT-RPB-{{ section.id }} .mtrpb__card {
     display: flex;
     flex-direction: column;
     text-decoration: none;
+  }
+
+  @media screen and (max-width: 767px) {
+    #MT-RPB-{{ section.id }} .mtrpb__card {
+      flex: 0 0 calc((100% - (var(--cols) - 1) * var(--gap-h)) / var(--cols));
+      scroll-snap-align: start;
+    }
   }
 
   /* ── PHOTO ── */
@@ -175,17 +231,46 @@
     text-decoration: line-through;
     line-height: 1.3;
   }
+
+  /* ── MOBILE: center naam + prijs ── */
+  @media screen and (max-width: 767px) {
+    #MT-RPB-{{ section.id }} .mtrpb__name {
+      text-align: center;
+    }
+
+    #MT-RPB-{{ section.id }} .mtrpb__price {
+      justify-content: center;
+    }
+  }
 {%- endstyle -%}
 
 <div id="MT-RPB-{{ section.id }}">
   <div class="mtrpb__wrap">
 
-    {%- if section.settings.show_title and section.settings.title_text != blank -%}
-      <h2 class="mtrpb__title">{{ section.settings.title_text | escape }}</h2>
-    {%- endif -%}
+    <div class="mtrpb__header">
+      {%- if section.settings.show_title and section.settings.title_text != blank -%}
+        <h2 class="mtrpb__title">{{ section.settings.title_text | escape }}</h2>
+      {%- else -%}
+        <span></span>
+      {%- endif -%}
+      {%- if section.blocks.size > 0 -%}
+        <nav class="mtrpb__nav" aria-label="Slider navigatie">
+          <button class="mtrpb__arrow mtrpb__arrow--prev" aria-label="Vorige">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M9 11.5L4.5 7L9 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <button class="mtrpb__arrow mtrpb__arrow--next" aria-label="Volgende">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M5 2.5L9.5 7L5 11.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </nav>
+      {%- endif -%}
+    </div>
 
     {%- if section.blocks.size > 0 -%}
-      <div class="mtrpb__grid">
+      <div class="mtrpb__grid" id="mtrpb-grid-{{ section.id }}">
         {%- for block in section.blocks -%}
           {%- if block.type == 'product_card' -%}
             {%- assign card_product = block.settings.product -%}
@@ -259,6 +344,39 @@
 
   </div>
 </div>
+
+<script>
+(function () {
+  function initSlider(sectionEl) {
+    var grid = sectionEl.querySelector('.mtrpb__grid');
+    var prevBtn = sectionEl.querySelector('.mtrpb__arrow--prev');
+    var nextBtn = sectionEl.querySelector('.mtrpb__arrow--next');
+    if (!grid || !prevBtn || !nextBtn) return;
+
+    function scrollAmount() {
+      var card = grid.querySelector('.mtrpb__card');
+      return card ? card.offsetWidth : grid.offsetWidth;
+    }
+
+    prevBtn.addEventListener('click', function () {
+      grid.scrollBy({ left: -scrollAmount(), behavior: 'smooth' });
+    });
+
+    nextBtn.addEventListener('click', function () {
+      grid.scrollBy({ left: scrollAmount(), behavior: 'smooth' });
+    });
+  }
+
+  document.querySelectorAll('[id^="MT-RPB-"]').forEach(initSlider);
+
+  if (window.Shopify && window.Shopify.designMode) {
+    document.addEventListener('shopify:section:load', function (e) {
+      var el = e.target.querySelector('[id^="MT-RPB-"]');
+      if (el) initSlider(el);
+    });
+  }
+})();
+</script>
 
 {% schema %}
 {
@@ -807,6 +925,32 @@
       "unit": "px",
       "label": "Prijs lettergrootte (mobiel)",
       "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Pijlen (mobiel slider)"
+    },
+    {
+      "type": "range",
+      "id": "arrow_size",
+      "min": 28,
+      "max": 56,
+      "step": 4,
+      "unit": "px",
+      "label": "Pijl knop grootte",
+      "default": 40
+    },
+    {
+      "type": "color",
+      "id": "arrow_bg",
+      "label": "Pijl achtergrond",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "arrow_color",
+      "label": "Pijl icoon kleur",
+      "default": "#111111"
     }
   ],
   "blocks": [
