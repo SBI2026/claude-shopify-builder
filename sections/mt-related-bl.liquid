@@ -197,6 +197,8 @@
             <a href="{{ card_url }}" class="mtrpb__card" {{ block.shopify_attributes }}>
 
               {%- comment -%} Photo {%- endcomment -%}
+              {%- assign img_loading = 'lazy' -%}
+              {%- if forloop.first -%}{%- assign img_loading = 'eager' -%}{%- endif -%}
               <div class="mtrpb__photo">
                 {%- if card_product != blank and card_product.featured_image != blank -%}
                   {{
@@ -204,7 +206,7 @@
                     | image_url: width: 800
                     | image_tag:
                       class: 'mtrpb__photo-img',
-                      loading: forloop.first ? 'eager' : 'lazy',
+                      loading: img_loading,
                       alt: card_product.title,
                       widths: '400, 600, 800'
                   }}
