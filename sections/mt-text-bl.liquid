@@ -177,6 +177,29 @@
       text-align: center;
     }
   }
+
+  /* ── PERSON ── */
+  #MT-TB-{{ section.id }} .mttb__person {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  #MT-TB-{{ section.id }} .mttb__person-name {
+    font-family: '{{ mfont }}', sans-serif;
+    font-size: {{ section.settings.person_name_size }}px;
+    font-weight: {{ section.settings.person_name_weight }};
+    color: {{ section.settings.person_name_color }};
+    line-height: 1.2;
+  }
+
+  #MT-TB-{{ section.id }} .mttb__person-role {
+    font-family: '{{ mfont }}', sans-serif;
+    font-size: {{ section.settings.person_role_size }}px;
+    font-weight: 400;
+    color: {{ section.settings.person_role_color }};
+    line-height: 1.4;
+  }
 {%- endstyle -%}
 
 {%- assign img_alt = section.settings.title_text | escape -%}
@@ -221,10 +244,23 @@
           <p class="mttb__body">{{ section.settings.body_text | escape }}</p>
         {%- endif -%}
 
-        {%- if section.settings.show_button and section.settings.button_text != blank -%}
-          <a href="{{ section.settings.button_url | default: '/' }}" class="{{ btn_classes }}">
-            {{ section.settings.button_text | escape }}
-          </a>
+        {%- if section.settings.footer_type == 'button' -%}
+          {%- if section.settings.show_button and section.settings.button_text != blank -%}
+            <a href="{{ section.settings.button_url | default: '/' }}" class="{{ btn_classes }}">
+              {{ section.settings.button_text | escape }}
+            </a>
+          {%- endif -%}
+        {%- elsif section.settings.footer_type == 'person' -%}
+          {%- if section.settings.person_name != blank or section.settings.person_role != blank -%}
+            <div class="mttb__person">
+              {%- if section.settings.person_name != blank -%}
+                <span class="mttb__person-name">{{ section.settings.person_name | escape }}</span>
+              {%- endif -%}
+              {%- if section.settings.person_role != blank -%}
+                <span class="mttb__person-role">{{ section.settings.person_role | escape }}</span>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
         {%- endif -%}
 
       </div>
@@ -604,6 +640,21 @@
     },
     {
       "type": "header",
+      "content": "Onderaan blok"
+    },
+    {
+      "type": "select",
+      "id": "footer_type",
+      "label": "Wat staat er onderaan?",
+      "options": [
+        { "value": "button", "label": "Knop" },
+        { "value": "person", "label": "Naam + titel" },
+        { "value": "none",   "label": "Niets" }
+      ],
+      "default": "button"
+    },
+    {
+      "type": "header",
       "content": "Knop"
     },
     {
@@ -714,6 +765,65 @@
       "id": "button_hover_color",
       "label": "Knop tekstkleur (hover)",
       "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Persoon"
+    },
+    {
+      "type": "text",
+      "id": "person_name",
+      "label": "Naam",
+      "default": "Mike"
+    },
+    {
+      "type": "text",
+      "id": "person_role",
+      "label": "Titel / functie",
+      "default": "Founder"
+    },
+    {
+      "type": "color",
+      "id": "person_name_color",
+      "label": "Naam kleur",
+      "default": "#111111"
+    },
+    {
+      "type": "range",
+      "id": "person_name_size",
+      "min": 12,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "label": "Naam lettergrootte",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "person_name_weight",
+      "label": "Naam gewicht",
+      "options": [
+        { "value": "400", "label": "400 — Regular" },
+        { "value": "600", "label": "600 — Semi Bold" },
+        { "value": "700", "label": "700 — Bold" }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "color",
+      "id": "person_role_color",
+      "label": "Titel kleur",
+      "default": "#888884"
+    },
+    {
+      "type": "range",
+      "id": "person_role_size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Titel lettergrootte",
+      "default": 13
     },
     {
       "type": "header",
