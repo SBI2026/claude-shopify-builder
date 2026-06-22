@@ -1,0 +1,377 @@
+{%- comment -%} MT-PDP-BL — ReversoSkin productpagina sectie {%- endcomment -%}
+
+{%- assign rs_step_badge   = product.metafields.custom.stap_badge -%}
+{%- assign rs_expert_naam  = product.metafields.custom.expert_naam -%}
+{%- assign rs_expert_quote = product.metafields.custom.expert_quote -%}
+{%- assign rs_expert_titel = product.metafields.custom.expert_titel -%}
+{%- assign rs_expert_datum = product.metafields.custom.expert_datum -%}
+{%- assign rs_expert_foto  = product.metafields.custom.expert_foto -%}
+{%- if rs_step_badge == blank -%}{%- assign rs_step_badge = section.settings.badge_fallback -%}{%- endif -%}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+{%- style -%}
+  #mt-pdp-{{ section.id }} {
+    font-family: 'Poppins', -apple-system, sans-serif;
+    background: {{ section.settings.section_bg }};
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+  #mt-pdp-{{ section.id }} *, #mt-pdp-{{ section.id }} *::before, #mt-pdp-{{ section.id }} *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  #mt-pdp-{{ section.id }} .rs-inner { max-width: 1400px; margin: 0 auto; padding: 0 40px; }
+  #mt-pdp-{{ section.id }} .rs-bc { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; padding: 20px 0 28px; }
+  #mt-pdp-{{ section.id }} .rs-bc a { font-size: 12px; color: #888; text-decoration: none; }
+  #mt-pdp-{{ section.id }} .rs-bc a:hover { color: {{ section.settings.title_color }}; }
+  #mt-pdp-{{ section.id }} .rs-bc-sep { font-size: 12px; color: #ccc; }
+  #mt-pdp-{{ section.id }} .rs-bc-pill { background: {{ section.settings.badge_bg }}; color: {{ section.settings.badge_fg }}; border-radius: 999px; font-size: 11px; font-weight: 700; padding: 4px 14px; letter-spacing: 0.04em; }
+  #mt-pdp-{{ section.id }} .rs-grid { display: grid; grid-template-columns: 72px 1fr 1fr; gap: 12px 32px; align-items: start; }
+  #mt-pdp-{{ section.id }} .rs-thumbs { display: flex; flex-direction: column; gap: 10px; grid-column: 1; grid-row: 1; }
+  #mt-pdp-{{ section.id }} .rs-thumb { width: 72px; aspect-ratio: 1; background: {{ section.settings.image_bg }}; border-radius: 10px; overflow: hidden; cursor: pointer; border: 1.5px solid transparent; transition: border-color 0.15s; flex-shrink: 0; }
+  #mt-pdp-{{ section.id }} .rs-thumb:hover, #mt-pdp-{{ section.id }} .rs-thumb.on { border-color: {{ section.settings.accent_color }}; }
+  #mt-pdp-{{ section.id }} .rs-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  #mt-pdp-{{ section.id }} .rs-img-main { grid-column: 2; grid-row: 1; width: 100%; aspect-ratio: 1/1; background: {{ section.settings.image_bg }}; border-radius: 20px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+  #mt-pdp-{{ section.id }} .rs-img-main img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  #mt-pdp-{{ section.id }} .rs-info { grid-column: 3; grid-row: 1; position: sticky; top: 90px; }
+  #mt-pdp-{{ section.id }} .rs-badge { display: inline-block; background: {{ section.settings.badge_bg }}; color: {{ section.settings.badge_fg }}; border-radius: 999px; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; padding: 5px 16px; margin-bottom: 16px; }
+  #mt-pdp-{{ section.id }} .rs-title { font-family: 'Poppins', sans-serif; font-size: {{ section.settings.title_size }}px; font-weight: 700; line-height: 1.15; letter-spacing: -0.01em; color: {{ section.settings.title_color }}; margin-bottom: 14px; }
+  #mt-pdp-{{ section.id }} .rs-rating { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; }
+  #mt-pdp-{{ section.id }} .rs-stars { color: {{ section.settings.accent_color }}; font-size: 14px; letter-spacing: 1px; }
+  #mt-pdp-{{ section.id }} .rs-rating-txt { font-size: 13px; color: #888; }
+  #mt-pdp-{{ section.id }} .rs-price { font-size: {{ section.settings.price_size }}px; font-weight: 700; color: {{ section.settings.price_color }}; margin-bottom: 20px; }
+  #mt-pdp-{{ section.id }} .rs-var-label { font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #888; margin-bottom: 10px; }
+  #mt-pdp-{{ section.id }} .rs-vars { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+  #mt-pdp-{{ section.id }} .rs-var { padding: 10px 18px; border: 1.5px solid #e0e0e0; border-radius: 999px; font-size: 13px; font-family: 'Poppins', sans-serif; color: {{ section.settings.title_color }}; background: {{ section.settings.section_bg }}; cursor: pointer; transition: all 0.15s; }
+  #mt-pdp-{{ section.id }} .rs-var:hover { border-color: {{ section.settings.title_color }}; }
+  #mt-pdp-{{ section.id }} .rs-var.on { border-color: {{ section.settings.title_color }}; background: {{ section.settings.title_color }}; color: {{ section.settings.section_bg }}; font-weight: 600; }
+  #mt-pdp-{{ section.id }} .rs-var:disabled { opacity: 0.35; cursor: not-allowed; }
+  #mt-pdp-{{ section.id }} .rs-buy { display: flex; gap: 10px; align-items: stretch; margin-bottom: 14px; }
+  #mt-pdp-{{ section.id }} .rs-qty { display: flex; align-items: center; background: {{ section.settings.section_bg }}; border: 1.5px solid #e0e0e0; border-radius: 999px; padding: 6px 8px; gap: 6px; flex-shrink: 0; height: 56px; }
+  #mt-pdp-{{ section.id }} .rs-qty-btn { width: 34px; height: 34px; border-radius: 50%; background: #EEEAE3; border: none; color: {{ section.settings.title_color }}; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-family: 'Poppins', sans-serif; transition: background 0.15s; line-height: 1; flex-shrink: 0; }
+  #mt-pdp-{{ section.id }} .rs-qty-btn:hover { background: #dedad3; }
+  #mt-pdp-{{ section.id }} .rs-qty-num { width: 36px; text-align: center; font-size: 15px; font-weight: 600; font-family: 'Poppins', sans-serif; border: none; outline: none; background: none; color: {{ section.settings.title_color }}; -moz-appearance: textfield; }
+  #mt-pdp-{{ section.id }} .rs-qty-num::-webkit-outer-spin-button, #mt-pdp-{{ section.id }} .rs-qty-num::-webkit-inner-spin-button { -webkit-appearance: none; }
+  #mt-pdp-{{ section.id }} .rs-atc { flex: 1; height: 56px; min-height: 56px; background: {{ section.settings.button_bg }}; color: {{ section.settings.button_color }}; border: none; border-radius: 999px; font-size: 16px; font-weight: 700; font-family: 'Poppins', sans-serif; cursor: pointer; transition: filter 0.15s; display: flex; align-items: center; justify-content: center; white-space: nowrap; }
+  #mt-pdp-{{ section.id }} .rs-atc:hover:not(:disabled) { filter: brightness(0.85); }
+  #mt-pdp-{{ section.id }} .rs-delivery { font-size: 12px; color: #888; margin-bottom: 22px; line-height: 1.5; }
+  #mt-pdp-{{ section.id }} .rs-bens { display: flex; flex-direction: column; gap: 11px; padding: 18px 0; }
+  #mt-pdp-{{ section.id }} .rs-ben { display: flex; align-items: center; gap: 11px; }
+  #mt-pdp-{{ section.id }} .rs-check { width: 20px; height: 20px; border-radius: 50%; background: #fff3e8; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  #mt-pdp-{{ section.id }} .rs-check svg { width: 10px; height: 10px; stroke: {{ section.settings.accent_color }}; stroke-width: 2.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  #mt-pdp-{{ section.id }} .rs-ben-txt { font-size: 14px; color: {{ section.settings.text_color }}; line-height: 1.4; }
+  #mt-pdp-{{ section.id }} .rs-accordion { border-top: 0.5px solid #eee; }
+  #mt-pdp-{{ section.id }} .rs-acc-item { border-bottom: 0.5px solid #eee; }
+  #mt-pdp-{{ section.id }} .rs-acc-q { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; cursor: pointer; gap: 16px; }
+  #mt-pdp-{{ section.id }} .rs-acc-q-txt { font-size: 13px; font-weight: 700; font-family: 'Poppins', sans-serif; letter-spacing: 0.04em; text-transform: uppercase; color: {{ section.settings.title_color }}; }
+  #mt-pdp-{{ section.id }} .rs-acc-icon { font-size: 20px; font-weight: 300; color: {{ section.settings.title_color }}; flex-shrink: 0; line-height: 1; user-select: none; }
+  #mt-pdp-{{ section.id }} .rs-acc-body { display: none; padding-bottom: 18px; }
+  #mt-pdp-{{ section.id }} .rs-acc-body.open { display: block; }
+  #mt-pdp-{{ section.id }} .rs-acc-body p { font-size: 14px; font-family: 'Poppins', sans-serif; color: #555; line-height: 1.8; margin-bottom: 10px; }
+  #mt-pdp-{{ section.id }} .rs-acc-body p:last-child { margin-bottom: 0; }
+  #mt-pdp-{{ section.id }} .rs-acc-body strong { font-weight: 700; color: {{ section.settings.title_color }}; }
+  #mt-pdp-{{ section.id }} .rs-acc-body em { font-style: italic; }
+  #mt-pdp-{{ section.id }} .rs-acc-body ul, #mt-pdp-{{ section.id }} .rs-acc-body ol { padding-left: 20px; margin-bottom: 10px; }
+  #mt-pdp-{{ section.id }} .rs-acc-body li { font-size: 14px; font-family: 'Poppins', sans-serif; color: #555; line-height: 1.8; margin-bottom: 4px; }
+  #mt-pdp-{{ section.id }} .rs-acc-body h2 { font-family: 'Poppins', sans-serif; font-size: 15px; font-weight: 700; color: {{ section.settings.title_color }}; margin-bottom: 8px; margin-top: 12px; }
+  #mt-pdp-{{ section.id }} .rs-acc-body h3 { font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 700; color: {{ section.settings.title_color }}; margin-bottom: 6px; margin-top: 10px; }
+  #mt-pdp-{{ section.id }} .rs-acc-body a { color: {{ section.settings.accent_color }}; text-decoration: underline; }
+  #mt-pdp-{{ section.id }} .rs-expert { margin-top: 28px; padding: 20px; background: #f9f9f7; border-radius: 16px; border: 0.5px solid #eee; }
+  #mt-pdp-{{ section.id }} .rs-expert-stars { color: #00B77F; font-size: 14px; letter-spacing: 1px; margin-bottom: 12px; display: block; }
+  #mt-pdp-{{ section.id }} .rs-expert-quote { font-size: 14px; font-family: 'Poppins', sans-serif; color: #333; line-height: 1.8; margin-bottom: 16px; }
+  #mt-pdp-{{ section.id }} .rs-expert-author { display: flex; align-items: center; gap: 12px; }
+  #mt-pdp-{{ section.id }} .rs-expert-avatar { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; flex-shrink: 0; background: #eee; }
+  #mt-pdp-{{ section.id }} .rs-expert-name { font-size: 13px; font-weight: 700; font-family: 'Poppins', sans-serif; color: {{ section.settings.title_color }}; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  #mt-pdp-{{ section.id }} .rs-expert-verified { font-size: 10px; font-weight: 600; color: #0a7a4b; background: #e6f4ee; border-radius: 999px; padding: 2px 8px; }
+  #mt-pdp-{{ section.id }} .rs-expert-meta { font-size: 11px; color: #888; margin-top: 2px; font-family: 'Poppins', sans-serif; }
+  @media (max-width: 900px) {
+    #mt-pdp-{{ section.id }} .rs-inner { padding: 0 20px; }
+    #mt-pdp-{{ section.id }} .rs-grid { grid-template-columns: 1fr; grid-template-rows: auto auto auto; gap: 16px; }
+    #mt-pdp-{{ section.id }} .rs-img-main { grid-column: 1; grid-row: 1; }
+    #mt-pdp-{{ section.id }} .rs-thumbs { grid-column: 1; grid-row: 2; flex-direction: row; overflow-x: auto; gap: 8px; width: 100%; scrollbar-width: none; }
+    #mt-pdp-{{ section.id }} .rs-thumbs::-webkit-scrollbar { display: none; }
+    #mt-pdp-{{ section.id }} .rs-thumb { width: 64px; flex-shrink: 0; }
+    #mt-pdp-{{ section.id }} .rs-info { grid-column: 1; grid-row: 3; position: static; }
+    #mt-pdp-{{ section.id }} .rs-title { font-size: {{ section.settings.title_size_mobile }}px; }
+    #mt-pdp-{{ section.id }} .rs-price { font-size: {{ section.settings.price_size_mobile }}px; }
+  }
+  @media (max-width: 480px) {
+    #mt-pdp-{{ section.id }} .rs-buy { flex-direction: column; align-items: stretch; gap: 12px; }
+    #mt-pdp-{{ section.id }} .rs-qty { width: 100%; justify-content: center; }
+    #mt-pdp-{{ section.id }} .rs-atc { width: 100%; }
+  }
+{%- endstyle -%}
+
+<div id="mt-pdp-{{ section.id }}">
+  {%- assign cv = product.selected_or_first_available_variant -%}
+  <div class="rs-inner">
+
+    <nav class="rs-bc">
+      <a href="/">Home</a>
+      <span class="rs-bc-sep">/</span>
+      <a href="/collections/all">Collectie</a>
+      <span class="rs-bc-sep">/</span>
+      <span class="rs-bc-pill">{{ rs_step_badge }}</span>
+    </nav>
+
+    <div class="rs-grid">
+
+      <div class="rs-thumbs">
+        {%- for img in product.images limit: section.settings.max_images -%}
+          <div class="rs-thumb{%- if forloop.first %} on{%- endif -%}"
+               onclick="rsPdpPic_{{ section.id }}('{{ img | image_url: width: 1000 }}', this)">
+            <img src="{{ img | image_url: width: 150 }}" alt="{{ img.alt | escape }}" loading="lazy">
+          </div>
+        {%- endfor -%}
+      </div>
+
+      <div class="rs-img-main">
+        {%- if product.featured_image -%}
+          <img id="rs-img-{{ section.id }}"
+               src="{{ product.featured_image | image_url: width: 1000 }}"
+               alt="{{ product.featured_image.alt | escape }}"
+               loading="eager">
+        {%- endif -%}
+      </div>
+
+      <div class="rs-info">
+        <span class="rs-badge">{{ rs_step_badge }}</span>
+        <h1 class="rs-title">{{ product.title }}</h1>
+
+        <div class="rs-rating">
+          <span class="rs-stars">
+            {%- assign full_stars = section.settings.rating_stars -%}
+            {%- assign empty_stars = 5 | minus: full_stars -%}
+            {%- if full_stars > 0 -%}{%- for i in (1..full_stars) -%}★{%- endfor -%}{%- endif -%}
+            {%- if empty_stars > 0 -%}{%- for i in (1..empty_stars) -%}☆{%- endfor -%}{%- endif -%}
+          </span>
+          <span class="rs-rating-txt">{{ section.settings.rating_score }}/5 &middot; {{ section.settings.rating_count }} reviews</span>
+        </div>
+
+        <div class="rs-price" id="rs-price-{{ section.id }}">{{ cv.price | money }}</div>
+
+        {%- if product.variants.size > 1 -%}
+          <p class="rs-var-label">Formaat</p>
+          <div class="rs-vars">
+            {%- for v in product.variants -%}
+              <button class="rs-var{%- if v == cv %} on{%- endif -%}"
+                      data-id="{{ v.id }}"
+                      data-price="{{ v.price | money }}"
+                      onclick="rsPdpVar_{{ section.id }}(this)"
+                      {%- unless v.available %} disabled{%- endunless -%}>
+                {{ v.title }} &middot; {{ v.price | money }}
+              </button>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+
+        <input type="hidden" id="rs-vid-{{ section.id }}" value="{{ cv.id }}">
+
+        <div class="rs-buy">
+          <div class="rs-qty">
+            <button class="rs-qty-btn" type="button" onclick="rsPdpQ_{{ section.id }}(-1)">&minus;</button>
+            <input class="rs-qty-num" type="number" id="rs-qty-{{ section.id }}" value="1" min="1" max="99">
+            <button class="rs-qty-btn" type="button" onclick="rsPdpQ_{{ section.id }}(1)">&plus;</button>
+          </div>
+          <button class="rs-atc"
+                  id="rs-atc-{{ section.id }}"
+                  type="button"
+                  data-accent="{{ section.settings.accent_color }}"
+                  onclick="rsPdpAdd_{{ section.id }}()">In winkelmand</button>
+        </div>
+
+        <p class="rs-delivery">{{ section.settings.delivery_text }}</p>
+
+        {%- if section.blocks.size > 0 -%}
+          <div class="rs-bens">
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'benefit' -%}
+                <div class="rs-ben" {{ block.shopify_attributes }}>
+                  <div class="rs-check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"></polyline></svg></div>
+                  <span class="rs-ben-txt">{{ block.settings.text }}</span>
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+
+        <div class="rs-accordion">
+          {%- if product.metafields.custom.tab_beschrijving != blank -%}
+            <div class="rs-acc-item">
+              <div class="rs-acc-q" onclick="rsPdpAcc(this)">
+                <span class="rs-acc-q-txt">{{ section.settings.tab_beschrijving_label }}</span>
+                <span class="rs-acc-icon">+</span>
+              </div>
+              <div class="rs-acc-body">{{ product.metafields.custom.tab_beschrijving | metafield_tag }}</div>
+            </div>
+          {%- endif -%}
+          {%- if product.metafields.custom.tab_ingredienten != blank -%}
+            <div class="rs-acc-item">
+              <div class="rs-acc-q" onclick="rsPdpAcc(this)">
+                <span class="rs-acc-q-txt">{{ section.settings.tab_ingredienten_label }}</span>
+                <span class="rs-acc-icon">+</span>
+              </div>
+              <div class="rs-acc-body">{{ product.metafields.custom.tab_ingredienten | metafield_tag }}</div>
+            </div>
+          {%- endif -%}
+          {%- if product.metafields.custom.tab_waarom != blank -%}
+            <div class="rs-acc-item">
+              <div class="rs-acc-q" onclick="rsPdpAcc(this)">
+                <span class="rs-acc-q-txt">{{ section.settings.tab_waarom_label }}</span>
+                <span class="rs-acc-icon">+</span>
+              </div>
+              <div class="rs-acc-body">{{ product.metafields.custom.tab_waarom | metafield_tag }}</div>
+            </div>
+          {%- endif -%}
+          {%- if product.metafields.custom.tab_gebruik != blank -%}
+            <div class="rs-acc-item">
+              <div class="rs-acc-q" onclick="rsPdpAcc(this)">
+                <span class="rs-acc-q-txt">{{ section.settings.tab_gebruik_label }}</span>
+                <span class="rs-acc-icon">+</span>
+              </div>
+              <div class="rs-acc-body">{{ product.metafields.custom.tab_gebruik | metafield_tag }}</div>
+            </div>
+          {%- endif -%}
+        </div>
+
+        {%- if rs_expert_quote != blank -%}
+          <div class="rs-expert">
+            <span class="rs-expert-stars">★★★★★</span>
+            <p class="rs-expert-quote">{{ rs_expert_quote }}</p>
+            <div class="rs-expert-author">
+              {%- if rs_expert_foto != blank -%}
+                <img class="rs-expert-avatar" src="{{ rs_expert_foto | image_url: width: 100 }}" alt="{{ rs_expert_naam }}">
+              {%- else -%}
+                <div class="rs-expert-avatar"></div>
+              {%- endif -%}
+              <div>
+                <div class="rs-expert-name">
+                  {{ rs_expert_naam }}
+                  <span class="rs-expert-verified">✓ Verified Expert</span>
+                </div>
+                <div class="rs-expert-meta">{{ rs_expert_titel }} &middot; {{ rs_expert_datum }}</div>
+              </div>
+            </div>
+          </div>
+        {%- endif -%}
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var sid = '{{ section.id }}';
+  window['rsPdpPic_' + sid] = function (src, el) {
+    var img = document.getElementById('rs-img-' + sid);
+    if (img) img.src = src;
+    document.getElementById('mt-pdp-' + sid).querySelectorAll('.rs-thumb').forEach(function (t) { t.classList.remove('on'); });
+    el.classList.add('on');
+  };
+  window['rsPdpVar_' + sid] = function (btn) {
+    document.getElementById('mt-pdp-' + sid).querySelectorAll('.rs-var').forEach(function (b) { b.classList.remove('on'); });
+    btn.classList.add('on');
+    document.getElementById('rs-vid-' + sid).value = btn.dataset.id;
+    document.getElementById('rs-price-' + sid).textContent = btn.dataset.price;
+  };
+  window['rsPdpQ_' + sid] = function (d) {
+    var el = document.getElementById('rs-qty-' + sid);
+    var v = parseInt(el.value || 1) + d;
+    if (v < 1) v = 1; if (v > 99) v = 99;
+    el.value = v;
+  };
+  window['rsPdpAdd_' + sid] = function () {
+    var btn = document.getElementById('rs-atc-' + sid);
+    var vid = parseInt(document.getElementById('rs-vid-' + sid).value);
+    var qty = parseInt(document.getElementById('rs-qty-' + sid).value) || 1;
+    btn.disabled = true; btn.textContent = 'Bezig…';
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: vid, quantity: qty })
+    })
+    .then(function (r) {
+      if (!r.ok) throw new Error('fout');
+      btn.textContent = 'Toegevoegd ✓';
+      btn.style.background = btn.dataset.accent;
+      document.dispatchEvent(new CustomEvent('cart:refresh'));
+      setTimeout(function () { btn.textContent = 'In winkelmand'; btn.style.background = ''; btn.disabled = false; }, 2000);
+    })
+    .catch(function () {
+      btn.textContent = 'Probeer opnieuw'; btn.style.background = '#c0392b'; btn.disabled = false;
+      setTimeout(function () { btn.textContent = 'In winkelmand'; btn.style.background = ''; }, 2500);
+    });
+  };
+})();
+function rsPdpAcc(header) {
+  var body = header.nextElementSibling;
+  var icon = header.querySelector('.rs-acc-icon');
+  var isOpen = body.classList.contains('open');
+  body.classList.toggle('open');
+  icon.textContent = isOpen ? '+' : '-';
+}
+</script>
+
+{% schema %}
+{
+  "name": "MT-PDP-BL",
+  "settings": [
+    { "type": "header", "content": "Sectie" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 8, "unit": "px", "label": "Padding boven", "default": 0 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 120, "step": 8, "unit": "px", "label": "Padding onder", "default": 80 },
+    { "type": "color", "id": "section_bg", "label": "Sectie achtergrond", "default": "#ffffff" },
+    { "type": "header", "content": "Badge" },
+    { "type": "text", "id": "badge_fallback", "label": "Badge tekst (fallback)", "info": "Wordt gebruikt als het metaveld 'stap_badge' leeg is.", "default": "Stap 1" },
+    { "type": "color", "id": "badge_bg", "label": "Badge achtergrond", "default": "#ff7900" },
+    { "type": "color", "id": "badge_fg", "label": "Badge tekstkleur", "default": "#ffffff" },
+    { "type": "header", "content": "Reviews" },
+    { "type": "text", "id": "rating_score", "label": "Score (bijv. 4,7)", "default": "4,7" },
+    { "type": "text", "id": "rating_count", "label": "Aantal reviews", "default": "412" },
+    { "type": "range", "id": "rating_stars", "min": 0, "max": 5, "step": 1, "label": "Sterren (0–5)", "default": 4 },
+    { "type": "header", "content": "Verzending" },
+    { "type": "textarea", "id": "delivery_text", "label": "Bezorgtekst", "default": "Voor 15:00 besteld, morgen in huis · Gratis verzending vanaf €50" },
+    { "type": "header", "content": "Afbeeldingen" },
+    { "type": "range", "id": "max_images", "min": 1, "max": 10, "step": 1, "label": "Max. thumbnails", "default": 6 },
+    { "type": "color", "id": "image_bg", "label": "Afbeelding achtergrond", "default": "#f5f4f0" },
+    { "type": "header", "content": "Typografie" },
+    { "type": "range", "id": "title_size", "min": 20, "max": 56, "step": 2, "unit": "px", "label": "Titel grootte (desktop)", "default": 34 },
+    { "type": "range", "id": "title_size_mobile", "min": 18, "max": 40, "step": 2, "unit": "px", "label": "Titel grootte (mobiel)", "default": 26 },
+    { "type": "range", "id": "price_size", "min": 18, "max": 48, "step": 2, "unit": "px", "label": "Prijs grootte (desktop)", "default": 30 },
+    { "type": "range", "id": "price_size_mobile", "min": 16, "max": 36, "step": 2, "unit": "px", "label": "Prijs grootte (mobiel)", "default": 24 },
+    { "type": "header", "content": "Kleuren" },
+    { "type": "color", "id": "accent_color", "label": "Accentkleur (sterren, check, badge)", "default": "#ff7900" },
+    { "type": "color", "id": "title_color", "label": "Titel / tekst kleur", "default": "#111111" },
+    { "type": "color", "id": "price_color", "label": "Prijs kleur", "default": "#111111" },
+    { "type": "color", "id": "text_color", "label": "Voordelen tekst kleur", "default": "#444444" },
+    { "type": "color", "id": "button_bg", "label": "Knop achtergrond", "default": "#111111" },
+    { "type": "color", "id": "button_color", "label": "Knop tekstkleur", "default": "#ffffff" },
+    { "type": "header", "content": "Accordeon labels" },
+    { "type": "text", "id": "tab_beschrijving_label", "label": "Tab: Beschrijving", "default": "Beschrijving" },
+    { "type": "text", "id": "tab_ingredienten_label", "label": "Tab: Ingrediënten", "default": "Ingrediënten" },
+    { "type": "text", "id": "tab_waarom_label", "label": "Tab: Waarom Reverso", "default": "Waarom Reverso" },
+    { "type": "text", "id": "tab_gebruik_label", "label": "Tab: Hoe te gebruiken", "default": "Hoe te gebruiken" }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Voordeel",
+      "limit": 8,
+      "settings": [
+        { "type": "text", "id": "text", "label": "Voordeel tekst", "default": "Voordeel" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "MT-PDP-BL",
+      "blocks": [
+        { "type": "benefit", "settings": { "text": "Diepe reiniging zonder de huid uit te drogen" } },
+        { "type": "benefit", "settings": { "text": "Verwijdert vuil, talg en onzuiverheden" } },
+        { "type": "benefit", "settings": { "text": "Kalmeert met aloë vera en pepermunt" } },
+        { "type": "benefit", "settings": { "text": "Geschikt voor dagelijks gebruik" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
