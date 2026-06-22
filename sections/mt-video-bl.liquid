@@ -20,7 +20,7 @@
 
   #mtvb-{{ section.id }} .mtvb__title {
     font-family: 'Poppins', sans-serif;
-    font-size: {{ section.settings.title_size }}px;
+    font-size: {{ section.settings.title_size_mobile }}px;
     font-weight: {{ section.settings.title_weight }};
     color: {{ section.settings.title_color }};
     line-height: 1.2;
@@ -28,6 +28,12 @@
     padding: 0;
     text-align: {{ section.settings.title_align }};
     flex: 1;
+  }
+
+  @media (min-width: 768px) {
+    #mtvb-{{ section.id }} .mtvb__title {
+      font-size: {{ section.settings.title_size }}px;
+    }
   }
 
   /* ── MOBILE NAV (header-row arrows, hidden on desktop) ── */
@@ -56,12 +62,13 @@
     }
   }
 
-  /* ── VIEWPORT: mobile = scroll-snap, desktop = overflow hidden ── */
+  /* ── VIEWPORT: mobile = scroll-snap centered, desktop = overflow hidden ── */
   #mtvb-{{ section.id }} .mtvb__vp {
     overflow-x: scroll;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
+    padding: 0 10vw;
   }
 
   #mtvb-{{ section.id }} .mtvb__vp::-webkit-scrollbar {
@@ -85,7 +92,7 @@
   /* ── CARD ── */
   #mtvb-{{ section.id }} .mtvb__card {
     flex: 0 0 80vw;
-    scroll-snap-align: start;
+    scroll-snap-align: center;
     position: relative;
     border-radius: {{ section.settings.card_radius }}px;
     overflow: hidden;
@@ -306,13 +313,21 @@
               data-video-type="{{ vid_type }}"
               {{ block.shopify_attributes }}
             >
+              {%- if forloop.first -%}
+                {%- assign img_loading = 'eager' -%}
+              {%- else -%}
+                {%- assign img_loading = 'lazy' -%}
+              {%- endif -%}
               <div class="mtvb__poster">
                 {%- if vid_type == 'youtube' and yt_id != '' -%}
                   <img
                     class="mtvb__thumb"
                     src="https://img.youtube.com/vi/{{ yt_id }}/hqdefault.jpg"
                     alt="{{ block.settings.caption | escape }}"
-                    loading="lazy"
+                    width="480"
+                    height="360"
+                    loading="{{ img_loading }}"
+                    {%- if forloop.first -%}fetchpriority="high"{%- endif -%}
                   >
                 {%- elsif vid_type == 'direct' and vid_url != '' -%}
                   <video
@@ -596,8 +611,18 @@
       "max": 64,
       "step": 2,
       "unit": "px",
-      "label": "Titel grootte",
+      "label": "Titel grootte (desktop)",
       "default": 36
+    },
+    {
+      "type": "range",
+      "id": "title_size_mobile",
+      "min": 14,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Titel grootte (mobiel)",
+      "default": 24
     },
     {
       "type": "select",
