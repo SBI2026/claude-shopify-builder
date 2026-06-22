@@ -1,0 +1,728 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+{%- style -%}
+  #mtvb-{{ section.id }},
+  #mtvb-{{ section.id }} *,
+  #mtvb-{{ section.id }} *::before,
+  #mtvb-{{ section.id }} *::after {
+    box-sizing: border-box;
+  }
+
+  /* ── TITLE ── */
+  #mtvb-{{ section.id }} .mtvb__title {
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.2;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* ── OUTER (position: relative for arrows) ── */
+  #mtvb-{{ section.id }} .mtvb__outer {
+    position: relative;
+  }
+
+  @media (min-width: 768px) {
+    #mtvb-{{ section.id }} .mtvb__outer {
+      padding-left: {{ section.settings.padding_h }}px;
+      padding-right: {{ section.settings.padding_h }}px;
+    }
+  }
+
+  /* ── VIEWPORT ── */
+  #mtvb-{{ section.id }} .mtvb__vp {
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 0 12vw;
+  }
+
+  #mtvb-{{ section.id }} .mtvb__vp::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    #mtvb-{{ section.id }} .mtvb__vp {
+      overflow: hidden;
+      padding: 0;
+      scroll-snap-type: none;
+    }
+  }
+
+  /* ── TRACK ── */
+  #mtvb-{{ section.id }} .mtvb__track {
+    display: flex;
+    gap: {{ section.settings.card_gap }}px;
+    will-change: transform;
+  }
+
+  /* ── CARD (mobile first: 76vw, snap center) ── */
+  #mtvb-{{ section.id }} .mtvb__card {
+    flex: 0 0 76vw;
+    scroll-snap-align: center;
+    position: relative;
+    border-radius: {{ section.settings.card_radius }}px;
+    overflow: hidden;
+    cursor: pointer;
+    aspect-ratio: 9 / 16;
+    background: #111111;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  @media (min-width: 768px) {
+    #mtvb-{{ section.id }} .mtvb__card {
+      flex: 0 0 auto;
+      scroll-snap-align: none;
+    }
+  }
+
+  /* ── THUMBNAIL ── */
+  #mtvb-{{ section.id }} .mtvb__thumb {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  #mtvb-{{ section.id }} .mtvb__thumb--empty {
+    background: #1a1a1a;
+  }
+
+  /* ── DARK OVERLAY ── */
+  #mtvb-{{ section.id }} .mtvb__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 50%);
+    pointer-events: none;
+  }
+
+  /* ── PLAY BUTTON ── */
+  #mtvb-{{ section.id }} .mtvb__play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: {{ section.settings.play_btn_size }}px;
+    height: {{ section.settings.play_btn_size }}px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s ease, transform 0.15s ease;
+    pointer-events: none;
+  }
+
+  #mtvb-{{ section.id }} .mtvb__card:hover .mtvb__play {
+    background: #ffffff;
+    transform: translate(-50%, -50%) scale(1.08);
+  }
+
+  /* ── CAPTION ── */
+  #mtvb-{{ section.id }} .mtvb__caption {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    font-family: 'Poppins', sans-serif;
+    font-size: {{ section.settings.caption_size }}px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: {{ section.settings.caption_color }};
+    line-height: 1.3;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+    pointer-events: none;
+  }
+
+  /* ── ARROWS ── */
+  #mtvb-{{ section.id }} .mtvb__arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 1.5px solid #e0e0e0;
+    color: #111111;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    z-index: 10;
+    padding: 0;
+  }
+
+  #mtvb-{{ section.id }} .mtvb__arrow:hover {
+    background: #111111;
+    color: #ffffff;
+    border-color: #111111;
+  }
+
+  #mtvb-{{ section.id }} .mtvb__arrow--prev {
+    left: 4px;
+  }
+
+  #mtvb-{{ section.id }} .mtvb__arrow--next {
+    right: 4px;
+  }
+
+  @media (min-width: 768px) {
+    #mtvb-{{ section.id }} .mtvb__arrow--prev {
+      left: -20px;
+    }
+
+    #mtvb-{{ section.id }} .mtvb__arrow--next {
+      right: -20px;
+    }
+  }
+
+  /* ── LIGHTBOX MODAL ── */
+  #mtvb-modal-{{ section.id }} {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(0,0,0,0.92);
+    align-items: center;
+    justify-content: center;
+  }
+
+  #mtvb-modal-{{ section.id }} .mtvb__modal-bg {
+    position: absolute;
+    inset: 0;
+  }
+
+  #mtvb-modal-{{ section.id }} .mtvb__modal-content {
+    position: relative;
+    width: 90vw;
+    max-width: 480px;
+    aspect-ratio: 9 / 16;
+    max-height: 85vh;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #000;
+    z-index: 1;
+  }
+
+  #mtvb-modal-{{ section.id }} .mtvb__modal-video {
+    width: 100%;
+    height: 100%;
+  }
+
+  #mtvb-modal-{{ section.id }} .mtvb__modal-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.6);
+    color: #ffffff;
+    font-size: 18px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    padding: 0;
+    line-height: 1;
+    transition: background 0.15s ease;
+  }
+
+  #mtvb-modal-{{ section.id }} .mtvb__modal-close:hover {
+    background: rgba(0,0,0,0.9);
+  }
+{%- endstyle -%}
+
+<div
+  class="mtvb"
+  id="mtvb-{{ section.id }}"
+  style="background: {{ section.settings.section_bg }}; padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;"
+>
+  {%- if section.settings.show_title and section.settings.title != blank -%}
+    <div
+      class="mtvb__hd"
+      style="padding: 0 {{ section.settings.padding_h }}px {{ section.settings.title_margin_bottom }}px; text-align: {{ section.settings.title_align }};"
+    >
+      <h2
+        class="mtvb__title"
+        style="font-size: {{ section.settings.title_size }}px; font-weight: {{ section.settings.title_weight }}; color: {{ section.settings.title_color }};"
+      >{{ section.settings.title | escape }}</h2>
+    </div>
+  {%- endif -%}
+
+  {%- if section.blocks.size > 0 -%}
+    <div class="mtvb__outer" id="mtvb-wrap-{{ section.id }}">
+      <button class="mtvb__arrow mtvb__arrow--prev" aria-label="Vorige video">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+
+      <div class="mtvb__vp" id="mtvb-vp-{{ section.id }}">
+        <div class="mtvb__track" id="mtvb-tr-{{ section.id }}">
+          {%- for block in section.blocks -%}
+            {%- assign vid_url = block.settings.video_url | default: '' -%}
+            {%- if vid_url contains 'youtube.com' or vid_url contains 'youtu.be' -%}
+              {%- assign vid_type = 'youtube' -%}
+            {%- elsif vid_url contains 'vimeo.com' -%}
+              {%- assign vid_type = 'vimeo' -%}
+            {%- elsif vid_url contains 'tiktok.com' -%}
+              {%- assign vid_type = 'tiktok' -%}
+            {%- else -%}
+              {%- assign vid_type = 'direct' -%}
+            {%- endif -%}
+            <div
+              class="mtvb__card mtvb__card--real"
+              data-video-url="{{ vid_url | escape }}"
+              data-video-type="{{ vid_type }}"
+              tabindex="0"
+              role="button"
+              aria-label="{{ block.settings.caption | default: 'Video afspelen' | escape }}"
+              {{ block.shopify_attributes }}
+            >
+              {%- if block.settings.thumbnail != blank -%}
+                {{
+                  block.settings.thumbnail
+                  | image_url: width: 600
+                  | image_tag:
+                    class: 'mtvb__thumb',
+                    loading: 'lazy',
+                    widths: '300, 600',
+                    alt: block.settings.caption | escape
+                }}
+              {%- else -%}
+                <div class="mtvb__thumb mtvb__thumb--empty"></div>
+              {%- endif -%}
+              <div class="mtvb__overlay"></div>
+              <div class="mtvb__play">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="#111111"><polygon points="5,3 19,12 5,21"/></svg>
+              </div>
+              {%- if block.settings.caption != blank -%}
+                <div class="mtvb__caption">{{ block.settings.caption | escape }}</div>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+
+      <button class="mtvb__arrow mtvb__arrow--next" aria-label="Volgende video">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+  {%- endif -%}
+</div>
+
+<div class="mtvb__modal" id="mtvb-modal-{{ section.id }}" role="dialog" aria-modal="true" aria-label="Video afspelen">
+  <div class="mtvb__modal-bg" id="mtvb-mbg-{{ section.id }}"></div>
+  <div class="mtvb__modal-content">
+    <button class="mtvb__modal-close" id="mtvb-mclose-{{ section.id }}" aria-label="Sluiten">&#x2715;</button>
+    <div class="mtvb__modal-video" id="mtvb-mvid-{{ section.id }}"></div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var SID = '{{ section.id }}';
+  var section  = document.getElementById('mtvb-' + SID);
+  var wrap     = document.getElementById('mtvb-wrap-' + SID);
+  var viewport = document.getElementById('mtvb-vp-' + SID);
+  var track    = document.getElementById('mtvb-tr-' + SID);
+  var modal    = document.getElementById('mtvb-modal-' + SID);
+  var modalBg  = document.getElementById('mtvb-mbg-' + SID);
+  var modalClose = document.getElementById('mtvb-mclose-' + SID);
+  var modalVid = document.getElementById('mtvb-mvid-' + SID);
+
+  if (!track || !wrap) return;
+
+  var GAP = {{ section.settings.card_gap }};
+  var PER = 3;
+  var currentIdx = PER;
+  var isBusy = false;
+  var isDesktop = false;
+
+  function onDesktop() { return window.innerWidth >= 768; }
+
+  /* ── HELPERS ── */
+  function getRealCards() {
+    return Array.from(track.querySelectorAll('.mtvb__card--real'));
+  }
+
+  function removeClones() {
+    track.querySelectorAll('.mtvb__card--clone').forEach(function (c) { c.remove(); });
+  }
+
+  function cardStep() {
+    var c = track.querySelector('.mtvb__card');
+    return c ? c.offsetWidth + GAP : 0;
+  }
+
+  /* ── DESKTOP: transform-based infinite slider ── */
+  function setupDesktop() {
+    removeClones();
+    track.style.transition = 'none';
+    track.style.transform  = '';
+    isDesktop = true;
+
+    var reals = getRealCards();
+    var n = reals.length;
+    if (n === 0) return;
+
+    var vw = viewport.offsetWidth;
+    var cw = (vw - (PER - 1) * GAP) / PER;
+    reals.forEach(function (c) { c.style.width = cw + 'px'; });
+
+    /* Clone last PER cards and prepend */
+    var before = reals.slice(-PER).map(function (c) {
+      var cl = c.cloneNode(true);
+      cl.classList.remove('mtvb__card--real');
+      cl.classList.add('mtvb__card--clone');
+      cl.style.width = cw + 'px';
+      return cl;
+    });
+    /* Prepend in reverse so order is preserved */
+    before.slice().reverse().forEach(function (c) { track.prepend(c); });
+
+    /* Clone first PER cards and append */
+    var after = reals.slice(0, PER).map(function (c) {
+      var cl = c.cloneNode(true);
+      cl.classList.remove('mtvb__card--real');
+      cl.classList.add('mtvb__card--clone');
+      cl.style.width = cw + 'px';
+      return cl;
+    });
+    after.forEach(function (c) { track.append(c); });
+
+    currentIdx = PER;
+    setPos(currentIdx, false);
+  }
+
+  function setPos(idx, animate) {
+    track.style.transition = animate ? 'transform 0.38s ease' : 'none';
+    track.style.transform  = 'translateX(' + (-idx * cardStep()) + 'px)';
+    currentIdx = idx;
+  }
+
+  track.addEventListener('transitionend', function () {
+    isBusy = false;
+    var n = getRealCards().length;
+    /* Jumped past end clones → wrap to real start */
+    if (currentIdx >= n + PER) { setPos(PER, false); }
+    /* Jumped past start clones → wrap to real end */
+    else if (currentIdx <= 0)  { setPos(n, false); }
+  });
+
+  /* ── MOBILE: scroll-snap ── */
+  function setupMobile() {
+    removeClones();
+    track.style.transition = 'none';
+    track.style.transform  = '';
+    isDesktop = false;
+    getRealCards().forEach(function (c) { c.style.width = ''; });
+    viewport.scrollLeft = 0;
+    currentIdx = 0;
+  }
+
+  function mobileStep() {
+    var c = track.querySelector('.mtvb__card');
+    return c ? c.offsetWidth + GAP : viewport.offsetWidth;
+  }
+
+  /* ── INIT ── */
+  function init() {
+    if (onDesktop()) { setupDesktop(); } else { setupMobile(); }
+  }
+
+  /* ── ARROWS ── */
+  wrap.querySelector('.mtvb__arrow--prev').addEventListener('click', function () {
+    if (onDesktop()) {
+      if (isBusy) return; isBusy = true;
+      setPos(currentIdx - 1, true);
+    } else {
+      viewport.scrollBy({ left: -mobileStep(), behavior: 'smooth' });
+    }
+  });
+
+  wrap.querySelector('.mtvb__arrow--next').addEventListener('click', function () {
+    if (onDesktop()) {
+      if (isBusy) return; isBusy = true;
+      setPos(currentIdx + 1, true);
+    } else {
+      viewport.scrollBy({ left: mobileStep(), behavior: 'smooth' });
+    }
+  });
+
+  /* ── RESIZE ── */
+  var resizeT;
+  window.addEventListener('resize', function () {
+    clearTimeout(resizeT);
+    resizeT = setTimeout(init, 200);
+  });
+
+  /* ── VIDEO EMBED BUILDERS ── */
+  function ytID(u)  { var m = u.match(/(?:v=|youtu\.be\/|shorts\/)([a-zA-Z0-9_-]{11})/); return m ? m[1] : ''; }
+  function viID(u)  { var m = u.match(/vimeo\.com\/(\d+)/);  return m ? m[1] : ''; }
+  function ttID(u)  { var m = u.match(/video\/(\d+)/);       return m ? m[1] : ''; }
+
+  function buildEmbed(url, type) {
+    var id;
+    var attrs = 'frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="width:100%;height:100%;"';
+    if (type === 'youtube') {
+      id = ytID(url);
+      return '<iframe src="https://www.youtube.com/embed/' + id + '?autoplay=1&rel=0" ' + attrs + '></iframe>';
+    }
+    if (type === 'vimeo') {
+      id = viID(url);
+      return '<iframe src="https://player.vimeo.com/video/' + id + '?autoplay=1&dnt=1" ' + attrs + '></iframe>';
+    }
+    if (type === 'tiktok') {
+      id = ttID(url);
+      return '<iframe src="https://www.tiktok.com/embed/v2/' + id + '" ' + attrs + '></iframe>';
+    }
+    return '<video src="' + url + '" autoplay controls playsinline style="width:100%;height:100%;background:#000;"></video>';
+  }
+
+  /* ── MODAL ── */
+  function openModal(url, type) {
+    if (!url) return;
+    modalVid.innerHTML = buildEmbed(url, type);
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    modal.style.display = 'none';
+    modalVid.innerHTML  = '';
+    document.body.style.overflow = '';
+  }
+
+  if (modalClose) modalClose.addEventListener('click', closeModal);
+  if (modalBg)    modalBg.addEventListener('click', closeModal);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeModal(); });
+
+  /* ── CARD CLICKS — delegation covers real cards + clones ── */
+  section.addEventListener('click', function (e) {
+    var card = e.target.closest('.mtvb__card');
+    if (!card) return;
+    openModal(card.getAttribute('data-video-url'), card.getAttribute('data-video-type'));
+  });
+  section.addEventListener('keydown', function (e) {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    var card = e.target.closest('.mtvb__card');
+    if (!card) return;
+    e.preventDefault();
+    openModal(card.getAttribute('data-video-url'), card.getAttribute('data-video-type'));
+  });
+
+  /* ── SHOPIFY DESIGN MODE ── */
+  document.addEventListener('shopify:section:load', function (e) {
+    if (e.target.querySelector('#mtvb-' + SID)) { init(); }
+  });
+
+  init();
+})();
+</script>
+
+{% schema %}
+{
+  "name": "MT-VIDEO-BL",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Sectie"
+    },
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Achtergrond kleur",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 8,
+      "unit": "px",
+      "label": "Padding boven",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 8,
+      "unit": "px",
+      "label": "Padding onder",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_h",
+      "min": 0,
+      "max": 80,
+      "step": 8,
+      "unit": "px",
+      "label": "Padding horizontaal (desktop)",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Titel"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "Titel tonen",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Titel",
+      "default": "Volg onze community"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 18,
+      "max": 64,
+      "step": 2,
+      "unit": "px",
+      "label": "Titel grootte",
+      "default": 36
+    },
+    {
+      "type": "select",
+      "id": "title_weight",
+      "label": "Titel dikte",
+      "options": [
+        { "value": "300", "label": "Light 300" },
+        { "value": "400", "label": "Regular 400" },
+        { "value": "500", "label": "Medium 500" },
+        { "value": "600", "label": "Semi-Bold 600" },
+        { "value": "700", "label": "Bold 700" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Titel kleur",
+      "default": "#111111"
+    },
+    {
+      "type": "select",
+      "id": "title_align",
+      "label": "Titel uitlijning",
+      "options": [
+        { "value": "left",   "label": "Links" },
+        { "value": "center", "label": "Midden" },
+        { "value": "right",  "label": "Rechts" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "title_margin_bottom",
+      "min": 0,
+      "max": 80,
+      "step": 8,
+      "unit": "px",
+      "label": "Afstand onder titel",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Video kaarten"
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "min": 0,
+      "max": 32,
+      "step": 4,
+      "unit": "px",
+      "label": "Afronding kaart",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "min": 12,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "label": "Ruimte tussen kaarten",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "play_btn_size",
+      "min": 40,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Play knop grootte",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "caption_size",
+      "min": 11,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Caption tekst grootte",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "caption_color",
+      "label": "Caption tekst kleur",
+      "default": "#ffffff"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "video",
+      "name": "Video",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "thumbnail",
+          "label": "Thumbnail afbeelding"
+        },
+        {
+          "type": "text",
+          "id": "caption",
+          "label": "Caption tekst"
+        },
+        {
+          "type": "text",
+          "id": "video_url",
+          "label": "Video URL (YouTube, Vimeo, TikTok of directe MP4)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "MT-VIDEO-BL",
+      "blocks": [
+        { "type": "video", "settings": { "caption": "Community Highlight 1" } },
+        { "type": "video", "settings": { "caption": "Community Highlight 2" } },
+        { "type": "video", "settings": { "caption": "Community Highlight 3" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
