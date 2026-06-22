@@ -481,9 +481,9 @@
         aria-label="Bekijk onze Trustpilot reviews"
       >
         <span class="rs-ft__tp-logo">
-          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <rect width="28" height="28" rx="3" fill="#00b67a"/>
-            <path d="M14 19.6L20.3 23.1L18.7 15.9L24.3 10.9L16.9 10.2L14 3.5L11.1 10.2L3.7 10.9L9.3 15.9L7.7 23.1Z" fill="white"/>
+          <svg width="32" height="30" viewBox="0 0 105 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <polygon fill="#00b67a" points="52.5,0 65,36 104,36 73,58 84,95 52.5,73 21,95 32,58 1,36 40,36"/>
+            <polygon fill="#005128" points="32,58 21,95 52.5,73"/>
           </svg>
           <span class="rs-ft__tp-wordmark">Trustpilot</span>
         </span>
@@ -503,7 +503,7 @@
           {%- endfor -%}
         </span>
 
-        <span class="rs-ft__tp-score">TrustScore {{ section.settings.trustpilot_score }} | {{ section.settings.trustpilot_reviews }} reviews</span>
+        <span class="rs-ft__tp-score">TrustScore {{ section.settings.trustpilot_score }}</span>
       </a>
     {%- endif -%}
 
