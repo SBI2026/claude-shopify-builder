@@ -10,15 +10,41 @@
     box-sizing: border-box;
   }
 
-  /* ── TITLE ── */
+  /* ── SECTION HEADER ROW ── */
+  #mtvb-{{ section.id }} .mtvb__hd {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 {{ section.settings.padding_h }}px {{ section.settings.title_margin_bottom }}px;
+  }
+
   #mtvb-{{ section.id }} .mtvb__title {
     font-family: 'Poppins', sans-serif;
+    font-size: {{ section.settings.title_size }}px;
+    font-weight: {{ section.settings.title_weight }};
+    color: {{ section.settings.title_color }};
     line-height: 1.2;
     margin: 0;
     padding: 0;
+    text-align: {{ section.settings.title_align }};
+    flex: 1;
   }
 
-  /* ── OUTER (position: relative for arrows) ── */
+  /* ── MOBILE NAV (header-row arrows, hidden on desktop) ── */
+  #mtvb-{{ section.id }} .mtvb__nav {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+    margin-left: 16px;
+  }
+
+  @media (min-width: 768px) {
+    #mtvb-{{ section.id }} .mtvb__nav {
+      display: none;
+    }
+  }
+
+  /* ── OUTER WRAPPER ── */
   #mtvb-{{ section.id }} .mtvb__outer {
     position: relative;
   }
@@ -30,13 +56,12 @@
     }
   }
 
-  /* ── VIEWPORT ── */
+  /* ── VIEWPORT: mobile = scroll-snap, desktop = overflow hidden ── */
   #mtvb-{{ section.id }} .mtvb__vp {
     overflow-x: scroll;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
-    padding: 0 12vw;
   }
 
   #mtvb-{{ section.id }} .mtvb__vp::-webkit-scrollbar {
@@ -46,7 +71,6 @@
   @media (min-width: 768px) {
     #mtvb-{{ section.id }} .mtvb__vp {
       overflow: hidden;
-      padding: 0;
       scroll-snap-type: none;
     }
   }
@@ -58,14 +82,13 @@
     will-change: transform;
   }
 
-  /* ── CARD (mobile first: 76vw, snap center) ── */
+  /* ── CARD ── */
   #mtvb-{{ section.id }} .mtvb__card {
-    flex: 0 0 76vw;
-    scroll-snap-align: center;
+    flex: 0 0 80vw;
+    scroll-snap-align: start;
     position: relative;
     border-radius: {{ section.settings.card_radius }}px;
     overflow: hidden;
-    cursor: pointer;
     aspect-ratio: 9 / 16;
     background: #111111;
     -webkit-tap-highlight-color: transparent;
@@ -78,7 +101,14 @@
     }
   }
 
-  /* ── THUMBNAIL ── */
+  /* ── POSTER (thumbnail layer) ── */
+  #mtvb-{{ section.id }} .mtvb__poster {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
   #mtvb-{{ section.id }} .mtvb__thumb {
     position: absolute;
     inset: 0;
@@ -90,9 +120,11 @@
 
   #mtvb-{{ section.id }} .mtvb__thumb--empty {
     background: #1a1a1a;
+    position: absolute;
+    inset: 0;
   }
 
-  /* ── DARK OVERLAY ── */
+  /* ── OVERLAY ── */
   #mtvb-{{ section.id }} .mtvb__overlay {
     position: absolute;
     inset: 0;
@@ -110,14 +142,16 @@
     height: {{ section.settings.play_btn_size }}px;
     border-radius: 50%;
     background: rgba(255,255,255,0.9);
+    border: none;
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
     transition: background 0.15s ease, transform 0.15s ease;
-    pointer-events: none;
+    z-index: 2;
   }
 
-  #mtvb-{{ section.id }} .mtvb__card:hover .mtvb__play {
+  #mtvb-{{ section.id }} .mtvb__play:hover {
     background: #ffffff;
     transform: translate(-50%, -50%) scale(1.08);
   }
@@ -137,13 +171,55 @@
     line-height: 1.3;
     text-shadow: 0 1px 4px rgba(0,0,0,0.5);
     pointer-events: none;
+    z-index: 2;
   }
 
-  /* ── ARROWS ── */
-  #mtvb-{{ section.id }} .mtvb__arrow {
+  /* ── PLAYER (inline video, hidden until play clicked) ── */
+  #mtvb-{{ section.id }} .mtvb__player {
+    display: none;
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    border-radius: {{ section.settings.card_radius }}px;
+    overflow: hidden;
+  }
+
+  #mtvb-{{ section.id }} .mtvb__player iframe,
+  #mtvb-{{ section.id }} .mtvb__player video {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+  }
+
+  /* ── DESKTOP SIDE ARROWS (hidden on mobile) ── */
+  #mtvb-{{ section.id }} .mtvb__sarr {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    #mtvb-{{ section.id }} .mtvb__sarr {
+      display: flex;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+    }
+
+    #mtvb-{{ section.id }} .mtvb__sarr--prev {
+      left: -20px;
+    }
+
+    #mtvb-{{ section.id }} .mtvb__sarr--next {
+      right: -20px;
+    }
+  }
+
+  /* ── ARROW SHARED STYLE ── */
+  #mtvb-{{ section.id }} .mtvb__arr,
+  #mtvb-{{ section.id }} .mtvb__sarr {
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -151,95 +227,23 @@
     border: 1.5px solid #e0e0e0;
     color: #111111;
     cursor: pointer;
-    display: flex;
     align-items: center;
     justify-content: center;
     box-shadow: 0 2px 8px rgba(0,0,0,0.12);
     transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
-    z-index: 10;
     padding: 0;
+    flex-shrink: 0;
   }
 
-  #mtvb-{{ section.id }} .mtvb__arrow:hover {
+  #mtvb-{{ section.id }} .mtvb__arr {
+    display: flex;
+  }
+
+  #mtvb-{{ section.id }} .mtvb__arr:hover,
+  #mtvb-{{ section.id }} .mtvb__sarr:hover {
     background: #111111;
     color: #ffffff;
     border-color: #111111;
-  }
-
-  #mtvb-{{ section.id }} .mtvb__arrow--prev {
-    left: 4px;
-  }
-
-  #mtvb-{{ section.id }} .mtvb__arrow--next {
-    right: 4px;
-  }
-
-  @media (min-width: 768px) {
-    #mtvb-{{ section.id }} .mtvb__arrow--prev {
-      left: -20px;
-    }
-
-    #mtvb-{{ section.id }} .mtvb__arrow--next {
-      right: -20px;
-    }
-  }
-
-  /* ── LIGHTBOX MODAL ── */
-  #mtvb-modal-{{ section.id }} {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    background: rgba(0,0,0,0.92);
-    align-items: center;
-    justify-content: center;
-  }
-
-  #mtvb-modal-{{ section.id }} .mtvb__modal-bg {
-    position: absolute;
-    inset: 0;
-  }
-
-  #mtvb-modal-{{ section.id }} .mtvb__modal-content {
-    position: relative;
-    width: 90vw;
-    max-width: 480px;
-    aspect-ratio: 9 / 16;
-    max-height: 85vh;
-    border-radius: 16px;
-    overflow: hidden;
-    background: #000;
-    z-index: 1;
-  }
-
-  #mtvb-modal-{{ section.id }} .mtvb__modal-video {
-    width: 100%;
-    height: 100%;
-  }
-
-  #mtvb-modal-{{ section.id }} .mtvb__modal-close {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: rgba(0,0,0,0.6);
-    color: #ffffff;
-    font-size: 18px;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 2;
-    padding: 0;
-    line-height: 1;
-    transition: background 0.15s ease;
-  }
-
-  #mtvb-modal-{{ section.id }} .mtvb__modal-close:hover {
-    background: rgba(0,0,0,0.9);
   }
 {%- endstyle -%}
 
@@ -249,22 +253,28 @@
   style="background: {{ section.settings.section_bg }}; padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;"
 >
   {%- if section.settings.show_title and section.settings.title != blank -%}
-    <div
-      class="mtvb__hd"
-      style="padding: 0 {{ section.settings.padding_h }}px {{ section.settings.title_margin_bottom }}px; text-align: {{ section.settings.title_align }};"
-    >
-      <h2
-        class="mtvb__title"
-        style="font-size: {{ section.settings.title_size }}px; font-weight: {{ section.settings.title_weight }}; color: {{ section.settings.title_color }};"
-      >{{ section.settings.title | escape }}</h2>
+    <div class="mtvb__hd">
+      <h2 class="mtvb__title">{{ section.settings.title | escape }}</h2>
+      {%- if section.blocks.size > 1 -%}
+        <div class="mtvb__nav">
+          <button class="mtvb__arr mtvb__arr--prev" aria-label="Vorige video">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <button class="mtvb__arr mtvb__arr--next" aria-label="Volgende video">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+      {%- endif -%}
     </div>
   {%- endif -%}
 
   {%- if section.blocks.size > 0 -%}
     <div class="mtvb__outer" id="mtvb-wrap-{{ section.id }}">
-      <button class="mtvb__arrow mtvb__arrow--prev" aria-label="Vorige video">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-      </button>
+      {%- if section.blocks.size > 1 -%}
+        <button class="mtvb__sarr mtvb__sarr--prev" aria-label="Vorige video">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+      {%- endif -%}
 
       <div class="mtvb__vp" id="mtvb-vp-{{ section.id }}">
         <div class="mtvb__track" id="mtvb-tr-{{ section.id }}">
@@ -272,257 +282,246 @@
             {%- assign vid_url = block.settings.video_url | default: '' -%}
             {%- if vid_url contains 'youtube.com' or vid_url contains 'youtu.be' -%}
               {%- assign vid_type = 'youtube' -%}
+              {%- if vid_url contains 'youtu.be/' -%}
+                {%- assign yt_id = vid_url | split: 'youtu.be/' | last | split: '?' | first | split: '&' | first -%}
+              {%- elsif vid_url contains 'shorts/' -%}
+                {%- assign yt_id = vid_url | split: 'shorts/' | last | split: '?' | first | split: '&' | first -%}
+              {%- else -%}
+                {%- assign yt_id = vid_url | split: 'v=' | last | split: '&' | first | split: '?' | first -%}
+              {%- endif -%}
             {%- elsif vid_url contains 'vimeo.com' -%}
               {%- assign vid_type = 'vimeo' -%}
+              {%- assign yt_id = '' -%}
             {%- elsif vid_url contains 'tiktok.com' -%}
               {%- assign vid_type = 'tiktok' -%}
+              {%- assign yt_id = '' -%}
             {%- else -%}
               {%- assign vid_type = 'direct' -%}
+              {%- assign yt_id = '' -%}
             {%- endif -%}
+
             <div
               class="mtvb__card mtvb__card--real"
               data-video-url="{{ vid_url | escape }}"
               data-video-type="{{ vid_type }}"
-              tabindex="0"
-              role="button"
-              aria-label="{{ block.settings.caption | default: 'Video afspelen' | escape }}"
               {{ block.shopify_attributes }}
             >
-              {%- if block.settings.thumbnail != blank -%}
-                {{
-                  block.settings.thumbnail
-                  | image_url: width: 600
-                  | image_tag:
-                    class: 'mtvb__thumb',
-                    loading: 'lazy',
-                    widths: '300, 600',
-                    alt: block.settings.caption | escape
-                }}
-              {%- else -%}
-                <div class="mtvb__thumb mtvb__thumb--empty"></div>
-              {%- endif -%}
-              <div class="mtvb__overlay"></div>
-              <div class="mtvb__play">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="#111111"><polygon points="5,3 19,12 5,21"/></svg>
+              <div class="mtvb__poster">
+                {%- if vid_type == 'youtube' and yt_id != '' -%}
+                  <img
+                    class="mtvb__thumb"
+                    src="https://img.youtube.com/vi/{{ yt_id }}/hqdefault.jpg"
+                    alt="{{ block.settings.caption | escape }}"
+                    loading="lazy"
+                  >
+                {%- elsif vid_type == 'direct' and vid_url != '' -%}
+                  <video
+                    class="mtvb__thumb"
+                    src="{{ vid_url | escape }}"
+                    muted
+                    playsinline
+                    preload="metadata"
+                    tabindex="-1"
+                  ></video>
+                {%- elsif vid_type == 'vimeo' -%}
+                  <div class="mtvb__thumb mtvb__thumb--empty" data-fetch-vimeo="{{ vid_url | escape }}"></div>
+                {%- else -%}
+                  <div class="mtvb__thumb mtvb__thumb--empty"></div>
+                {%- endif -%}
+                <div class="mtvb__overlay"></div>
+                <button class="mtvb__play" aria-label="Video afspelen">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="#111111"><polygon points="5,3 19,12 5,21"/></svg>
+                </button>
+                {%- if block.settings.caption != blank -%}
+                  <div class="mtvb__caption">{{ block.settings.caption | escape }}</div>
+                {%- endif -%}
               </div>
-              {%- if block.settings.caption != blank -%}
-                <div class="mtvb__caption">{{ block.settings.caption | escape }}</div>
-              {%- endif -%}
+              <div class="mtvb__player"></div>
             </div>
           {%- endfor -%}
         </div>
       </div>
 
-      <button class="mtvb__arrow mtvb__arrow--next" aria-label="Volgende video">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-      </button>
+      {%- if section.blocks.size > 1 -%}
+        <button class="mtvb__sarr mtvb__sarr--next" aria-label="Volgende video">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      {%- endif -%}
     </div>
   {%- endif -%}
 </div>
 
-<div class="mtvb__modal" id="mtvb-modal-{{ section.id }}" role="dialog" aria-modal="true" aria-label="Video afspelen">
-  <div class="mtvb__modal-bg" id="mtvb-mbg-{{ section.id }}"></div>
-  <div class="mtvb__modal-content">
-    <button class="mtvb__modal-close" id="mtvb-mclose-{{ section.id }}" aria-label="Sluiten">&#x2715;</button>
-    <div class="mtvb__modal-video" id="mtvb-mvid-{{ section.id }}"></div>
-  </div>
-</div>
-
 <script>
 (function () {
-  var SID = '{{ section.id }}';
-  var section  = document.getElementById('mtvb-' + SID);
-  var wrap     = document.getElementById('mtvb-wrap-' + SID);
-  var viewport = document.getElementById('mtvb-vp-' + SID);
-  var track    = document.getElementById('mtvb-tr-' + SID);
-  var modal    = document.getElementById('mtvb-modal-' + SID);
-  var modalBg  = document.getElementById('mtvb-mbg-' + SID);
-  var modalClose = document.getElementById('mtvb-mclose-' + SID);
-  var modalVid = document.getElementById('mtvb-mvid-' + SID);
-
+  var SID  = '{{ section.id }}';
+  var root = document.getElementById('mtvb-' + SID);
+  var wrap = document.getElementById('mtvb-wrap-' + SID);
+  var vp   = document.getElementById('mtvb-vp-' + SID);
+  var track= document.getElementById('mtvb-tr-' + SID);
   if (!track || !wrap) return;
 
-  var GAP = {{ section.settings.card_gap }};
-  var PER = 3;
-  var currentIdx = PER;
-  var isBusy = false;
-  var isDesktop = false;
+  var GAP    = {{ section.settings.card_gap }};
+  var PER    = 3;
+  var curIdx = PER;
+  var busy   = false;
 
-  function onDesktop() { return window.innerWidth >= 768; }
+  function isDesk() { return window.innerWidth >= 768; }
 
   /* ── HELPERS ── */
-  function getRealCards() {
-    return Array.from(track.querySelectorAll('.mtvb__card--real'));
-  }
+  function reals() { return Array.from(track.querySelectorAll('.mtvb__card--real')); }
+  function rmClones() { track.querySelectorAll('.mtvb__card--clone').forEach(function(c){ c.remove(); }); }
+  function step() { var c = track.querySelector('.mtvb__card'); return c ? c.offsetWidth + GAP : 0; }
 
-  function removeClones() {
-    track.querySelectorAll('.mtvb__card--clone').forEach(function (c) { c.remove(); });
-  }
-
-  function cardStep() {
-    var c = track.querySelector('.mtvb__card');
-    return c ? c.offsetWidth + GAP : 0;
-  }
-
-  /* ── DESKTOP: transform-based infinite slider ── */
-  function setupDesktop() {
-    removeClones();
+  /* ── DESKTOP: infinite transform slider ── */
+  function setupDesk() {
+    rmClones();
     track.style.transition = 'none';
     track.style.transform  = '';
-    isDesktop = true;
 
-    var reals = getRealCards();
-    var n = reals.length;
-    if (n === 0) return;
+    var rs = reals(), n = rs.length;
+    if (!n) return;
 
-    var vw = viewport.offsetWidth;
-    var cw = (vw - (PER - 1) * GAP) / PER;
-    reals.forEach(function (c) { c.style.width = cw + 'px'; });
+    var cw = (vp.offsetWidth - (PER - 1) * GAP) / PER;
+    rs.forEach(function(c){ c.style.width = cw + 'px'; });
 
-    /* Clone last PER cards and prepend */
-    var before = reals.slice(-PER).map(function (c) {
+    /* clone last PER before, first PER after */
+    rs.slice(-PER).slice().reverse().forEach(function(c){
       var cl = c.cloneNode(true);
-      cl.classList.remove('mtvb__card--real');
-      cl.classList.add('mtvb__card--clone');
+      cl.classList.remove('mtvb__card--real'); cl.classList.add('mtvb__card--clone');
       cl.style.width = cw + 'px';
-      return cl;
+      track.prepend(cl);
     });
-    /* Prepend in reverse so order is preserved */
-    before.slice().reverse().forEach(function (c) { track.prepend(c); });
-
-    /* Clone first PER cards and append */
-    var after = reals.slice(0, PER).map(function (c) {
+    rs.slice(0, PER).forEach(function(c){
       var cl = c.cloneNode(true);
-      cl.classList.remove('mtvb__card--real');
-      cl.classList.add('mtvb__card--clone');
+      cl.classList.remove('mtvb__card--real'); cl.classList.add('mtvb__card--clone');
       cl.style.width = cw + 'px';
-      return cl;
+      track.append(cl);
     });
-    after.forEach(function (c) { track.append(c); });
 
-    currentIdx = PER;
-    setPos(currentIdx, false);
+    curIdx = PER;
+    moveTo(curIdx, false);
   }
 
-  function setPos(idx, animate) {
-    track.style.transition = animate ? 'transform 0.38s ease' : 'none';
-    track.style.transform  = 'translateX(' + (-idx * cardStep()) + 'px)';
-    currentIdx = idx;
+  function moveTo(idx, anim) {
+    track.style.transition = anim ? 'transform 0.38s ease' : 'none';
+    track.style.transform  = 'translateX(' + (-idx * step()) + 'px)';
+    curIdx = idx;
   }
 
-  track.addEventListener('transitionend', function () {
-    isBusy = false;
-    var n = getRealCards().length;
-    /* Jumped past end clones → wrap to real start */
-    if (currentIdx >= n + PER) { setPos(PER, false); }
-    /* Jumped past start clones → wrap to real end */
-    else if (currentIdx <= 0)  { setPos(n, false); }
+  track.addEventListener('transitionend', function(){
+    busy = false;
+    var n = reals().length;
+    if (curIdx >= n + PER)  { moveTo(PER, false); }
+    else if (curIdx <= 0)   { moveTo(n,   false); }
   });
 
   /* ── MOBILE: scroll-snap ── */
-  function setupMobile() {
-    removeClones();
+  function setupMob() {
+    rmClones();
     track.style.transition = 'none';
     track.style.transform  = '';
-    isDesktop = false;
-    getRealCards().forEach(function (c) { c.style.width = ''; });
-    viewport.scrollLeft = 0;
-    currentIdx = 0;
+    reals().forEach(function(c){ c.style.width = ''; });
+    vp.scrollLeft = 0;
+    curIdx = 0;
   }
 
-  function mobileStep() {
+  function mobStep() {
     var c = track.querySelector('.mtvb__card');
-    return c ? c.offsetWidth + GAP : viewport.offsetWidth;
+    return c ? c.offsetWidth + GAP : vp.offsetWidth;
   }
 
   /* ── INIT ── */
   function init() {
-    if (onDesktop()) { setupDesktop(); } else { setupMobile(); }
+    if (isDesk()) { setupDesk(); } else { setupMob(); }
   }
 
-  /* ── ARROWS ── */
-  wrap.querySelector('.mtvb__arrow--prev').addEventListener('click', function () {
-    if (onDesktop()) {
-      if (isBusy) return; isBusy = true;
-      setPos(currentIdx - 1, true);
+  /* ── ARROWS: both header-nav (mobile) + side (desktop) ── */
+  function goPrev() {
+    if (isDesk()) {
+      if (busy) return; busy = true; moveTo(curIdx - 1, true);
     } else {
-      viewport.scrollBy({ left: -mobileStep(), behavior: 'smooth' });
+      vp.scrollBy({ left: -mobStep(), behavior: 'smooth' });
     }
-  });
+  }
+  function goNext() {
+    if (isDesk()) {
+      if (busy) return; busy = true; moveTo(curIdx + 1, true);
+    } else {
+      vp.scrollBy({ left: mobStep(), behavior: 'smooth' });
+    }
+  }
 
-  wrap.querySelector('.mtvb__arrow--next').addEventListener('click', function () {
-    if (onDesktop()) {
-      if (isBusy) return; isBusy = true;
-      setPos(currentIdx + 1, true);
-    } else {
-      viewport.scrollBy({ left: mobileStep(), behavior: 'smooth' });
-    }
+  root.querySelectorAll('.mtvb__arr--prev, .mtvb__sarr--prev').forEach(function(b){
+    b.addEventListener('click', goPrev);
+  });
+  root.querySelectorAll('.mtvb__arr--next, .mtvb__sarr--next').forEach(function(b){
+    b.addEventListener('click', goNext);
   });
 
   /* ── RESIZE ── */
-  var resizeT;
-  window.addEventListener('resize', function () {
-    clearTimeout(resizeT);
-    resizeT = setTimeout(init, 200);
+  var rT;
+  window.addEventListener('resize', function(){ clearTimeout(rT); rT = setTimeout(init, 200); });
+
+  /* ── VIMEO THUMBNAIL FETCH ── */
+  root.querySelectorAll('.mtvb__thumb--empty[data-fetch-vimeo]').forEach(function(el){
+    var url = el.getAttribute('data-fetch-vimeo');
+    if (!url) return;
+    fetch('https://vimeo.com/api/oembed.json?url=' + encodeURIComponent(url))
+      .then(function(r){ return r.json(); })
+      .then(function(d){
+        if (!d.thumbnail_url) return;
+        var img = document.createElement('img');
+        img.className = 'mtvb__thumb';
+        img.src = d.thumbnail_url;
+        img.alt = '';
+        img.loading = 'lazy';
+        el.parentNode.insertBefore(img, el);
+        el.remove();
+      })
+      .catch(function(){});
   });
 
-  /* ── VIDEO EMBED BUILDERS ── */
+  /* ── VIDEO EMBED BUILDER ── */
   function ytID(u)  { var m = u.match(/(?:v=|youtu\.be\/|shorts\/)([a-zA-Z0-9_-]{11})/); return m ? m[1] : ''; }
   function viID(u)  { var m = u.match(/vimeo\.com\/(\d+)/);  return m ? m[1] : ''; }
   function ttID(u)  { var m = u.match(/video\/(\d+)/);       return m ? m[1] : ''; }
 
+  var attrs = 'frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="width:100%;height:100%;"';
+
   function buildEmbed(url, type) {
-    var id;
-    var attrs = 'frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="width:100%;height:100%;"';
     if (type === 'youtube') {
-      id = ytID(url);
-      return '<iframe src="https://www.youtube.com/embed/' + id + '?autoplay=1&rel=0" ' + attrs + '></iframe>';
+      return '<iframe src="https://www.youtube.com/embed/' + ytID(url) + '?autoplay=1&rel=0" ' + attrs + '></iframe>';
     }
     if (type === 'vimeo') {
-      id = viID(url);
-      return '<iframe src="https://player.vimeo.com/video/' + id + '?autoplay=1&dnt=1" ' + attrs + '></iframe>';
+      return '<iframe src="https://player.vimeo.com/video/' + viID(url) + '?autoplay=1&dnt=1" ' + attrs + '></iframe>';
     }
     if (type === 'tiktok') {
-      id = ttID(url);
-      return '<iframe src="https://www.tiktok.com/embed/v2/' + id + '" ' + attrs + '></iframe>';
+      return '<iframe src="https://www.tiktok.com/embed/v2/' + ttID(url) + '" ' + attrs + '></iframe>';
     }
     return '<video src="' + url + '" autoplay controls playsinline style="width:100%;height:100%;background:#000;"></video>';
   }
 
-  /* ── MODAL ── */
-  function openModal(url, type) {
+  /* ── PLAY BUTTON: open in-card ── */
+  root.addEventListener('click', function(e) {
+    var btn = e.target.closest('.mtvb__play');
+    if (!btn) return;
+    var card = btn.closest('.mtvb__card');
+    if (!card) return;
+
+    var url  = card.getAttribute('data-video-url');
+    var type = card.getAttribute('data-video-type');
     if (!url) return;
-    modalVid.innerHTML = buildEmbed(url, type);
-    modal.style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-  }
 
-  function closeModal() {
-    modal.style.display = 'none';
-    modalVid.innerHTML  = '';
-    document.body.style.overflow = '';
-  }
+    var poster = card.querySelector('.mtvb__poster');
+    var player = card.querySelector('.mtvb__player');
 
-  if (modalClose) modalClose.addEventListener('click', closeModal);
-  if (modalBg)    modalBg.addEventListener('click', closeModal);
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeModal(); });
-
-  /* ── CARD CLICKS — delegation covers real cards + clones ── */
-  section.addEventListener('click', function (e) {
-    var card = e.target.closest('.mtvb__card');
-    if (!card) return;
-    openModal(card.getAttribute('data-video-url'), card.getAttribute('data-video-type'));
-  });
-  section.addEventListener('keydown', function (e) {
-    if (e.key !== 'Enter' && e.key !== ' ') return;
-    var card = e.target.closest('.mtvb__card');
-    if (!card) return;
-    e.preventDefault();
-    openModal(card.getAttribute('data-video-url'), card.getAttribute('data-video-type'));
+    player.innerHTML = buildEmbed(url, type);
+    player.style.display = 'block';
+    if (poster) poster.style.display = 'none';
   });
 
-  /* ── SHOPIFY DESIGN MODE ── */
-  document.addEventListener('shopify:section:load', function (e) {
+  /* ── DESIGN MODE ── */
+  document.addEventListener('shopify:section:load', function(e){
     if (e.target.querySelector('#mtvb-' + SID)) { init(); }
   });
 
@@ -628,7 +627,7 @@
         { "value": "center", "label": "Midden" },
         { "value": "right",  "label": "Rechts" }
       ],
-      "default": "center"
+      "default": "left"
     },
     {
       "type": "range",
@@ -638,7 +637,7 @@
       "step": 8,
       "unit": "px",
       "label": "Afstand onder titel",
-      "default": 40
+      "default": 24
     },
     {
       "type": "header",
@@ -697,19 +696,14 @@
       "name": "Video",
       "settings": [
         {
-          "type": "image_picker",
-          "id": "thumbnail",
-          "label": "Thumbnail afbeelding"
+          "type": "text",
+          "id": "video_url",
+          "label": "Video URL (YouTube, Vimeo, TikTok of directe MP4)"
         },
         {
           "type": "text",
           "id": "caption",
           "label": "Caption tekst"
-        },
-        {
-          "type": "text",
-          "id": "video_url",
-          "label": "Video URL (YouTube, Vimeo, TikTok of directe MP4)"
         }
       ]
     }
