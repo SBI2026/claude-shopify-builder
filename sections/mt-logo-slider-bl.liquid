@@ -1,0 +1,459 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+{%- style -%}
+  @keyframes mt-logo-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  #mt-ls-{{ section.id }} {
+    box-sizing: border-box;
+    background: {{ section.settings.section_bg }};
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    {%- if section.settings.show_border_top -%}
+    border-top: 1px solid {{ section.settings.border_top_color }};
+    {%- endif -%}
+    {%- if section.settings.show_border_bottom -%}
+    border-bottom: 1px solid {{ section.settings.border_bottom_color }};
+    {%- endif -%}
+  }
+
+  #mt-ls-{{ section.id }} *,
+  #mt-ls-{{ section.id }} *::before,
+  #mt-ls-{{ section.id }} *::after {
+    box-sizing: inherit;
+  }
+
+  /* ── TITLE ── */
+  #mt-ls-{{ section.id }} .mtls__title {
+    font-family: 'Poppins', sans-serif;
+    font-size: {{ section.settings.title_size }}px;
+    font-weight: {{ section.settings.title_font_weight }};
+    color: {{ section.settings.title_color }};
+    text-align: {{ section.settings.title_align }};
+    letter-spacing: {{ section.settings.title_letter_spacing | times: 0.01 }}em;
+    margin: 0 0 {{ section.settings.title_margin_bottom }}px;
+    padding: 0 {{ section.settings.logo_gap }}px;
+    line-height: 1.4;
+    {%- if section.settings.title_uppercase -%}
+    text-transform: uppercase;
+    {%- endif -%}
+  }
+
+  /* ── SLIDER VIEWPORT ── */
+  #mt-ls-{{ section.id }} .mtls__viewport {
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+  }
+
+  /* ── TRACK ── */
+  #mt-ls-{{ section.id }} .mtls__track {
+    display: flex;
+    align-items: center;
+    width: max-content;
+    animation: mt-logo-scroll {{ section.settings.scroll_speed }}s linear infinite;
+    will-change: transform;
+    backface-visibility: hidden;
+  }
+
+  #mt-ls-{{ section.id }} .mtls__track--static {
+    width: 100% !important;
+    animation: none !important;
+    justify-content: space-around;
+  }
+
+  {%- if section.settings.pause_on_hover -%}
+  #mt-ls-{{ section.id }} .mtls__viewport:hover .mtls__track:not(.mtls__track--static) {
+    animation-play-state: paused;
+  }
+  {%- endif -%}
+
+  /* ── LOGO ITEM ── */
+  #mt-ls-{{ section.id }} .mtls__item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 {{ section.settings.logo_gap }}px;
+    flex-shrink: 0;
+  }
+
+  #mt-ls-{{ section.id }} .mtls__link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+  }
+
+  /* ── LOGO IMAGE ── */
+  #mt-ls-{{ section.id }} .mtls__logo {
+    height: var(--item-h, {{ section.settings.logo_height }}px);
+    width: auto;
+    max-width: 160px;
+    object-fit: contain;
+    display: block;
+    filter: {{ section.settings.logo_filter }};
+    transition: filter 0.2s ease;
+  }
+
+  #mt-ls-{{ section.id }} .mtls__item:hover .mtls__logo {
+    filter: none;
+  }
+
+  #mt-ls-{{ section.id }} .mtls__logo--empty {
+    width: 100px;
+    background: #e8e8e8;
+    border-radius: 4px;
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 767px) {
+    #mt-ls-{{ section.id }} .mtls__item {
+      padding: 0 24px;
+    }
+
+    #mt-ls-{{ section.id }} .mtls__logo {
+      height: calc(var(--item-h, {{ section.settings.logo_height }}px) * 0.7);
+    }
+  }
+{%- endstyle -%}
+
+<div id="mt-ls-{{ section.id }}" class="mt-ls">
+  {%- if section.settings.show_title and section.settings.title != blank -%}
+    <p class="mtls__title">{{ section.settings.title | escape }}</p>
+  {%- endif -%}
+
+  {%- if section.blocks.size > 0 -%}
+    <div class="mtls__viewport" id="mtls-vp-{{ section.id }}">
+      <div class="mtls__track" id="mtls-tr-{{ section.id }}">
+
+        {%- comment -%}First pass — real items{%- endcomment -%}
+        {%- for block in section.blocks -%}
+          {%- assign bh = block.settings.logo_height_override -%}
+          {%- if bh == 0 -%}{%- assign bh = section.settings.logo_height -%}{%- endif -%}
+          <div class="mtls__item" style="--item-h: {{ bh }}px;" {{ block.shopify_attributes }}>
+            {%- if block.settings.url != blank -%}
+              <a href="{{ block.settings.url }}" class="mtls__link">
+            {%- endif -%}
+            {%- if block.settings.logo_image != blank -%}
+              {{
+                block.settings.logo_image
+                | image_url: width: 400
+                | image_tag:
+                  class: 'mtls__logo',
+                  loading: 'lazy',
+                  widths: '200, 400',
+                  alt: block.settings.logo_image.alt | escape
+              }}
+            {%- else -%}
+              <div class="mtls__logo mtls__logo--empty"></div>
+            {%- endif -%}
+            {%- if block.settings.url != blank -%}
+              </a>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+
+        {%- comment -%}Second pass — clones for seamless infinite loop{%- endcomment -%}
+        {%- for block in section.blocks -%}
+          {%- assign bh = block.settings.logo_height_override -%}
+          {%- if bh == 0 -%}{%- assign bh = section.settings.logo_height -%}{%- endif -%}
+          <div class="mtls__item mtls__item--clone" style="--item-h: {{ bh }}px;" aria-hidden="true">
+            {%- if block.settings.url != blank -%}
+              <a href="{{ block.settings.url }}" class="mtls__link" tabindex="-1">
+            {%- endif -%}
+            {%- if block.settings.logo_image != blank -%}
+              {{
+                block.settings.logo_image
+                | image_url: width: 400
+                | image_tag:
+                  class: 'mtls__logo',
+                  loading: 'lazy',
+                  widths: '200, 400',
+                  alt: ''
+              }}
+            {%- else -%}
+              <div class="mtls__logo mtls__logo--empty"></div>
+            {%- endif -%}
+            {%- if block.settings.url != blank -%}
+              </a>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+
+      </div>
+    </div>
+  {%- endif -%}
+</div>
+
+<script>
+(function () {
+  var vp    = document.getElementById('mtls-vp-{{ section.id }}');
+  var track = document.getElementById('mtls-tr-{{ section.id }}');
+  if (!vp || !track) return;
+
+  function check() {
+    var clones = track.querySelectorAll('.mtls__item--clone');
+    /* Half the track = one full set of logos */
+    var oneSetW = track.scrollWidth / 2;
+    if (oneSetW <= vp.offsetWidth) {
+      /* All logos fit — freeze animation, hide clones, spread out */
+      track.classList.add('mtls__track--static');
+      clones.forEach(function (c) { c.style.display = 'none'; });
+    } else {
+      track.classList.remove('mtls__track--static');
+      clones.forEach(function (c) { c.style.display = ''; });
+    }
+  }
+
+  check();
+
+  var rT;
+  window.addEventListener('resize', function () {
+    clearTimeout(rT); rT = setTimeout(check, 150);
+  });
+
+  document.addEventListener('shopify:section:load', function (e) {
+    if (e.target.querySelector('#mt-ls-{{ section.id }}')) { check(); }
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "MT-LOGO-SLIDER-BL",
+  "max_blocks": 20,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Sectie"
+    },
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Achtergrond kleur",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 80,
+      "step": 8,
+      "unit": "px",
+      "label": "Padding boven",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 80,
+      "step": 8,
+      "unit": "px",
+      "label": "Padding onder",
+      "default": 32
+    },
+    {
+      "type": "checkbox",
+      "id": "show_border_top",
+      "label": "Lijn bovenaan tonen",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "border_top_color",
+      "label": "Kleur lijn boven",
+      "default": "#e8e8e4"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_border_bottom",
+      "label": "Lijn onderaan tonen",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "border_bottom_color",
+      "label": "Kleur lijn onder",
+      "default": "#e8e8e4"
+    },
+    {
+      "type": "header",
+      "content": "Titel"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "Titel tonen",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Titel tekst",
+      "default": "Verkrijgbaar bij"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Titel grootte",
+      "default": 13
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Titel kleur",
+      "default": "#888884"
+    },
+    {
+      "type": "select",
+      "id": "title_align",
+      "label": "Titel uitlijning",
+      "options": [
+        { "value": "left",   "label": "Links" },
+        { "value": "center", "label": "Midden" },
+        { "value": "right",  "label": "Rechts" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "title_margin_bottom",
+      "min": 8,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "label": "Afstand titel tot logo's",
+      "default": 20
+    },
+    {
+      "type": "select",
+      "id": "title_font_weight",
+      "label": "Titel dikte",
+      "options": [
+        { "value": "300", "label": "Light 300" },
+        { "value": "400", "label": "Regular 400" },
+        { "value": "500", "label": "Medium 500" },
+        { "value": "600", "label": "Semi-Bold 600" },
+        { "value": "700", "label": "Bold 700" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "checkbox",
+      "id": "title_uppercase",
+      "label": "Hoofdletters",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "title_letter_spacing",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "label": "Letterafstand (x0.01em)",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Logo slider"
+    },
+    {
+      "type": "range",
+      "id": "logo_height",
+      "min": 20,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Logo hoogte",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "logo_gap",
+      "min": 16,
+      "max": 80,
+      "step": 8,
+      "unit": "px",
+      "label": "Ruimte tussen logo's",
+      "default": 40
+    },
+    {
+      "type": "select",
+      "id": "logo_filter",
+      "label": "Logo kleurstijl",
+      "options": [
+        { "value": "none",                               "label": "Originele kleur" },
+        { "value": "grayscale(100%)",                    "label": "Zwart-wit" },
+        { "value": "grayscale(100%) opacity(0.5)",       "label": "Zwart-wit, half transparant" },
+        { "value": "grayscale(100%) opacity(0.3)",       "label": "Zwart-wit, licht transparant" }
+      ],
+      "default": "grayscale(100%)"
+    },
+    {
+      "type": "range",
+      "id": "scroll_speed",
+      "min": 5,
+      "max": 60,
+      "step": 5,
+      "unit": "s",
+      "label": "Scroll snelheid (seconden per ronde)",
+      "default": 20
+    },
+    {
+      "type": "checkbox",
+      "id": "pause_on_hover",
+      "label": "Pauzeer bij hover",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "Logo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "logo_image",
+          "label": "Logo afbeelding"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link (optioneel)"
+        },
+        {
+          "type": "range",
+          "id": "logo_height_override",
+          "min": 0,
+          "max": 80,
+          "step": 4,
+          "unit": "px",
+          "label": "Eigen hoogte (0 = sectie standaard)",
+          "default": 0
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "MT-LOGO-SLIDER-BL",
+      "blocks": [
+        { "type": "logo" },
+        { "type": "logo" },
+        { "type": "logo" },
+        { "type": "logo" },
+        { "type": "logo" }
+      ]
+    }
+  ]
+}
+{% endschema %}
