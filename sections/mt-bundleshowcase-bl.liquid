@@ -1,0 +1,1301 @@
+{% assign ai_gen_id = section.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-bundle-showcase-{{ ai_gen_id }} {
+    display: block;
+    background-color: {{ section.settings.background_color }};
+    padding: {{ section.settings.padding_mobile }}px {{ section.settings.padding_mobile | times: 0.5 }}px;
+    width: {{ section.settings.desktop_width_percent }}%;
+    max-width: 100%;
+  }
+
+  @media screen and (min-width: 750px) {
+    .ai-bundle-showcase-{{ ai_gen_id }} {
+      padding: {{ section.settings.padding_desktop }}px {{ section.settings.padding_desktop | times: 0.7 }}px;
+    }
+  }
+
+  .ai-bundle-showcase-container-{{ ai_gen_id }} {
+    max-width: {{ section.settings.max_width }}px;
+    margin: 0 auto;
+  }
+
+  .ai-bundle-showcase-header-{{ ai_gen_id }} {
+    text-align: center;
+    margin-bottom: {{ section.settings.header_margin_bottom }}px;
+  }
+
+  .ai-bundle-showcase-eyebrow-{{ ai_gen_id }} {
+    font-size: {{ section.settings.eyebrow_font_size }}px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: {{ section.settings.eyebrow_color }};
+    margin-bottom: {{ section.settings.eyebrow_margin_bottom }}px;
+  }
+
+  .ai-bundle-showcase-heading-{{ ai_gen_id }} {
+    font-size: {{ section.settings.heading_font_size_mobile }}px;
+    font-weight: 300;
+    color: {{ section.settings.heading_color }};
+    line-height: 1.2;
+    margin: 0 0 {{ section.settings.heading_margin_bottom }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .ai-bundle-showcase-heading-{{ ai_gen_id }} {
+      font-size: {{ section.settings.heading_font_size_desktop }}px;
+    }
+  }
+
+  .ai-bundle-showcase-subheading-{{ ai_gen_id }} {
+    font-size: {{ section.settings.subheading_font_size }}px;
+    color: {{ section.settings.subheading_color }};
+    margin: 0;
+  }
+
+  .ai-bundle-showcase-hero-card-{{ ai_gen_id }} {
+    background-color: {{ section.settings.hero_card_bg }};
+    border-radius: {{ section.settings.hero_card_radius }}px;
+    padding: {{ section.settings.hero_card_padding_mobile }}px {{ section.settings.hero_card_padding_mobile | times: 0.8 }}px;
+    margin-bottom: {{ section.settings.hero_card_margin_bottom }}px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .ai-bundle-showcase-hero-card-{{ ai_gen_id }} {
+      flex-direction: row;
+      align-items: center;
+      padding: {{ section.settings.hero_card_padding_desktop }}px {{ section.settings.hero_card_padding_desktop | times: 1.1 }}px;
+      gap: 40px;
+    }
+  }
+
+  .ai-bundle-showcase-hero-images-{{ ai_gen_id }} {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    align-items: flex-end;
+    flex: 1;
+  }
+
+  .ai-bundle-showcase-hero-image-{{ ai_gen_id }} {
+    flex: 1;
+    max-width: 120px;
+  }
+
+  .ai-bundle-showcase-hero-image-{{ ai_gen_id }}:nth-child(2),
+  .ai-bundle-showcase-hero-image-{{ ai_gen_id }}:nth-child(4) {
+    transform: translateY(-12px);
+  }
+
+  .ai-bundle-showcase-hero-image-{{ ai_gen_id }} img {
+    width: 100%;
+    height: auto;
+    border-radius: {{ section.settings.product_image_radius }}px;
+    display: block;
+  }
+
+  .ai-bundle-showcase-hero-image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    aspect-ratio: 1;
+    background-color: #f4f4f4;
+    border-radius: {{ section.settings.product_image_radius }}px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-bundle-showcase-hero-image-placeholder-{{ ai_gen_id }} svg {
+    width: 60%;
+    height: 60%;
+    opacity: 0.3;
+  }
+
+  .ai-bundle-showcase-hero-info-{{ ai_gen_id }} {
+    flex: 1;
+  }
+
+  .ai-bundle-showcase-badge-{{ ai_gen_id }} {
+    display: inline-block;
+    background-color: {{ section.settings.badge_bg }};
+    color: {{ section.settings.badge_color }};
+    border-radius: 999px;
+    font-size: {{ section.settings.badge_font_size }}px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: {{ section.settings.badge_padding_v }}px {{ section.settings.badge_padding_h }}px;
+    margin-bottom: {{ section.settings.badge_margin_bottom }}px;
+  }
+
+  .ai-bundle-showcase-product-name-{{ ai_gen_id }} {
+    font-size: {{ section.settings.product_name_font_size }}px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: {{ section.settings.product_name_color }};
+    margin: 0 0 8px;
+  }
+
+  .ai-bundle-showcase-includes-{{ ai_gen_id }} {
+    font-size: {{ section.settings.includes_font_size }}px;
+    color: {{ section.settings.includes_color }};
+    line-height: 1.6;
+    margin: 0 0 {{ section.settings.includes_margin_bottom }}px;
+  }
+
+  .ai-bundle-showcase-price-row-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: {{ section.settings.price_margin_bottom }}px;
+  }
+
+  .ai-bundle-showcase-current-price-{{ ai_gen_id }} {
+    font-size: {{ section.settings.current_price_font_size }}px;
+    font-weight: 500;
+    color: {{ section.settings.current_price_color }};
+  }
+
+  .ai-bundle-showcase-original-price-{{ ai_gen_id }} {
+    font-size: {{ section.settings.original_price_font_size }}px;
+    color: {{ section.settings.original_price_color }};
+    text-decoration: line-through;
+  }
+
+  .ai-bundle-showcase-saving-badge-{{ ai_gen_id }} {
+    background-color: {{ section.settings.saving_badge_bg }};
+    color: {{ section.settings.saving_badge_color }};
+    border: 0.5px solid {{ section.settings.saving_badge_border }};
+    border-radius: 999px;
+    font-size: {{ section.settings.saving_badge_font_size }}px;
+    font-weight: 600;
+    padding: {{ section.settings.saving_badge_padding_v }}px {{ section.settings.saving_badge_padding_h }}px;
+  }
+
+  .ai-bundle-showcase-usage-calc-{{ ai_gen_id }} {
+    font-size: 11px;
+    color: {{ section.settings.includes_color }};
+    margin: -8px 0 12px;
+    font-style: italic;
+  }
+
+  .ai-bundle-showcase-button-{{ ai_gen_id }} {
+    display: inline-block;
+    background-color: {{ section.settings.button_bg }};
+    color: {{ section.settings.button_color }};
+    border-radius: 999px;
+    padding: {{ section.settings.button_padding_v }}px {{ section.settings.button_padding_h }}px;
+    font-size: {{ section.settings.button_font_size }}px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    border: none;
+    cursor: pointer;
+  }
+
+  .ai-bundle-showcase-button-{{ ai_gen_id }}:hover {
+    background-color: {{ section.settings.button_hover_bg }};
+  }
+
+  .ai-bundle-showcase-grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: {{ section.settings.grid_gap }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .ai-bundle-showcase-grid-{{ ai_gen_id }} {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .ai-bundle-showcase-card-{{ ai_gen_id }} {
+    background-color: {{ section.settings.card_bg }};
+    border-radius: {{ section.settings.card_radius }}px;
+    padding: {{ section.settings.card_padding }}px {{ section.settings.card_padding | times: 0.9 }}px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ai-bundle-showcase-card-images-{{ ai_gen_id }} {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .ai-bundle-showcase-card-image-{{ ai_gen_id }} {
+    flex: 1;
+    max-width: 100px;
+  }
+
+  .ai-bundle-showcase-card-image-{{ ai_gen_id }} img {
+    width: 100%;
+    height: auto;
+    border-radius: {{ section.settings.product_image_radius }}px;
+    display: block;
+  }
+
+  .ai-bundle-showcase-card-image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    aspect-ratio: 1;
+    background-color: #f4f4f4;
+    border-radius: {{ section.settings.product_image_radius }}px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-bundle-showcase-card-image-placeholder-{{ ai_gen_id }} svg {
+    width: 60%;
+    height: 60%;
+    opacity: 0.3;
+  }
+
+  .ai-bundle-showcase-button-outline-{{ ai_gen_id }} {
+    display: inline-block;
+    background-color: transparent;
+    color: {{ section.settings.button_outline_color }};
+    border: {{ section.settings.button_outline_thickness }}px solid {{ section.settings.button_outline_border }};
+    border-radius: 999px;
+    padding: {{ section.settings.button_padding_v }}px {{ section.settings.button_padding_h }}px;
+    font-size: {{ section.settings.button_font_size }}px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  .ai-bundle-showcase-button-outline-{{ ai_gen_id }}:hover {
+    background-color: {{ section.settings.button_outline_hover_bg }};
+    color: {{ section.settings.button_outline_hover_color }};
+  }
+{% endstyle %}
+
+<mt-bundleshowcase-{{ ai_gen_id }} class="ai-bundle-showcase-{{ ai_gen_id }}" {{ section.shopify_attributes }}>
+  <div class="ai-bundle-showcase-container-{{ ai_gen_id }}">
+    <div class="ai-bundle-showcase-header-{{ ai_gen_id }}">
+      {% if section.settings.eyebrow_text != blank %}
+        <div class="ai-bundle-showcase-eyebrow-{{ ai_gen_id }}">{{ section.settings.eyebrow_text }}</div>
+      {% endif %}
+      {% if section.settings.heading_text != blank %}
+        <h2 class="ai-bundle-showcase-heading-{{ ai_gen_id }}">{{ section.settings.heading_text }}</h2>
+      {% endif %}
+      {% if section.settings.subheading_text != blank %}
+        <p class="ai-bundle-showcase-subheading-{{ ai_gen_id }}">{{ section.settings.subheading_text }}</p>
+      {% endif %}
+    </div>
+
+    <div class="ai-bundle-showcase-hero-card-{{ ai_gen_id }}">
+      <div class="ai-bundle-showcase-hero-images-{{ ai_gen_id }}">
+        {% for i in (1..4) %}
+          {% assign image_key = 'hero_product_image_' | append: i %}
+          {% assign product_image = section.settings[image_key] %}
+          <div class="ai-bundle-showcase-hero-image-{{ ai_gen_id }}">
+            {% if product_image %}
+              <img
+                src="{{ product_image | image_url: width: 300 }}"
+                alt="{{ product_image.alt | escape }}"
+                loading="lazy"
+                width="300"
+                height="300"
+              >
+            {% else %}
+              <div class="ai-bundle-showcase-hero-image-placeholder-{{ ai_gen_id }}">
+                {{ 'product-1' | placeholder_svg_tag }}
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="ai-bundle-showcase-hero-info-{{ ai_gen_id }}">
+        {% if section.settings.hero_badge_text != blank %}
+          <span class="ai-bundle-showcase-badge-{{ ai_gen_id }}">{{ section.settings.hero_badge_text }}</span>
+        {% endif %}
+        {% if section.settings.hero_product_name != blank %}
+          <h3 class="ai-bundle-showcase-product-name-{{ ai_gen_id }}">{{ section.settings.hero_product_name }}</h3>
+        {% endif %}
+        {% if section.settings.hero_includes_text != blank %}
+          <p class="ai-bundle-showcase-includes-{{ ai_gen_id }}">{{ section.settings.hero_includes_text }}</p>
+        {% endif %}
+        <div class="ai-bundle-showcase-price-row-{{ ai_gen_id }}">
+          {% if section.settings.hero_current_price != blank %}
+            <span class="ai-bundle-showcase-current-price-{{ ai_gen_id }}">{{ section.settings.hero_current_price }}</span>
+          {% endif %}
+          {% if section.settings.hero_original_price != blank %}
+            <span class="ai-bundle-showcase-original-price-{{ ai_gen_id }}">{{ section.settings.hero_original_price }}</span>
+          {% endif %}
+          {% if section.settings.hero_saving_text != blank %}
+            <span class="ai-bundle-showcase-saving-badge-{{ ai_gen_id }}">{{ section.settings.hero_saving_text }}</span>
+          {% endif %}
+        </div>
+        {% if section.settings.hero_show_usage_calc %}
+          {% assign hero_usage_total = section.settings.hero_usage_price | times: 100 | round %}
+          {% assign hero_usage_per_day = hero_usage_total | divided_by: section.settings.hero_usage_days %}
+          {% assign hero_usage_euros = hero_usage_per_day | divided_by: 100 %}
+          {% assign hero_usage_cents = hero_usage_per_day | modulo: 100 %}
+          <p class="ai-bundle-showcase-usage-calc-{{ ai_gen_id }}">
+            {{ section.settings.hero_usage_days }} dagen gebruiksduur — €{{ hero_usage_euros }},{{ hero_usage_cents | prepend: '0' | slice: -2, 2 }} per dag
+          </p>
+        {% endif %}
+        {% if section.settings.hero_button_text != blank %}
+          <a href="{{ section.settings.hero_button_link }}" class="ai-bundle-showcase-button-{{ ai_gen_id }}">
+            {{ section.settings.hero_button_text }}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="ai-bundle-showcase-grid-{{ ai_gen_id }}">
+      <div class="ai-bundle-showcase-card-{{ ai_gen_id }}">
+        <div class="ai-bundle-showcase-card-images-{{ ai_gen_id }}">
+          {% for i in (1..2) %}
+            {% assign image_key = 'bundle_2_product_image_' | append: i %}
+            {% assign product_image = section.settings[image_key] %}
+            <div class="ai-bundle-showcase-card-image-{{ ai_gen_id }}">
+              {% if product_image %}
+                <img
+                  src="{{ product_image | image_url: width: 200 }}"
+                  alt="{{ product_image.alt | escape }}"
+                  loading="lazy"
+                  width="200"
+                  height="200"
+                >
+              {% else %}
+                <div class="ai-bundle-showcase-card-image-placeholder-{{ ai_gen_id }}">
+                  {{ 'product-1' | placeholder_svg_tag }}
+                </div>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+        <div>
+          {% if section.settings.bundle_2_product_name != blank %}
+            <h3 class="ai-bundle-showcase-product-name-{{ ai_gen_id }}">{{ section.settings.bundle_2_product_name }}</h3>
+          {% endif %}
+          {% if section.settings.bundle_2_includes_text != blank %}
+            <p class="ai-bundle-showcase-includes-{{ ai_gen_id }}">{{ section.settings.bundle_2_includes_text }}</p>
+          {% endif %}
+          <div class="ai-bundle-showcase-price-row-{{ ai_gen_id }}">
+            {% if section.settings.bundle_2_current_price != blank %}
+              <span class="ai-bundle-showcase-current-price-{{ ai_gen_id }}">{{ section.settings.bundle_2_current_price }}</span>
+            {% endif %}
+            {% if section.settings.bundle_2_original_price != blank %}
+              <span class="ai-bundle-showcase-original-price-{{ ai_gen_id }}">{{ section.settings.bundle_2_original_price }}</span>
+            {% endif %}
+            {% if section.settings.bundle_2_saving_text != blank %}
+              <span class="ai-bundle-showcase-saving-badge-{{ ai_gen_id }}">{{ section.settings.bundle_2_saving_text }}</span>
+            {% endif %}
+          </div>
+          {% if section.settings.bundle_2_show_usage_calc %}
+            {% assign b2_usage_total = section.settings.bundle_2_usage_price | times: 100 | round %}
+            {% assign b2_usage_per_day = b2_usage_total | divided_by: section.settings.bundle_2_usage_days %}
+            {% assign b2_usage_euros = b2_usage_per_day | divided_by: 100 %}
+            {% assign b2_usage_cents = b2_usage_per_day | modulo: 100 %}
+            <p class="ai-bundle-showcase-usage-calc-{{ ai_gen_id }}">
+              {{ section.settings.bundle_2_usage_days }} dagen gebruiksduur — €{{ b2_usage_euros }},{{ b2_usage_cents | prepend: '0' | slice: -2, 2 }} per dag
+            </p>
+          {% endif %}
+          {% if section.settings.bundle_2_button_text != blank %}
+            <a href="{{ section.settings.bundle_2_button_link }}" class="ai-bundle-showcase-button-outline-{{ ai_gen_id }}">
+              {{ section.settings.bundle_2_button_text }}
+            </a>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="ai-bundle-showcase-card-{{ ai_gen_id }}">
+        <div class="ai-bundle-showcase-card-images-{{ ai_gen_id }}">
+          {% for i in (1..2) %}
+            {% assign image_key = 'bundle_3_product_image_' | append: i %}
+            {% assign product_image = section.settings[image_key] %}
+            <div class="ai-bundle-showcase-card-image-{{ ai_gen_id }}">
+              {% if product_image %}
+                <img
+                  src="{{ product_image | image_url: width: 200 }}"
+                  alt="{{ product_image.alt | escape }}"
+                  loading="lazy"
+                  width="200"
+                  height="200"
+                >
+              {% else %}
+                <div class="ai-bundle-showcase-card-image-placeholder-{{ ai_gen_id }}">
+                  {{ 'product-1' | placeholder_svg_tag }}
+                </div>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+        <div>
+          {% if section.settings.bundle_3_product_name != blank %}
+            <h3 class="ai-bundle-showcase-product-name-{{ ai_gen_id }}">{{ section.settings.bundle_3_product_name }}</h3>
+          {% endif %}
+          {% if section.settings.bundle_3_includes_text != blank %}
+            <p class="ai-bundle-showcase-includes-{{ ai_gen_id }}">{{ section.settings.bundle_3_includes_text }}</p>
+          {% endif %}
+          <div class="ai-bundle-showcase-price-row-{{ ai_gen_id }}">
+            {% if section.settings.bundle_3_current_price != blank %}
+              <span class="ai-bundle-showcase-current-price-{{ ai_gen_id }}">{{ section.settings.bundle_3_current_price }}</span>
+            {% endif %}
+            {% if section.settings.bundle_3_original_price != blank %}
+              <span class="ai-bundle-showcase-original-price-{{ ai_gen_id }}">{{ section.settings.bundle_3_original_price }}</span>
+            {% endif %}
+            {% if section.settings.bundle_3_saving_text != blank %}
+              <span class="ai-bundle-showcase-saving-badge-{{ ai_gen_id }}">{{ section.settings.bundle_3_saving_text }}</span>
+            {% endif %}
+          </div>
+          {% if section.settings.bundle_3_show_usage_calc %}
+            {% assign b3_usage_total = section.settings.bundle_3_usage_price | times: 100 | round %}
+            {% assign b3_usage_per_day = b3_usage_total | divided_by: section.settings.bundle_3_usage_days %}
+            {% assign b3_usage_euros = b3_usage_per_day | divided_by: 100 %}
+            {% assign b3_usage_cents = b3_usage_per_day | modulo: 100 %}
+            <p class="ai-bundle-showcase-usage-calc-{{ ai_gen_id }}">
+              {{ section.settings.bundle_3_usage_days }} dagen gebruiksduur — €{{ b3_usage_euros }},{{ b3_usage_cents | prepend: '0' | slice: -2, 2 }} per dag
+            </p>
+          {% endif %}
+          {% if section.settings.bundle_3_button_text != blank %}
+            <a href="{{ section.settings.bundle_3_button_link }}" class="ai-bundle-showcase-button-outline-{{ ai_gen_id }}">
+              {{ section.settings.bundle_3_button_text }}
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</mt-bundleshowcase-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class MtBundleshowcase{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.style.display = 'block';
+      }
+    }
+
+    customElements.define('mt-bundleshowcase-{{ ai_gen_id }}', MtBundleshowcase{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "MT-BUNDLESHOWCASE-BL",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Sectie header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Eyebrow tekst",
+      "default": "Voordeel bundels"
+    },
+    {
+      "type": "text",
+      "id": "heading_text",
+      "label": "Hoofdtekst",
+      "default": "Bespaar tot 20% op de complete routine"
+    },
+    {
+      "type": "text",
+      "id": "subheading_text",
+      "label": "Subtekst",
+      "default": "Kies de set die bij jou past"
+    },
+    {
+      "type": "header",
+      "content": "Hero bundel (Signature Set)"
+    },
+    {
+      "type": "text",
+      "id": "hero_badge_text",
+      "label": "Badge tekst",
+      "default": "Meest gekozen"
+    },
+    {
+      "type": "text",
+      "id": "hero_product_name",
+      "label": "Productnaam",
+      "default": "SIGNATURE SET"
+    },
+    {
+      "type": "text",
+      "id": "hero_includes_text",
+      "label": "Bevat tekst",
+      "default": "Alle 4 stappen — Reinigen · Vernieuwen · Herstel · Bescherming"
+    },
+    {
+      "type": "text",
+      "id": "hero_current_price",
+      "label": "Huidige prijs",
+      "default": "€99,95"
+    },
+    {
+      "type": "text",
+      "id": "hero_original_price",
+      "label": "Originele prijs",
+      "default": "€124,94"
+    },
+    {
+      "type": "text",
+      "id": "hero_saving_text",
+      "label": "Korting tekst",
+      "default": "−20%"
+    },
+    {
+      "type": "text",
+      "id": "hero_button_text",
+      "label": "Button tekst",
+      "default": "Voeg toe aan winkelwagen"
+    },
+    {
+      "type": "url",
+      "id": "hero_button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_product_image_1",
+      "label": "Product afbeelding 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_product_image_2",
+      "label": "Product afbeelding 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_product_image_3",
+      "label": "Product afbeelding 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_product_image_4",
+      "label": "Product afbeelding 4"
+    },
+    {
+      "type": "header",
+      "content": "Gebruiksduur calculator — Hero"
+    },
+    {
+      "type": "checkbox",
+      "id": "hero_show_usage_calc",
+      "label": "Toon gebruiksduur calculator",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "hero_usage_days",
+      "label": "Gebruiksdagen",
+      "min": 1,
+      "max": 365,
+      "step": 1,
+      "unit": "d",
+      "default": 30
+    },
+    {
+      "type": "text",
+      "id": "hero_usage_price",
+      "label": "Prijs voor berekening (bijv. 99.95)",
+      "default": "99.95"
+    },
+    {
+      "type": "header",
+      "content": "Bundel 2 (Essential Set)"
+    },
+    {
+      "type": "text",
+      "id": "bundle_2_product_name",
+      "label": "Productnaam",
+      "default": "ESSENTIAL SET"
+    },
+    {
+      "type": "text",
+      "id": "bundle_2_includes_text",
+      "label": "Bevat tekst",
+      "default": "Stap 1 + Stap 4 — Reinigen & Beschermen"
+    },
+    {
+      "type": "text",
+      "id": "bundle_2_current_price",
+      "label": "Huidige prijs",
+      "default": "€53,45"
+    },
+    {
+      "type": "text",
+      "id": "bundle_2_original_price",
+      "label": "Originele prijs",
+      "default": "€61,45"
+    },
+    {
+      "type": "text",
+      "id": "bundle_2_saving_text",
+      "label": "Korting tekst",
+      "default": "−13%"
+    },
+    {
+      "type": "text",
+      "id": "bundle_2_button_text",
+      "label": "Button tekst",
+      "default": "Voeg toe"
+    },
+    {
+      "type": "url",
+      "id": "bundle_2_button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "image_picker",
+      "id": "bundle_2_product_image_1",
+      "label": "Product afbeelding 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "bundle_2_product_image_2",
+      "label": "Product afbeelding 2"
+    },
+    {
+      "type": "header",
+      "content": "Gebruiksduur calculator — Bundel 2"
+    },
+    {
+      "type": "checkbox",
+      "id": "bundle_2_show_usage_calc",
+      "label": "Toon gebruiksduur calculator",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "bundle_2_usage_days",
+      "label": "Gebruiksdagen",
+      "min": 1,
+      "max": 365,
+      "step": 1,
+      "unit": "d",
+      "default": 30
+    },
+    {
+      "type": "text",
+      "id": "bundle_2_usage_price",
+      "label": "Prijs voor berekening (bijv. 53.45)",
+      "default": "53.45"
+    },
+    {
+      "type": "header",
+      "content": "Bundel 3 (Repair Duo)"
+    },
+    {
+      "type": "text",
+      "id": "bundle_3_product_name",
+      "label": "Productnaam",
+      "default": "REPAIR DUO"
+    },
+    {
+      "type": "text",
+      "id": "bundle_3_includes_text",
+      "label": "Bevat tekst",
+      "default": "Stap 2 + Stap 3 — Vernieuwen & Herstel"
+    },
+    {
+      "type": "text",
+      "id": "bundle_3_current_price",
+      "label": "Huidige prijs",
+      "default": "€58,95"
+    },
+    {
+      "type": "text",
+      "id": "bundle_3_original_price",
+      "label": "Originele prijs",
+      "default": "€67,95"
+    },
+    {
+      "type": "text",
+      "id": "bundle_3_saving_text",
+      "label": "Korting tekst",
+      "default": "−13%"
+    },
+    {
+      "type": "text",
+      "id": "bundle_3_button_text",
+      "label": "Button tekst",
+      "default": "Voeg toe"
+    },
+    {
+      "type": "url",
+      "id": "bundle_3_button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "image_picker",
+      "id": "bundle_3_product_image_1",
+      "label": "Product afbeelding 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "bundle_3_product_image_2",
+      "label": "Product afbeelding 2"
+    },
+    {
+      "type": "header",
+      "content": "Gebruiksduur calculator — Bundel 3"
+    },
+    {
+      "type": "checkbox",
+      "id": "bundle_3_show_usage_calc",
+      "label": "Toon gebruiksduur calculator",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "bundle_3_usage_days",
+      "label": "Gebruiksdagen",
+      "min": 1,
+      "max": 365,
+      "step": 1,
+      "unit": "d",
+      "default": 30
+    },
+    {
+      "type": "text",
+      "id": "bundle_3_usage_price",
+      "label": "Prijs voor berekening (bijv. 58.95)",
+      "default": "58.95"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop breedte",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Maximale breedte",
+      "min": 1000,
+      "max": 1600,
+      "step": 100,
+      "unit": "px",
+      "default": 1400
+    },
+    {
+      "type": "range",
+      "id": "padding_desktop",
+      "label": "Padding desktop",
+      "min": 20,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_mobile",
+      "label": "Padding mobiel",
+      "min": 20,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "label": "Grid tussenruimte",
+      "min": 8,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Kleuren"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Achtergrond",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow",
+      "default": "#ff7900"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Hoofdtekst",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Subtekst",
+      "default": "#888884"
+    },
+    {
+      "type": "color",
+      "id": "hero_card_bg",
+      "label": "Hero card achtergrond",
+      "default": "#eeeae3"
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Card achtergrond",
+      "default": "#f5f4f0"
+    },
+    {
+      "type": "color",
+      "id": "badge_bg",
+      "label": "Badge achtergrond",
+      "default": "#ff7900"
+    },
+    {
+      "type": "color",
+      "id": "badge_color",
+      "label": "Badge tekst",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "product_name_color",
+      "label": "Productnaam",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "includes_color",
+      "label": "Bevat tekst",
+      "default": "#888884"
+    },
+    {
+      "type": "color",
+      "id": "current_price_color",
+      "label": "Huidige prijs",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "original_price_color",
+      "label": "Originele prijs",
+      "default": "#c8c6be"
+    },
+    {
+      "type": "color",
+      "id": "saving_badge_bg",
+      "label": "Korting badge achtergrond",
+      "default": "#fff3e8"
+    },
+    {
+      "type": "color",
+      "id": "saving_badge_color",
+      "label": "Korting badge tekst",
+      "default": "#cc5f00"
+    },
+    {
+      "type": "color",
+      "id": "saving_badge_border",
+      "label": "Korting badge rand",
+      "default": "#ffd4a8"
+    },
+    {
+      "type": "color",
+      "id": "button_bg",
+      "label": "Button achtergrond",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Button tekst",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_bg",
+      "label": "Button hover achtergrond",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "button_outline_color",
+      "label": "Outline button tekst",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "button_outline_border",
+      "label": "Outline button rand",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "button_outline_hover_bg",
+      "label": "Outline button hover achtergrond",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "button_outline_hover_color",
+      "label": "Outline button hover tekst",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Typografie"
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_font_size",
+      "label": "Eyebrow lettergrootte",
+      "min": 8,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 11
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size_desktop",
+      "label": "Hoofdtekst desktop",
+      "min": 24,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size_mobile",
+      "label": "Hoofdtekst mobiel",
+      "min": 20,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 26
+    },
+    {
+      "type": "range",
+      "id": "subheading_font_size",
+      "label": "Subtekst lettergrootte",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "product_name_font_size",
+      "label": "Productnaam lettergrootte",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "includes_font_size",
+      "label": "Bevat tekst lettergrootte",
+      "min": 9,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 11
+    },
+    {
+      "type": "range",
+      "id": "current_price_font_size",
+      "label": "Huidige prijs lettergrootte",
+      "min": 16,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 22
+    },
+    {
+      "type": "range",
+      "id": "original_price_font_size",
+      "label": "Originele prijs lettergrootte",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "label": "Button lettergrootte",
+      "min": 9,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 11
+    },
+    {
+      "type": "range",
+      "id": "badge_font_size",
+      "label": "Badge lettergrootte",
+      "min": 7,
+      "max": 12,
+      "step": 1,
+      "unit": "px",
+      "default": 9
+    },
+    {
+      "type": "range",
+      "id": "saving_badge_font_size",
+      "label": "Korting badge lettergrootte",
+      "min": 8,
+      "max": 14,
+      "step": 1,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Afstanden"
+    },
+    {
+      "type": "range",
+      "id": "header_margin_bottom",
+      "label": "Header marge onder",
+      "min": 16,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_margin_bottom",
+      "label": "Eyebrow marge onder",
+      "min": 4,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "heading_margin_bottom",
+      "label": "Hoofdtekst marge onder",
+      "min": 4,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "hero_card_margin_bottom",
+      "label": "Hero card marge onder",
+      "min": 8,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "badge_margin_bottom",
+      "label": "Badge marge onder",
+      "min": 6,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "includes_margin_bottom",
+      "label": "Bevat tekst marge onder",
+      "min": 8,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "price_margin_bottom",
+      "label": "Prijs marge onder",
+      "min": 8,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Afronding"
+    },
+    {
+      "type": "range",
+      "id": "hero_card_radius",
+      "label": "Hero card",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Card",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "product_image_radius",
+      "label": "Product afbeelding",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "hero_card_padding_desktop",
+      "label": "Hero card desktop",
+      "min": 20,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "hero_card_padding_mobile",
+      "label": "Hero card mobiel",
+      "min": 16,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "card_padding",
+      "label": "Card",
+      "min": 16,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "badge_padding_v",
+      "label": "Badge verticaal",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "unit": "px",
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "badge_padding_h",
+      "label": "Badge horizontaal",
+      "min": 8,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "saving_badge_padding_v",
+      "label": "Korting badge verticaal",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "unit": "px",
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "saving_badge_padding_h",
+      "label": "Korting badge horizontaal",
+      "min": 6,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 9
+    },
+    {
+      "type": "range",
+      "id": "button_padding_v",
+      "label": "Button verticaal",
+      "min": 8,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "button_padding_h",
+      "label": "Button horizontaal",
+      "min": 16,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "button_outline_thickness",
+      "label": "Outline button dikte",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "unit": "px",
+      "default": 2
+    }
+  ],
+  "presets": [
+    {
+      "name": "MT-BUNDLESHOWCASE-BL"
+    }
+  ]
+}
+{% endschema %}
