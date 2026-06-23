@@ -220,7 +220,7 @@
     padding: {{ section.settings.card_padding }}px {{ section.settings.card_padding | times: 0.9 }}px;
     display: flex;
     flex-direction: row;
-    align-items: flex-start;
+    align-items: center;
     gap: 20px;
   }
 
@@ -235,7 +235,8 @@
   }
 
   .ai-bundle-showcase-card-image-{{ ai_gen_id }} {
-    width: 140px;
+    width: {{ section.settings.card_image_size }}px;
+    flex-shrink: 0;
     aspect-ratio: 1 / 1;
     overflow: hidden;
     border-radius: {{ section.settings.product_image_radius }}px;
@@ -284,6 +285,23 @@
   .ai-bundle-showcase-button-outline-{{ ai_gen_id }}:hover {
     background-color: {{ section.settings.button_outline_hover_bg }};
     color: {{ section.settings.button_outline_hover_color }};
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-bundle-showcase-hero-images-{{ ai_gen_id }} {
+      justify-content: center;
+    }
+    .ai-bundle-showcase-card-{{ ai_gen_id }} {
+      flex-direction: column;
+      align-items: center;
+    }
+    .ai-bundle-showcase-card-images-{{ ai_gen_id }} {
+      justify-content: center;
+    }
+    .ai-bundle-showcase-card-image-{{ ai_gen_id }} {
+      width: 100%;
+      max-width: {{ section.settings.card_image_size }}px;
+    }
   }
 {% endstyle %}
 
@@ -797,6 +815,16 @@
       "step": 2,
       "unit": "px",
       "default": 14
+    },
+    {
+      "type": "range",
+      "id": "card_image_size",
+      "label": "Afbeeldingsgrootte kleine blokken",
+      "min": 80,
+      "max": 280,
+      "step": 4,
+      "unit": "px",
+      "default": 140
     },
     {
       "type": "header",
