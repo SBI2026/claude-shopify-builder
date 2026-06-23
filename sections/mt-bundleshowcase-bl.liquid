@@ -219,18 +219,23 @@
     border-radius: {{ section.settings.card_radius }}px;
     padding: {{ section.settings.card_padding }}px {{ section.settings.card_padding | times: 0.9 }}px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .ai-bundle-showcase-card-{{ ai_gen_id }} > div:last-child {
+    flex: 1;
   }
 
   .ai-bundle-showcase-card-images-{{ ai_gen_id }} {
     display: flex;
     justify-content: flex-start;
-    margin-bottom: 20px;
+    flex-shrink: 0;
   }
 
   .ai-bundle-showcase-card-image-{{ ai_gen_id }} {
-    width: 100%;
-    max-width: 200px;
+    width: 140px;
     aspect-ratio: 1 / 1;
     overflow: hidden;
     border-radius: {{ section.settings.product_image_radius }}px;
