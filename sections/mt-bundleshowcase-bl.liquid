@@ -75,25 +75,23 @@
 
   .ai-bundle-showcase-hero-images-{{ ai_gen_id }} {
     display: flex;
-    gap: 12px;
-    justify-content: center;
-    align-items: flex-end;
+    justify-content: flex-start;
+    align-items: flex-start;
     flex: 1;
   }
 
   .ai-bundle-showcase-hero-image-{{ ai_gen_id }} {
-    flex: 1;
-    max-width: 120px;
-  }
-
-  .ai-bundle-showcase-hero-image-{{ ai_gen_id }}:nth-child(2),
-  .ai-bundle-showcase-hero-image-{{ ai_gen_id }}:nth-child(4) {
-    transform: translateY(-12px);
+    width: 100%;
+    max-width: 280px;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: {{ section.settings.product_image_radius }}px;
   }
 
   .ai-bundle-showcase-hero-image-{{ ai_gen_id }} img {
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
     border-radius: {{ section.settings.product_image_radius }}px;
     display: block;
   }
@@ -226,19 +224,22 @@
 
   .ai-bundle-showcase-card-images-{{ ai_gen_id }} {
     display: flex;
-    gap: 12px;
-    justify-content: center;
+    justify-content: flex-start;
     margin-bottom: 20px;
   }
 
   .ai-bundle-showcase-card-image-{{ ai_gen_id }} {
-    flex: 1;
-    max-width: 100px;
+    width: 100%;
+    max-width: 200px;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: {{ section.settings.product_image_radius }}px;
   }
 
   .ai-bundle-showcase-card-image-{{ ai_gen_id }} img {
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
     border-radius: {{ section.settings.product_image_radius }}px;
     display: block;
   }
@@ -297,25 +298,21 @@
 
     <div class="ai-bundle-showcase-hero-card-{{ ai_gen_id }}">
       <div class="ai-bundle-showcase-hero-images-{{ ai_gen_id }}">
-        {% for i in (1..4) %}
-          {% assign image_key = 'hero_product_image_' | append: i %}
-          {% assign product_image = section.settings[image_key] %}
-          <div class="ai-bundle-showcase-hero-image-{{ ai_gen_id }}">
-            {% if product_image %}
-              <img
-                src="{{ product_image | image_url: width: 300 }}"
-                alt="{{ product_image.alt | escape }}"
-                loading="lazy"
-                width="300"
-                height="300"
-              >
-            {% else %}
-              <div class="ai-bundle-showcase-hero-image-placeholder-{{ ai_gen_id }}">
-                {{ 'product-1' | placeholder_svg_tag }}
-              </div>
-            {% endif %}
-          </div>
-        {% endfor %}
+        <div class="ai-bundle-showcase-hero-image-{{ ai_gen_id }}">
+          {% if section.settings.hero_product_image_1 %}
+            <img
+              src="{{ section.settings.hero_product_image_1 | image_url: width: 600 }}"
+              alt="{{ section.settings.hero_product_image_1.alt | escape }}"
+              loading="lazy"
+              width="600"
+              height="600"
+            >
+          {% else %}
+            <div class="ai-bundle-showcase-hero-image-placeholder-{{ ai_gen_id }}">
+              {{ 'product-1' | placeholder_svg_tag }}
+            </div>
+          {% endif %}
+        </div>
       </div>
 
       <div class="ai-bundle-showcase-hero-info-{{ ai_gen_id }}">
@@ -359,25 +356,21 @@
     <div class="ai-bundle-showcase-grid-{{ ai_gen_id }}">
       <div class="ai-bundle-showcase-card-{{ ai_gen_id }}">
         <div class="ai-bundle-showcase-card-images-{{ ai_gen_id }}">
-          {% for i in (1..2) %}
-            {% assign image_key = 'bundle_2_product_image_' | append: i %}
-            {% assign product_image = section.settings[image_key] %}
-            <div class="ai-bundle-showcase-card-image-{{ ai_gen_id }}">
-              {% if product_image %}
-                <img
-                  src="{{ product_image | image_url: width: 200 }}"
-                  alt="{{ product_image.alt | escape }}"
-                  loading="lazy"
-                  width="200"
-                  height="200"
-                >
-              {% else %}
-                <div class="ai-bundle-showcase-card-image-placeholder-{{ ai_gen_id }}">
-                  {{ 'product-1' | placeholder_svg_tag }}
-                </div>
-              {% endif %}
-            </div>
-          {% endfor %}
+          <div class="ai-bundle-showcase-card-image-{{ ai_gen_id }}">
+            {% if section.settings.bundle_2_product_image_1 %}
+              <img
+                src="{{ section.settings.bundle_2_product_image_1 | image_url: width: 400 }}"
+                alt="{{ section.settings.bundle_2_product_image_1.alt | escape }}"
+                loading="lazy"
+                width="400"
+                height="400"
+              >
+            {% else %}
+              <div class="ai-bundle-showcase-card-image-placeholder-{{ ai_gen_id }}">
+                {{ 'product-1' | placeholder_svg_tag }}
+              </div>
+            {% endif %}
+          </div>
         </div>
         <div>
           {% if section.settings.bundle_2_product_name != blank %}
@@ -416,25 +409,21 @@
 
       <div class="ai-bundle-showcase-card-{{ ai_gen_id }}">
         <div class="ai-bundle-showcase-card-images-{{ ai_gen_id }}">
-          {% for i in (1..2) %}
-            {% assign image_key = 'bundle_3_product_image_' | append: i %}
-            {% assign product_image = section.settings[image_key] %}
-            <div class="ai-bundle-showcase-card-image-{{ ai_gen_id }}">
-              {% if product_image %}
-                <img
-                  src="{{ product_image | image_url: width: 200 }}"
-                  alt="{{ product_image.alt | escape }}"
-                  loading="lazy"
-                  width="200"
-                  height="200"
-                >
-              {% else %}
-                <div class="ai-bundle-showcase-card-image-placeholder-{{ ai_gen_id }}">
-                  {{ 'product-1' | placeholder_svg_tag }}
-                </div>
-              {% endif %}
-            </div>
-          {% endfor %}
+          <div class="ai-bundle-showcase-card-image-{{ ai_gen_id }}">
+            {% if section.settings.bundle_3_product_image_1 %}
+              <img
+                src="{{ section.settings.bundle_3_product_image_1 | image_url: width: 400 }}"
+                alt="{{ section.settings.bundle_3_product_image_1.alt | escape }}"
+                loading="lazy"
+                width="400"
+                height="400"
+              >
+            {% else %}
+              <div class="ai-bundle-showcase-card-image-placeholder-{{ ai_gen_id }}">
+                {{ 'product-1' | placeholder_svg_tag }}
+              </div>
+            {% endif %}
+          </div>
         </div>
         <div>
           {% if section.settings.bundle_3_product_name != blank %}
@@ -570,22 +559,7 @@
     {
       "type": "image_picker",
       "id": "hero_product_image_1",
-      "label": "Product afbeelding 1"
-    },
-    {
-      "type": "image_picker",
-      "id": "hero_product_image_2",
-      "label": "Product afbeelding 2"
-    },
-    {
-      "type": "image_picker",
-      "id": "hero_product_image_3",
-      "label": "Product afbeelding 3"
-    },
-    {
-      "type": "image_picker",
-      "id": "hero_product_image_4",
-      "label": "Product afbeelding 4"
+      "label": "Product afbeelding"
     },
     {
       "type": "header",
@@ -661,12 +635,7 @@
     {
       "type": "image_picker",
       "id": "bundle_2_product_image_1",
-      "label": "Product afbeelding 1"
-    },
-    {
-      "type": "image_picker",
-      "id": "bundle_2_product_image_2",
-      "label": "Product afbeelding 2"
+      "label": "Product afbeelding"
     },
     {
       "type": "header",
@@ -742,12 +711,7 @@
     {
       "type": "image_picker",
       "id": "bundle_3_product_image_1",
-      "label": "Product afbeelding 1"
-    },
-    {
-      "type": "image_picker",
-      "id": "bundle_3_product_image_2",
-      "label": "Product afbeelding 2"
+      "label": "Product afbeelding"
     },
     {
       "type": "header",
