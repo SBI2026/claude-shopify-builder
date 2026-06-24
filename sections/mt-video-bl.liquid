@@ -105,6 +105,8 @@
     #mtvb-{{ section.id }} .mtvb__card {
       flex: 0 0 auto;
       scroll-snap-align: none;
+      height: {{ section.settings.card_height_desktop }}px;
+      aspect-ratio: unset;
     }
   }
 
@@ -687,6 +689,16 @@
       "unit": "px",
       "label": "Ruimte tussen kaarten",
       "default": 20
+    },
+    {
+      "type": "range",
+      "id": "card_height_desktop",
+      "min": 200,
+      "max": 500,
+      "step": 20,
+      "unit": "px",
+      "label": "Kaarthoogte desktop",
+      "default": 300
     },
     {
       "type": "select",
