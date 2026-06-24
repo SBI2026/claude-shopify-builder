@@ -96,7 +96,7 @@
     position: relative;
     border-radius: {{ section.settings.card_radius }}px;
     overflow: hidden;
-    aspect-ratio: 9 / 16;
+    height: {{ section.settings.card_height_mobile }}px;
     background: #111111;
     -webkit-tap-highlight-color: transparent;
   }
@@ -105,6 +105,7 @@
     #mtvb-{{ section.id }} .mtvb__card {
       flex: 0 0 auto;
       scroll-snap-align: none;
+      height: {{ section.settings.card_height }}px;
     }
   }
 
@@ -687,6 +688,26 @@
       "unit": "px",
       "label": "Ruimte tussen kaarten",
       "default": 20
+    },
+    {
+      "type": "range",
+      "id": "card_height",
+      "min": 200,
+      "max": 560,
+      "step": 20,
+      "unit": "px",
+      "label": "Kaarthoogte desktop",
+      "default": 380
+    },
+    {
+      "type": "range",
+      "id": "card_height_mobile",
+      "min": 200,
+      "max": 560,
+      "step": 20,
+      "unit": "px",
+      "label": "Kaarthoogte mobiel",
+      "default": 360
     },
     {
       "type": "range",
