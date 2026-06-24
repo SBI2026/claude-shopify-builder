@@ -1,5 +1,9 @@
 {%- assign mfont = section.settings.font_family | default: 'Poppins' -%}
 {%- assign mfont_url = mfont | replace: ' ', '+' -%}
+{%- assign trust_r = section.settings.trust_bg | color_extract: 'red' -%}
+{%- assign trust_g = section.settings.trust_bg | color_extract: 'green' -%}
+{%- assign trust_b = section.settings.trust_bg | color_extract: 'blue' -%}
+{%- assign trust_a = section.settings.trust_bg_opacity | divided_by: 100.0 -%}
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -144,7 +148,7 @@
 
   /* ── TRUST BAR ── */
   #mthp-{{ section.id }} .mthp__trust {
-    background: {{ section.settings.trust_bg }};
+    background-color: rgba({{ trust_r }}, {{ trust_g }}, {{ trust_b }}, {{ trust_a }});
     padding: {{ section.settings.trust_padding }}px 40px;
     display: flex;
     justify-content: space-evenly;
@@ -155,17 +159,23 @@
 
   #mthp-{{ section.id }} .mthp__trust-item {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    gap: 8px;
-    text-align: center;
+    gap: 12px;
+    text-align: left;
   }
 
-  #mthp-{{ section.id }} .mthp__trust-item svg {
+  #mthp-{{ section.id }} .mthp__trust-icon {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  #mthp-{{ section.id }} .mthp__trust-icon svg {
     width: {{ section.settings.trust_icon_size }}px;
     height: {{ section.settings.trust_icon_size }}px;
     color: {{ section.settings.trust_text_color }};
-    flex-shrink: 0;
+    fill: {{ section.settings.trust_text_color }};
   }
 
   #mthp-{{ section.id }} .mthp__trust-text {
@@ -174,7 +184,7 @@
     font-weight: 400;
     color: {{ section.settings.trust_text_color }};
     line-height: 1.4;
-    max-width: 220px;
+    max-width: 200px;
   }
 
   /* ── MOBILE ── */
@@ -183,6 +193,9 @@
       flex-direction: column;
       gap: 20px;
       padding: {{ section.settings.trust_padding }}px 20px;
+    }
+    #mthp-{{ section.id }} .mthp__trust-item {
+      text-align: left;
     }
   }
 {%- endstyle -%}
@@ -239,28 +252,8 @@
     <div class="mthp__trust">
       {%- for block in section.blocks -%}
         <div class="mthp__trust-item" {{ block.shopify_attributes }}>
-          {%- case block.settings.icon -%}
-            {%- when 'truck' -%}
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-            {%- when 'return' -%}
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>
-            {%- when 'smile' -%}
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 13s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
-            {%- when 'star' -%}
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-            {%- when 'shield' -%}
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            {%- when 'check' -%}
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-            {%- when 'heart' -%}
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-            {%- when 'clock' -%}
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            {%- when 'gift' -%}
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
-            {%- else -%}
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-          {%- endcase -%}
+          {%- assign icon_file = block.settings.icon | prepend: 'icon-' | append: '.svg' -%}
+          <span class="mthp__trust-icon">{{ icon_file | inline_asset_content }}</span>
           {%- if block.settings.trust_text != blank -%}
             <span class="mthp__trust-text">{{ block.settings.trust_text | escape }}</span>
           {%- endif -%}
@@ -525,7 +518,7 @@
         { "value": "3/4",  "label": "Staand (3:4)" },
         { "value": "auto", "label": "Automatisch" }
       ],
-      "default": "4/3"
+      "default": "1/1"
     },
     {
       "type": "range",
@@ -597,6 +590,16 @@
     },
     {
       "type": "range",
+      "id": "trust_bg_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Trust balk achtergrond doorzichtigheid",
+      "default": 100
+    },
+    {
+      "type": "range",
       "id": "trust_font_size",
       "min": 11,
       "max": 18,
@@ -617,15 +620,21 @@
           "id": "icon",
           "label": "Icoon",
           "options": [
-            { "value": "truck",   "label": "Bezorging" },
-            { "value": "return",  "label": "Retour" },
-            { "value": "smile",   "label": "Smiley" },
-            { "value": "star",    "label": "Ster" },
-            { "value": "shield",  "label": "Schild" },
-            { "value": "check",   "label": "Vinkje" },
-            { "value": "heart",   "label": "Hart" },
-            { "value": "clock",   "label": "Klok" },
-            { "value": "gift",    "label": "Cadeau" }
+            { "value": "truck",         "label": "Bezorging (truck)" },
+            { "value": "return",        "label": "Retour (pijl)" },
+            { "value": "star",          "label": "Ster" },
+            { "value": "heart",         "label": "Hart" },
+            { "value": "checkmark",     "label": "Vinkje" },
+            { "value": "lock",          "label": "Slot (veilig)" },
+            { "value": "leaf",          "label": "Blad (natuurlijk)" },
+            { "value": "recycle",       "label": "Recycle" },
+            { "value": "chat-bubble",   "label": "Chat (service)" },
+            { "value": "stopwatch",     "label": "Stopwatch (snel)" },
+            { "value": "lightning-bolt","label": "Bliksem (kracht)" },
+            { "value": "discount",      "label": "Korting" },
+            { "value": "box",           "label": "Doos (pakket)" },
+            { "value": "plane",         "label": "Vliegtuig (wereld)" },
+            { "value": "fire",          "label": "Vuur (populair)" }
           ],
           "default": "truck"
         },
@@ -659,7 +668,7 @@
         {
           "type": "trust_item",
           "settings": {
-            "icon": "smile",
+            "icon": "star",
             "trust_text": "+5.000 Tevreden Klanten"
           }
         }
