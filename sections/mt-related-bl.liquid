@@ -6,192 +6,182 @@
 <link href="https://fonts.googleapis.com/css2?family={{ mfont_url }}:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
 {%- style -%}
-  /* ── CSS CUSTOM PROPERTIES: mobile first ── */
-  #MT-RPB-{{ section.id }} {
-    --cols:          {{ section.settings.mobile_columns }};
-    --gap-h:         {{ section.settings.mobile_gap_h }}px;
-    --gap-v:         {{ section.settings.mobile_gap_v }}px;
-    --pt:            {{ section.settings.mobile_padding_top }}px;
-    --pb:            {{ section.settings.mobile_padding_bottom }}px;
-    --ph:            {{ section.settings.mobile_padding_h }}px;
-    --photo-aspect:  {{ section.settings.photo_aspect_mobile }};
-    --photo-radius:  {{ section.settings.photo_radius_mobile }}px;
-    --footer-pt:     {{ section.settings.footer_padding_top_mobile }}px;
-    --name-size:     {{ section.settings.name_mobile_size }}px;
-    --name-weight:   {{ section.settings.name_mobile_weight }};
-    --price-size:    {{ section.settings.price_mobile_size }}px;
-    --title-size:    {{ section.settings.title_mobile_size }}px;
-    --title-mb:      {{ section.settings.title_mobile_margin }}px;
-
-    /* these don't have separate mobile versions — use desktop values always */
-    --name-transform:  {{ section.settings.name_desktop_transform }};
-    --name-spacing:    {{ section.settings.name_desktop_spacing | times: 0.01 }}em;
-    --name-color:      {{ section.settings.name_desktop_color }};
-    --name-mb:         {{ section.settings.name_desktop_margin }}px;
-    --price-weight:    {{ section.settings.price_desktop_weight }};
-    --price-color:     {{ section.settings.price_desktop_color }};
-    --price-sale-color: {{ section.settings.price_sale_color }};
-    --title-color:     {{ section.settings.title_desktop_color }};
-    --title-weight:    {{ section.settings.title_desktop_weight }};
-    --title-spacing:   {{ section.settings.title_desktop_letter_spacing | times: 0.01 }}em;
-    --title-transform: {{ section.settings.title_desktop_transform }};
+  /* ── Mobile-first variables ── */
+  #shopify-section-{{ section.id }} {
+    --pt:              {{ section.settings.padding_top_mobile }}px;
+    --pb:              {{ section.settings.padding_bottom_mobile }}px;
+    --ph:              {{ section.settings.padding_h_mobile }}px;
+    --title-size:      {{ section.settings.title_size_mobile }}px;
+    --title-color:     {{ section.settings.title_color }};
+    --title-weight:    {{ section.settings.title_weight }};
+    --title-spacing:   {{ section.settings.title_letter_spacing | times: 0.01 }}em;
+    --title-transform: {{ section.settings.title_transform }};
+    --title-mb:        {{ section.settings.title_margin_bottom }}px;
+    --desc-color:      {{ section.settings.desc_color }};
+    --desc-size:       {{ section.settings.desc_size }}px;
+    --desc-weight:     {{ section.settings.desc_weight }};
+    --desc-lh:         {{ section.settings.desc_line_height }};
+    --desc-max-w:      {{ section.settings.desc_max_width }}px;
+    --desc-mb:         {{ section.settings.desc_margin_bottom }}px;
+    --divider-color:   {{ section.settings.divider_color }};
+    --divider-mb:      {{ section.settings.divider_margin_bottom }}px;
+    --sub-color:       {{ section.settings.sub_label_color }};
+    --sub-size:        {{ section.settings.sub_label_size }}px;
+    --sub-weight:      {{ section.settings.sub_label_weight }};
+    --sub-spacing:     {{ section.settings.sub_label_letter_spacing | times: 0.01 }}em;
+    --sub-transform:   {{ section.settings.sub_label_transform }};
+    --sub-mb:          {{ section.settings.sub_label_margin_bottom }}px;
+    --cols:            1;
+    --gap:             {{ section.settings.grid_gap_mobile }}px;
+    --photo-aspect:    {{ section.settings.photo_aspect_mobile }};
+    --photo-radius:    {{ section.settings.photo_radius_mobile }}px;
+    --photo-bg:        {{ section.settings.photo_bg }};
+    --photo-fit:       {{ section.settings.photo_object_fit }};
+    --footer-pt:       {{ section.settings.footer_padding_top_mobile }}px;
+    --name-size:       {{ section.settings.name_size_mobile }}px;
+    --name-weight:     {{ section.settings.name_weight_desktop }};
+    --name-color:      {{ section.settings.name_color_desktop }};
+    --name-spacing:    {{ section.settings.name_spacing_desktop | times: 0.01 }}em;
+    --name-transform:  {{ section.settings.name_transform_desktop }};
+    --name-mb:         {{ section.settings.name_margin_bottom_desktop }}px;
+    --price-size:      {{ section.settings.price_size_mobile }}px;
+    --price-weight:    {{ section.settings.price_weight_desktop }};
+    --price-color:     {{ section.settings.price_color_desktop }};
+    --price-sale:      {{ section.settings.price_sale_color }};
+    --pill-fs:         {{ section.settings.pill_font_size }}px;
+    --pill-fw:         {{ section.settings.pill_font_weight }};
+    --pill-br:         {{ section.settings.pill_border_radius }}px;
+    --pill-pv:         {{ section.settings.pill_padding_v }}px;
+    --pill-ph:         {{ section.settings.pill_padding_h }}px;
   }
 
   @media screen and (min-width: 768px) {
-    #MT-RPB-{{ section.id }} {
+    #shopify-section-{{ section.id }} { --cols: 2; }
+  }
+
+  @media screen and (min-width: 1025px) {
+    #shopify-section-{{ section.id }} {
+      --pt:           {{ section.settings.padding_top_desktop }}px;
+      --pb:           {{ section.settings.padding_bottom_desktop }}px;
+      --ph:           {{ section.settings.padding_h_desktop }}px;
+      --title-size:   {{ section.settings.title_size_desktop }}px;
       --cols:         {{ section.settings.desktop_columns }};
-      --gap-h:        {{ section.settings.desktop_gap_h }}px;
-      --gap-v:        {{ section.settings.desktop_gap_v }}px;
-      --pt:           {{ section.settings.desktop_padding_top }}px;
-      --pb:           {{ section.settings.desktop_padding_bottom }}px;
-      --ph:           {{ section.settings.desktop_padding_h }}px;
+      --gap:          {{ section.settings.grid_gap_desktop }}px;
       --photo-aspect: {{ section.settings.photo_aspect_desktop }};
       --photo-radius: {{ section.settings.photo_radius_desktop }}px;
       --footer-pt:    {{ section.settings.footer_padding_top_desktop }}px;
-      --name-size:    {{ section.settings.name_desktop_size }}px;
-      --name-weight:  {{ section.settings.name_desktop_weight }};
-      --price-size:   {{ section.settings.price_desktop_size }}px;
-      --title-size:   {{ section.settings.title_desktop_size }}px;
-      --title-mb:     {{ section.settings.title_desktop_margin }}px;
+      --name-size:    {{ section.settings.name_size_desktop }}px;
+      --price-size:   {{ section.settings.price_size_desktop }}px;
     }
   }
 
-  /* ── SECTION ── */
-  #MT-RPB-{{ section.id }} {
+  /* ── Section ── */
+  #shopify-section-{{ section.id }} {
     background-color: {{ section.settings.section_bg }};
     padding: var(--pt) var(--ph) var(--pb);
     font-family: '{{ mfont }}', sans-serif;
+    box-sizing: border-box;
   }
 
-  #MT-RPB-{{ section.id }} * { box-sizing: border-box; }
+  #shopify-section-{{ section.id }} * { box-sizing: border-box; }
 
-  #MT-RPB-{{ section.id }} .mtrpb__wrap {
+  #shopify-section-{{ section.id }} .mtrl__wrap {
     max-width: {{ section.settings.desktop_max_width }}px;
     margin: 0 auto;
   }
 
-  /* ── HEADER ROW (title + arrows) ── */
-  #MT-RPB-{{ section.id }} .mtrpb__header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    margin-bottom: var(--title-mb);
-  }
-
-  /* ── SECTION TITLE ── */
-  #MT-RPB-{{ section.id }} .mtrpb__title {
+  /* ── Section header ── */
+  #shopify-section-{{ section.id }} .mtrl__hd-title {
     font-family: '{{ mfont }}', sans-serif;
     font-size: var(--title-size);
     font-weight: var(--title-weight);
     color: var(--title-color);
     letter-spacing: var(--title-spacing);
     text-transform: var(--title-transform);
-    margin: 0;
+    margin: 0 0 var(--title-mb);
     line-height: 1.2;
   }
 
-  /* ── ARROWS ── */
-  #MT-RPB-{{ section.id }} .mtrpb__nav {
-    display: flex;
-    gap: 8px;
-    flex-shrink: 0;
+  #shopify-section-{{ section.id }} .mtrl__hd-desc {
+    font-family: '{{ mfont }}', sans-serif;
+    font-size: var(--desc-size);
+    font-weight: var(--desc-weight);
+    color: var(--desc-color);
+    line-height: var(--desc-lh);
+    max-width: var(--desc-max-w);
+    margin: 0 0 var(--desc-mb);
   }
 
-  #MT-RPB-{{ section.id }} .mtrpb__arrow {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: {{ section.settings.arrow_size }}px;
-    height: {{ section.settings.arrow_size }}px;
-    border-radius: 50%;
-    background-color: {{ section.settings.arrow_bg }};
-    color: {{ section.settings.arrow_color }};
-    border: 1px solid rgba(0,0,0,0.08);
-    cursor: pointer;
-    flex-shrink: 0;
-    padding: 0;
+  #shopify-section-{{ section.id }} .mtrl__hd-divider {
+    border: none;
+    border-top: 1px solid var(--divider-color);
+    margin: 0 0 var(--divider-mb);
   }
 
-  @media screen and (min-width: 768px) {
-    #MT-RPB-{{ section.id }} .mtrpb__nav { display: none; }
+  #shopify-section-{{ section.id }} .mtrl__hd-sub {
+    font-family: '{{ mfont }}', sans-serif;
+    font-size: var(--sub-size);
+    font-weight: var(--sub-weight);
+    color: var(--sub-color);
+    letter-spacing: var(--sub-spacing);
+    text-transform: var(--sub-transform);
+    margin: 0 0 var(--sub-mb);
   }
 
-  /* ── GRID (desktop) ── */
-  #MT-RPB-{{ section.id }} .mtrpb__grid {
+  /* ── Grid ── */
+  #shopify-section-{{ section.id }} .mtrl__grid {
     display: grid;
     grid-template-columns: repeat(var(--cols), 1fr);
-    column-gap: var(--gap-h);
-    row-gap: var(--gap-v);
+    gap: var(--gap);
   }
 
-  /* ── GRID → SLIDER (mobile) ── */
-  @media screen and (max-width: 767px) {
-    #MT-RPB-{{ section.id }} .mtrpb__grid {
-      display: flex;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      padding-bottom: 4px;
-    }
-
-    #MT-RPB-{{ section.id }} .mtrpb__grid::-webkit-scrollbar { display: none; }
-  }
-
-  /* ── CARD ── */
-  #MT-RPB-{{ section.id }} .mtrpb__card {
+  /* ── Card ── */
+  #shopify-section-{{ section.id }} .mtrl__card {
     display: flex;
     flex-direction: column;
     text-decoration: none;
   }
 
-  @media screen and (max-width: 767px) {
-    #MT-RPB-{{ section.id }} .mtrpb__card {
-      flex: 0 0 calc((100% - (var(--cols) - 1) * var(--gap-h)) / var(--cols));
-      scroll-snap-align: start;
-    }
-  }
-
-  /* ── PHOTO ── */
-  #MT-RPB-{{ section.id }} .mtrpb__photo {
+  /* ── Photo ── */
+  #shopify-section-{{ section.id }} .mtrl__photo {
     position: relative;
     width: 100%;
     aspect-ratio: var(--photo-aspect);
     border-radius: var(--photo-radius);
     overflow: hidden;
-    background-color: {{ section.settings.photo_bg }};
+    background-color: var(--photo-bg);
   }
 
-  #MT-RPB-{{ section.id }} .mtrpb__photo-img {
+  #shopify-section-{{ section.id }} .mtrl__photo-img {
     display: block;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: var(--photo-fit);
   }
 
-  /* ── PILL BADGE ── */
-  #MT-RPB-{{ section.id }} .mtrpb__pill {
+  /* ── Pill ── */
+  #shopify-section-{{ section.id }} .mtrl__pill {
     position: absolute;
-    top: {{ section.settings.pill_position_top }}px;
-    left: {{ section.settings.pill_position_left }}px;
+    top: 12px;
+    left: 12px;
     z-index: 2;
     font-family: '{{ mfont }}', sans-serif;
-    font-size: {{ section.settings.pill_font_size }}px;
-    font-weight: {{ section.settings.pill_font_weight }};
-    border-radius: {{ section.settings.pill_border_radius }}px;
-    padding: {{ section.settings.pill_padding_v }}px {{ section.settings.pill_padding_h }}px;
+    font-size: var(--pill-fs);
+    font-weight: var(--pill-fw);
+    border-radius: var(--pill-br);
+    padding: var(--pill-pv) var(--pill-ph);
     line-height: 1.3;
     white-space: nowrap;
   }
 
-  /* ── FOOTER ── */
-  #MT-RPB-{{ section.id }} .mtrpb__footer {
+  /* ── Footer ── */
+  #shopify-section-{{ section.id }} .mtrl__footer {
     padding-top: var(--footer-pt);
   }
 
-  /* ── NAME LINE ── */
-  #MT-RPB-{{ section.id }} .mtrpb__name {
+  /* ── Name ── */
+  #shopify-section-{{ section.id }} .mtrl__name {
+    display: block;
     font-family: '{{ mfont }}', sans-serif;
     font-size: var(--name-size);
     font-weight: var(--name-weight);
@@ -200,18 +190,17 @@
     text-transform: var(--name-transform);
     margin: 0 0 var(--name-mb);
     line-height: 1.3;
-    display: block;
   }
 
-  /* ── PRICE ── */
-  #MT-RPB-{{ section.id }} .mtrpb__price {
+  /* ── Price ── */
+  #shopify-section-{{ section.id }} .mtrl__price {
     display: flex;
     align-items: baseline;
     gap: 6px;
     flex-wrap: wrap;
   }
 
-  #MT-RPB-{{ section.id }} .mtrpb__price-current {
+  #shopify-section-{{ section.id }} .mtrl__price-current {
     font-family: '{{ mfont }}', sans-serif;
     font-size: var(--price-size);
     font-weight: var(--price-weight);
@@ -219,11 +208,11 @@
     line-height: 1.3;
   }
 
-  #MT-RPB-{{ section.id }} .mtrpb__price-current--sale {
-    color: var(--price-sale-color);
+  #shopify-section-{{ section.id }} .mtrl__price-current--sale {
+    color: var(--price-sale);
   }
 
-  #MT-RPB-{{ section.id }} .mtrpb__price-compare {
+  #shopify-section-{{ section.id }} .mtrl__price-compare {
     font-family: '{{ mfont }}', sans-serif;
     font-size: var(--price-size);
     font-weight: var(--price-weight);
@@ -231,156 +220,98 @@
     text-decoration: line-through;
     line-height: 1.3;
   }
-
-  /* ── MOBILE: center naam + prijs ── */
-  @media screen and (max-width: 767px) {
-    #MT-RPB-{{ section.id }} .mtrpb__name {
-      text-align: center;
-    }
-
-    #MT-RPB-{{ section.id }} .mtrpb__price {
-      justify-content: center;
-    }
-  }
 {%- endstyle -%}
 
-<div id="MT-RPB-{{ section.id }}">
-  <div class="mtrpb__wrap">
+{%- assign products_list = nil -%}
+{%- if section.settings.collection_source == 'custom_collection' -%}
+  {%- unless section.settings.custom_collection == blank -%}
+    {%- assign products_list = collections[section.settings.custom_collection].products -%}
+  {%- endunless -%}
+{%- else -%}
+  {%- if collection != blank -%}
+    {%- assign products_list = collection.products -%}
+  {%- endif -%}
+{%- endif -%}
 
-    <div class="mtrpb__header">
-      {%- if section.settings.show_title and section.settings.title_text != blank -%}
-        <h2 class="mtrpb__title">{{ section.settings.title_text | escape }}</h2>
-      {%- else -%}
-        <span></span>
-      {%- endif -%}
-      {%- if section.blocks.size > 0 -%}
-        <nav class="mtrpb__nav" aria-label="Slider navigatie">
-          <button class="mtrpb__arrow mtrpb__arrow--prev" aria-label="Vorige">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path d="M9 11.5L4.5 7L9 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-          <button class="mtrpb__arrow mtrpb__arrow--next" aria-label="Volgende">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path d="M5 2.5L9.5 7L5 11.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-        </nav>
-      {%- endif -%}
-    </div>
+<div class="mtrl__wrap">
 
-    {%- if section.blocks.size > 0 -%}
-      <div class="mtrpb__grid" id="mtrpb-grid-{{ section.id }}">
-        {%- for block in section.blocks -%}
-          {%- if block.type == 'product_card' -%}
-            {%- assign card_product = block.settings.product -%}
-            {%- assign card_url = '#' -%}
-            {%- if card_product != blank -%}
-              {%- assign card_url = card_product.url -%}
-            {%- endif -%}
-
-            <a href="{{ card_url }}" class="mtrpb__card" {{ block.shopify_attributes }}>
-
-              {%- comment -%} Photo {%- endcomment -%}
-              {%- assign img_loading = 'lazy' -%}
-              {%- if forloop.first -%}{%- assign img_loading = 'eager' -%}{%- endif -%}
-              <div class="mtrpb__photo">
-                {%- if card_product != blank and card_product.featured_image != blank -%}
-                  {{
-                    card_product.featured_image
-                    | image_url: width: 800
-                    | image_tag:
-                      class: 'mtrpb__photo-img',
-                      loading: img_loading,
-                      alt: card_product.title,
-                      widths: '400, 600, 800'
-                  }}
-                {%- endif -%}
-
-                {%- if block.settings.show_pill and block.settings.pill_text != blank -%}
-                  <span
-                    class="mtrpb__pill"
-                    style="background-color: {{ block.settings.pill_bg }}; color: {{ block.settings.pill_color }};"
-                  >{{ block.settings.pill_text | escape }}</span>
-                {%- endif -%}
-              </div>
-
-              {%- comment -%} Footer {%- endcomment -%}
-              <div class="mtrpb__footer">
-
-                {%- if block.settings.custom_name_line != blank -%}
-                  <span class="mtrpb__name">{{ block.settings.custom_name_line | escape }}</span>
-                {%- elsif card_product != blank -%}
-                  {%- if card_product.type != blank -%}
-                    {%- assign name_line = card_product.title | append: ' · ' | append: card_product.type -%}
-                  {%- else -%}
-                    {%- assign name_line = card_product.title -%}
-                  {%- endif -%}
-                  <span class="mtrpb__name">{{ name_line | escape }}</span>
-                {%- endif -%}
-
-                {%- if card_product != blank -%}
-                  {%- assign on_sale = false -%}
-                  {%- if card_product.compare_at_price > card_product.price -%}
-                    {%- assign on_sale = true -%}
-                  {%- endif -%}
-                  <div class="mtrpb__price">
-                    {%- if on_sale -%}
-                      <span class="mtrpb__price-compare">{{ card_product.compare_at_price | money }}</span>
-                      <span class="mtrpb__price-current mtrpb__price-current--sale">{{ card_product.price | money }}</span>
-                    {%- else -%}
-                      <span class="mtrpb__price-current">{{ card_product.price | money }}</span>
-                    {%- endif -%}
-                  </div>
-                {%- endif -%}
-
-              </div>
-
-            </a>
-          {%- endif -%}
-        {%- endfor -%}
-      </div>
+  <div class="mtrl__section-hd">
+    {%- assign hd_title = section.settings.title_text -%}
+    {%- if section.settings.collection_source == 'current_collection' and collection != blank and collection.title != blank -%}
+      {%- assign hd_title = collection.title -%}
+    {%- endif -%}
+    {%- if hd_title != blank -%}
+      <h2 class="mtrl__hd-title">{{ hd_title | escape }}</h2>
     {%- endif -%}
 
+    {%- if section.settings.show_description and section.settings.desc_text != blank -%}
+      <p class="mtrl__hd-desc">{{ section.settings.desc_text | escape }}</p>
+    {%- endif -%}
+
+    {%- if section.settings.show_divider -%}
+      <hr class="mtrl__hd-divider">
+    {%- endif -%}
+
+    {%- if section.settings.show_sub_label and section.settings.sub_label_text != blank -%}
+      <p class="mtrl__hd-sub">{{ section.settings.sub_label_text | escape }}</p>
+    {%- endif -%}
   </div>
+
+  {%- if products_list != blank -%}
+    <div class="mtrl__grid">
+      {%- for product in products_list limit: section.settings.products_to_show -%}
+        {%- assign block_data = section.blocks[forloop.index0] -%}
+        {%- assign img_loading = 'lazy' -%}
+        {%- if forloop.first -%}{%- assign img_loading = 'eager' -%}{%- endif -%}
+        {%- assign card_name = product.title -%}
+        {%- if block_data != blank and block_data.settings.custom_name != blank -%}
+          {%- assign card_name = block_data.settings.custom_name -%}
+        {%- endif -%}
+        {%- assign on_sale = false -%}
+        {%- if product.compare_at_price > product.price -%}
+          {%- assign on_sale = true -%}
+        {%- endif -%}
+        <a href="{{ product.url }}" class="mtrl__card">
+          <div class="mtrl__photo">
+            {%- if product.featured_image != blank -%}
+              {{
+                product.featured_image
+                | image_url: width: 800
+                | image_tag:
+                  class: 'mtrl__photo-img',
+                  loading: img_loading,
+                  alt: product.title,
+                  widths: '400, 600, 800'
+              }}
+            {%- endif -%}
+            {%- if block_data != blank and block_data.settings.show_pill and block_data.settings.pill_text != blank -%}
+              <span
+                class="mtrl__pill"
+                style="background-color: {{ block_data.settings.pill_bg }}; color: {{ block_data.settings.pill_text_color }};"
+              >{{ block_data.settings.pill_text | escape }}</span>
+            {%- endif -%}
+          </div>
+          <div class="mtrl__footer">
+            <span class="mtrl__name">{{ card_name | escape }}</span>
+            <div class="mtrl__price">
+              {%- if on_sale -%}
+                <span class="mtrl__price-compare">{{ product.compare_at_price | money_without_currency }}</span>
+                <span class="mtrl__price-current mtrl__price-current--sale">{{ product.price | money_without_currency }}</span>
+              {%- else -%}
+                <span class="mtrl__price-current">{{ product.price | money_without_currency }}</span>
+              {%- endif -%}
+            </div>
+          </div>
+        </a>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+
 </div>
-
-<script>
-(function () {
-  function initSlider(sectionEl) {
-    var grid = sectionEl.querySelector('.mtrpb__grid');
-    var prevBtn = sectionEl.querySelector('.mtrpb__arrow--prev');
-    var nextBtn = sectionEl.querySelector('.mtrpb__arrow--next');
-    if (!grid || !prevBtn || !nextBtn) return;
-
-    function scrollAmount() {
-      var card = grid.querySelector('.mtrpb__card');
-      return card ? card.offsetWidth : grid.offsetWidth;
-    }
-
-    prevBtn.addEventListener('click', function () {
-      grid.scrollBy({ left: -scrollAmount(), behavior: 'smooth' });
-    });
-
-    nextBtn.addEventListener('click', function () {
-      grid.scrollBy({ left: scrollAmount(), behavior: 'smooth' });
-    });
-  }
-
-  document.querySelectorAll('[id^="MT-RPB-"]').forEach(initSlider);
-
-  if (window.Shopify && window.Shopify.designMode) {
-    document.addEventListener('shopify:section:load', function (e) {
-      var el = e.target.querySelector('[id^="MT-RPB-"]');
-      if (el) initSlider(el);
-    });
-  }
-})();
-</script>
 
 {% schema %}
 {
-  "name": "MT-SHOP-PR-BL",
+  "name": "MT-RELATED-BL",
   "tag": "section",
   "class": "section",
   "disabled_on": {
@@ -399,39 +330,43 @@
     },
     {
       "type": "header",
-      "content": "Sectie titel"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_title",
-      "label": "Titel tonen",
-      "default": true
+      "content": "Sectie header"
     },
     {
       "type": "text",
       "id": "title_text",
       "label": "Titel tekst",
-      "default": "YOU MIGHT ALSO LIKE"
+      "default": "GEZICHT"
     },
     {
       "type": "color",
-      "id": "title_desktop_color",
+      "id": "title_color",
       "label": "Titel kleur",
       "default": "#111111"
     },
     {
       "type": "range",
-      "id": "title_desktop_size",
-      "min": 12,
-      "max": 48,
+      "id": "title_size_desktop",
+      "min": 16,
+      "max": 72,
       "step": 2,
       "unit": "px",
       "label": "Titel grootte desktop",
-      "default": 22
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "title_size_mobile",
+      "min": 14,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Titel grootte mobiel",
+      "default": 24
     },
     {
       "type": "select",
-      "id": "title_desktop_weight",
+      "id": "title_weight",
       "label": "Titel gewicht",
       "options": [
         { "value": "300", "label": "300 — Light" },
@@ -445,16 +380,16 @@
     },
     {
       "type": "range",
-      "id": "title_desktop_letter_spacing",
+      "id": "title_letter_spacing",
       "min": 0,
-      "max": 20,
+      "max": 30,
       "step": 1,
       "label": "Titel letter-spacing (×0.01em)",
-      "default": 8
+      "default": 10
     },
     {
       "type": "select",
-      "id": "title_desktop_transform",
+      "id": "title_transform",
       "label": "Titel tekst opmaak",
       "options": [
         { "value": "none",      "label": "Normaal" },
@@ -465,96 +400,210 @@
     },
     {
       "type": "range",
-      "id": "title_desktop_margin",
-      "min": 0,
-      "max": 80,
-      "step": 4,
+      "id": "title_margin_bottom",
+      "min": 4,
+      "max": 32,
+      "step": 2,
       "unit": "px",
-      "label": "Titel ruimte onder (desktop)",
-      "default": 24
+      "label": "Titel ruimte onder",
+      "default": 8
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Beschrijving tonen",
+      "default": true
+    },
+    {
+      "type": "textarea",
+      "id": "desc_text",
+      "label": "Beschrijving tekst",
+      "default": "Troepvrije gezichtsverzorging als de nieuwe standaard mannenverzorging."
+    },
+    {
+      "type": "color",
+      "id": "desc_color",
+      "label": "Beschrijving kleur",
+      "default": "#555550"
     },
     {
       "type": "range",
-      "id": "title_mobile_size",
+      "id": "desc_size",
       "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Beschrijving grootte",
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "desc_weight",
+      "label": "Beschrijving gewicht",
+      "options": [
+        { "value": "300", "label": "300 — Light" },
+        { "value": "400", "label": "400 — Regular" },
+        { "value": "500", "label": "500 — Medium" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "text",
+      "id": "desc_line_height",
+      "label": "Beschrijving regelafstand",
+      "default": "1.7"
+    },
+    {
+      "type": "range",
+      "id": "desc_max_width",
+      "min": 400,
+      "max": 1200,
+      "step": 40,
+      "unit": "px",
+      "label": "Beschrijving max breedte",
+      "default": 900
+    },
+    {
+      "type": "range",
+      "id": "desc_margin_bottom",
+      "min": 8,
       "max": 40,
       "step": 2,
       "unit": "px",
-      "label": "Titel grootte mobiel",
-      "default": 18
+      "label": "Beschrijving ruimte onder",
+      "default": 20
+    },
+    {
+      "type": "checkbox",
+      "id": "show_divider",
+      "label": "Scheidingslijn tonen",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "divider_color",
+      "label": "Scheidingslijn kleur",
+      "default": "#e0e0e0"
     },
     {
       "type": "range",
-      "id": "title_mobile_margin",
-      "min": 0,
+      "id": "divider_margin_bottom",
+      "min": 16,
       "max": 60,
       "step": 4,
       "unit": "px",
-      "label": "Titel ruimte onder (mobiel)",
-      "default": 16
+      "label": "Scheidingslijn ruimte onder",
+      "default": 40
     },
     {
-      "type": "header",
-      "content": "Desktop lay-out"
+      "type": "checkbox",
+      "id": "show_sub_label",
+      "label": "Sub-label tonen",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "sub_label_text",
+      "label": "Sub-label tekst",
+      "default": "LOSSE PRODUCTEN"
+    },
+    {
+      "type": "color",
+      "id": "sub_label_color",
+      "label": "Sub-label kleur",
+      "default": "#111111"
     },
     {
       "type": "range",
-      "id": "desktop_columns",
-      "min": 1,
-      "max": 6,
+      "id": "sub_label_size",
+      "min": 10,
+      "max": 24,
       "step": 1,
-      "label": "Kolommen (desktop)",
-      "default": 3
+      "unit": "px",
+      "label": "Sub-label grootte",
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "sub_label_weight",
+      "label": "Sub-label gewicht",
+      "options": [
+        { "value": "300", "label": "300 — Light" },
+        { "value": "400", "label": "400 — Regular" },
+        { "value": "500", "label": "500 — Medium" },
+        { "value": "600", "label": "600 — Semi Bold" },
+        { "value": "700", "label": "700 — Bold" },
+        { "value": "800", "label": "800 — Extra Bold" }
+      ],
+      "default": "700"
     },
     {
       "type": "range",
-      "id": "desktop_gap_h",
+      "id": "sub_label_letter_spacing",
       "min": 0,
-      "max": 60,
-      "step": 4,
+      "max": 30,
+      "step": 1,
+      "label": "Sub-label letter-spacing (×0.01em)",
+      "default": 10
+    },
+    {
+      "type": "select",
+      "id": "sub_label_transform",
+      "label": "Sub-label tekst opmaak",
+      "options": [
+        { "value": "none",      "label": "Normaal" },
+        { "value": "uppercase", "label": "HOOFDLETTERS" },
+        { "value": "lowercase", "label": "kleine letters" }
+      ],
+      "default": "uppercase"
+    },
+    {
+      "type": "range",
+      "id": "sub_label_margin_bottom",
+      "min": 8,
+      "max": 40,
+      "step": 2,
       "unit": "px",
-      "label": "Desktop horizontale ruimte (px)",
+      "label": "Sub-label ruimte onder",
       "default": 24
     },
     {
-      "type": "range",
-      "id": "desktop_gap_v",
-      "min": 0,
-      "max": 60,
-      "step": 4,
-      "unit": "px",
-      "label": "Desktop verticale ruimte (px)",
-      "default": 48
+      "type": "header",
+      "content": "Collectie"
+    },
+    {
+      "type": "select",
+      "id": "collection_source",
+      "label": "Collectie bron",
+      "options": [
+        { "value": "current_collection", "label": "Huidige collectie pagina" },
+        { "value": "custom_collection",  "label": "Aangepaste collectie" }
+      ],
+      "default": "current_collection"
+    },
+    {
+      "type": "collection",
+      "id": "custom_collection",
+      "label": "Aangepaste collectie"
     },
     {
       "type": "range",
-      "id": "desktop_padding_top",
-      "min": 0,
-      "max": 160,
-      "step": 8,
-      "unit": "px",
-      "label": "Padding boven (desktop)",
-      "default": 48
+      "id": "products_to_show",
+      "min": 2,
+      "max": 24,
+      "step": 1,
+      "label": "Aantal producten",
+      "default": 6
     },
     {
-      "type": "range",
-      "id": "desktop_padding_bottom",
-      "min": 0,
-      "max": 160,
-      "step": 8,
-      "unit": "px",
-      "label": "Padding onder (desktop)",
-      "default": 48
+      "type": "header",
+      "content": "Sectie achtergrond & padding"
     },
     {
-      "type": "range",
-      "id": "desktop_padding_h",
-      "min": 0,
-      "max": 80,
-      "step": 4,
-      "unit": "px",
-      "label": "Padding links/rechts (desktop)",
-      "default": 40
+      "type": "color",
+      "id": "section_bg",
+      "label": "Achtergrond kleur",
+      "default": "#f5f5f3"
     },
     {
       "type": "range",
@@ -567,43 +616,40 @@
       "default": 1400
     },
     {
-      "type": "header",
-      "content": "Mobiel lay-out"
-    },
-    {
       "type": "range",
-      "id": "mobile_columns",
-      "min": 1,
-      "max": 3,
-      "step": 1,
-      "label": "Kolommen (mobiel)",
-      "default": 2
-    },
-    {
-      "type": "range",
-      "id": "mobile_gap_h",
-      "min": 0,
-      "max": 40,
-      "step": 4,
-      "unit": "px",
-      "label": "Mobiel horizontale ruimte (px)",
-      "default": 12
-    },
-    {
-      "type": "range",
-      "id": "mobile_gap_v",
-      "min": 0,
-      "max": 40,
-      "step": 4,
-      "unit": "px",
-      "label": "Mobiel verticale ruimte (px)",
-      "default": 24
-    },
-    {
-      "type": "range",
-      "id": "mobile_padding_top",
+      "id": "padding_top_desktop",
       "min": 0,
       "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding boven (desktop)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding onder (desktop)",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_h_desktop",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding links/rechts (desktop)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 80,
       "step": 4,
       "unit": "px",
       "label": "Padding boven (mobiel)",
@@ -611,33 +657,56 @@
     },
     {
       "type": "range",
-      "id": "mobile_padding_bottom",
+      "id": "padding_bottom_mobile",
       "min": 0,
-      "max": 120,
+      "max": 80,
       "step": 4,
       "unit": "px",
       "label": "Padding onder (mobiel)",
-      "default": 32
+      "default": 48
     },
     {
       "type": "range",
-      "id": "mobile_padding_h",
+      "id": "padding_h_mobile",
       "min": 0,
       "max": 40,
       "step": 4,
       "unit": "px",
       "label": "Padding links/rechts (mobiel)",
-      "default": 16
+      "default": 20
     },
     {
       "type": "header",
-      "content": "Sectie stijl"
+      "content": "Grid"
     },
     {
-      "type": "color",
-      "id": "section_bg",
-      "label": "Achtergrond kleur",
-      "default": "#f5f5f3"
+      "type": "range",
+      "id": "desktop_columns",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "label": "Kolommen (desktop)",
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "grid_gap_desktop",
+      "min": 8,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Grid ruimte (desktop)",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "grid_gap_mobile",
+      "min": 8,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Grid ruimte (mobiel)",
+      "default": 16
     },
     {
       "type": "header",
@@ -655,12 +724,12 @@
       "label": "Foto verhouding (desktop)",
       "options": [
         { "value": "1/1",  "label": "1:1 — Vierkant" },
-        { "value": "3/4",  "label": "3:4 — Portret" },
         { "value": "4/3",  "label": "4:3 — Landschap" },
+        { "value": "3/4",  "label": "3:4 — Portret" },
         { "value": "4/5",  "label": "4:5 — Portret breed" },
         { "value": "auto", "label": "Automatisch" }
       ],
-      "default": "3/4"
+      "default": "1/1"
     },
     {
       "type": "select",
@@ -668,42 +737,52 @@
       "label": "Foto verhouding (mobiel)",
       "options": [
         { "value": "1/1",  "label": "1:1 — Vierkant" },
-        { "value": "3/4",  "label": "3:4 — Portret" },
         { "value": "4/3",  "label": "4:3 — Landschap" },
+        { "value": "3/4",  "label": "3:4 — Portret" },
         { "value": "4/5",  "label": "4:5 — Portret breed" },
         { "value": "auto", "label": "Automatisch" }
       ],
-      "default": "3/4"
+      "default": "1/1"
     },
     {
       "type": "range",
       "id": "photo_radius_desktop",
       "min": 0,
-      "max": 40,
-      "step": 4,
+      "max": 32,
+      "step": 2,
       "unit": "px",
       "label": "Foto afronding (desktop)",
-      "default": 0
+      "default": 8
     },
     {
       "type": "range",
       "id": "photo_radius_mobile",
       "min": 0,
-      "max": 40,
-      "step": 4,
+      "max": 32,
+      "step": 2,
       "unit": "px",
       "label": "Foto afronding (mobiel)",
-      "default": 0
+      "default": 8
+    },
+    {
+      "type": "select",
+      "id": "photo_object_fit",
+      "label": "Foto vulling",
+      "options": [
+        { "value": "contain", "label": "Contain — product zweeft op achtergrond" },
+        { "value": "cover",   "label": "Cover — foto vult kader" }
+      ],
+      "default": "contain"
     },
     {
       "type": "header",
-      "content": "Pill badge"
+      "content": "Pill badge (sectie niveau)"
     },
     {
       "type": "range",
       "id": "pill_font_size",
-      "min": 9,
-      "max": 16,
+      "min": 8,
+      "max": 14,
       "step": 1,
       "unit": "px",
       "label": "Pill lettergrootte",
@@ -724,18 +803,18 @@
       "type": "range",
       "id": "pill_border_radius",
       "min": 0,
-      "max": 100,
-      "step": 4,
+      "max": 999,
+      "step": 1,
       "unit": "px",
-      "label": "Pill afronding (100 = pill)",
-      "default": 100
+      "label": "Pill afronding (999 = pill)",
+      "default": 4
     },
     {
       "type": "range",
       "id": "pill_padding_v",
       "min": 2,
       "max": 16,
-      "step": 2,
+      "step": 1,
       "unit": "px",
       "label": "Pill padding verticaal",
       "default": 4
@@ -745,59 +824,29 @@
       "id": "pill_padding_h",
       "min": 4,
       "max": 24,
-      "step": 2,
+      "step": 1,
       "unit": "px",
       "label": "Pill padding horizontaal",
       "default": 10
     },
     {
-      "type": "range",
-      "id": "pill_position_top",
-      "min": 4,
-      "max": 24,
-      "step": 2,
-      "unit": "px",
-      "label": "Pill positie van boven",
-      "default": 10
-    },
-    {
-      "type": "range",
-      "id": "pill_position_left",
-      "min": 4,
-      "max": 24,
-      "step": 2,
-      "unit": "px",
-      "label": "Pill positie van links",
-      "default": 10
-    },
-    {
       "type": "header",
-      "content": "Kaart footer — desktop"
+      "content": "Productnaam"
     },
     {
       "type": "range",
-      "id": "footer_padding_top_desktop",
-      "min": 0,
-      "max": 32,
-      "step": 2,
-      "unit": "px",
-      "label": "Ruimte boven footer (desktop)",
-      "default": 14
-    },
-    {
-      "type": "range",
-      "id": "name_desktop_size",
+      "id": "name_size_desktop",
       "min": 10,
       "max": 24,
       "step": 1,
       "unit": "px",
-      "label": "Naam lettergrootte (desktop)",
+      "label": "Naam grootte (desktop)",
       "default": 13
     },
     {
       "type": "select",
-      "id": "name_desktop_weight",
-      "label": "Naam gewicht (desktop)",
+      "id": "name_weight_desktop",
+      "label": "Naam gewicht",
       "options": [
         { "value": "300", "label": "300 — Light" },
         { "value": "400", "label": "400 — Regular" },
@@ -805,20 +854,20 @@
         { "value": "600", "label": "600 — Semi Bold" },
         { "value": "700", "label": "700 — Bold" }
       ],
-      "default": "400"
+      "default": "700"
     },
     {
       "type": "range",
-      "id": "name_desktop_spacing",
+      "id": "name_spacing_desktop",
       "min": 0,
       "max": 20,
       "step": 1,
       "label": "Naam letter-spacing (×0.01em)",
-      "default": 4
+      "default": 6
     },
     {
       "type": "select",
-      "id": "name_desktop_transform",
+      "id": "name_transform_desktop",
       "label": "Naam tekst opmaak",
       "options": [
         { "value": "none",      "label": "Normaal" },
@@ -829,84 +878,72 @@
     },
     {
       "type": "color",
-      "id": "name_desktop_color",
+      "id": "name_color_desktop",
       "label": "Naam kleur",
       "default": "#111111"
     },
     {
       "type": "range",
-      "id": "name_desktop_margin",
+      "id": "name_margin_bottom_desktop",
       "min": 0,
-      "max": 20,
-      "step": 2,
+      "max": 16,
+      "step": 1,
       "unit": "px",
       "label": "Naam ruimte onder",
       "default": 4
     },
     {
       "type": "range",
-      "id": "price_desktop_size",
-      "min": 10,
-      "max": 28,
-      "step": 2,
+      "id": "name_size_mobile",
+      "min": 9,
+      "max": 20,
+      "step": 1,
       "unit": "px",
-      "label": "Prijs lettergrootte (desktop)",
-      "default": 16
-    },
-    {
-      "type": "select",
-      "id": "price_desktop_weight",
-      "label": "Prijs gewicht",
-      "options": [
-        { "value": "300", "label": "300 — Light" },
-        { "value": "400", "label": "400 — Regular" },
-        { "value": "500", "label": "500 — Medium" },
-        { "value": "600", "label": "600 — Semi Bold" },
-        { "value": "700", "label": "700 — Bold" },
-        { "value": "800", "label": "800 — Extra Bold" }
-      ],
-      "default": "400"
-    },
-    {
-      "type": "color",
-      "id": "price_desktop_color",
-      "label": "Prijs kleur",
-      "default": "#111111"
-    },
-    {
-      "type": "color",
-      "id": "price_sale_color",
-      "label": "Prijs kleur (sale)",
-      "default": "#ff7900"
+      "label": "Naam grootte (mobiel)",
+      "default": 12
     },
     {
       "type": "header",
-      "content": "Kaart footer — mobiel"
+      "content": "Kaart footer"
+    },
+    {
+      "type": "range",
+      "id": "footer_padding_top_desktop",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Ruimte boven footer (desktop)",
+      "default": 12
     },
     {
       "type": "range",
       "id": "footer_padding_top_mobile",
       "min": 0,
-      "max": 24,
+      "max": 20,
       "step": 2,
       "unit": "px",
       "label": "Ruimte boven footer (mobiel)",
       "default": 10
     },
     {
+      "type": "header",
+      "content": "Prijs"
+    },
+    {
       "type": "range",
-      "id": "name_mobile_size",
-      "min": 9,
-      "max": 20,
+      "id": "price_size_desktop",
+      "min": 10,
+      "max": 24,
       "step": 1,
       "unit": "px",
-      "label": "Naam lettergrootte (mobiel)",
-      "default": 11
+      "label": "Prijs grootte (desktop)",
+      "default": 14
     },
     {
       "type": "select",
-      "id": "name_mobile_weight",
-      "label": "Naam gewicht (mobiel)",
+      "id": "price_weight_desktop",
+      "label": "Prijs gewicht",
       "options": [
         { "value": "300", "label": "300 — Light" },
         { "value": "400", "label": "400 — Regular" },
@@ -917,18 +954,367 @@
       "default": "400"
     },
     {
+      "type": "color",
+      "id": "price_color_desktop",
+      "label": "Prijs kleur",
+      "default": "#111111"
+    },
+    {
+      "type": "range",
+      "id": "price_size_mobile",
+      "min": 9,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Prijs grootte (mobiel)",
+      "default": 13
+    },
+    {
+      "type": "color",
+      "id": "price_sale_color",
+      "label": "Prijs kleur (sale)",
+      "default": "#ff7900"
+    },
+    {
+      "type": "header",
+      "content": "Legacy instellingen"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "[L] Titel tonen",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "title_desktop_color",
+      "label": "[L] Titel kleur",
+      "default": "#111111"
+    },
+    {
+      "type": "range",
+      "id": "title_desktop_size",
+      "min": 12,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "[L] Titel grootte desktop",
+      "default": 22
+    },
+    {
+      "type": "select",
+      "id": "title_desktop_weight",
+      "label": "[L] Titel gewicht",
+      "options": [
+        { "value": "300", "label": "300" },
+        { "value": "400", "label": "400" },
+        { "value": "500", "label": "500" },
+        { "value": "600", "label": "600" },
+        { "value": "700", "label": "700" },
+        { "value": "800", "label": "800" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "range",
+      "id": "title_desktop_letter_spacing",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "label": "[L] Titel letter-spacing",
+      "default": 8
+    },
+    {
+      "type": "select",
+      "id": "title_desktop_transform",
+      "label": "[L] Titel opmaak",
+      "options": [
+        { "value": "none",      "label": "Normaal" },
+        { "value": "uppercase", "label": "HOOFDLETTERS" },
+        { "value": "lowercase", "label": "kleine letters" }
+      ],
+      "default": "uppercase"
+    },
+    {
+      "type": "range",
+      "id": "title_desktop_margin",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "[L] Titel ruimte onder desktop",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "title_mobile_size",
+      "min": 12,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "[L] Titel grootte mobiel",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "title_mobile_margin",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "[L] Titel ruimte onder mobiel",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "desktop_gap_h",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "[L] Desktop gap horizontaal",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "desktop_gap_v",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "[L] Desktop gap verticaal",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "desktop_padding_top",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "label": "[L] Padding boven desktop",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "desktop_padding_bottom",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "label": "[L] Padding onder desktop",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "desktop_padding_h",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "[L] Padding h desktop",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "mobile_columns",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "label": "[L] Kolommen mobiel",
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "mobile_gap_h",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "label": "[L] Gap h mobiel",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "mobile_gap_v",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "label": "[L] Gap v mobiel",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "[L] Padding boven mobiel",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "[L] Padding onder mobiel",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_h",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "label": "[L] Padding h mobiel",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "pill_position_top",
+      "min": 4,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "[L] Pill positie boven",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "pill_position_left",
+      "min": 4,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "[L] Pill positie links",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "name_desktop_size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "[L] Naam grootte desktop",
+      "default": 13
+    },
+    {
+      "type": "select",
+      "id": "name_desktop_weight",
+      "label": "[L] Naam gewicht",
+      "options": [
+        { "value": "300", "label": "300" },
+        { "value": "400", "label": "400" },
+        { "value": "500", "label": "500" },
+        { "value": "600", "label": "600" },
+        { "value": "700", "label": "700" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "range",
+      "id": "name_desktop_spacing",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "label": "[L] Naam spacing",
+      "default": 4
+    },
+    {
+      "type": "select",
+      "id": "name_desktop_transform",
+      "label": "[L] Naam opmaak",
+      "options": [
+        { "value": "none",      "label": "Normaal" },
+        { "value": "uppercase", "label": "HOOFDLETTERS" },
+        { "value": "lowercase", "label": "kleine letters" }
+      ],
+      "default": "uppercase"
+    },
+    {
+      "type": "color",
+      "id": "name_desktop_color",
+      "label": "[L] Naam kleur",
+      "default": "#111111"
+    },
+    {
+      "type": "range",
+      "id": "name_desktop_margin",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "[L] Naam ruimte onder",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "price_desktop_size",
+      "min": 10,
+      "max": 28,
+      "step": 2,
+      "unit": "px",
+      "label": "[L] Prijs grootte desktop",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "price_desktop_weight",
+      "label": "[L] Prijs gewicht",
+      "options": [
+        { "value": "300", "label": "300" },
+        { "value": "400", "label": "400" },
+        { "value": "500", "label": "500" },
+        { "value": "600", "label": "600" },
+        { "value": "700", "label": "700" },
+        { "value": "800", "label": "800" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "color",
+      "id": "price_desktop_color",
+      "label": "[L] Prijs kleur",
+      "default": "#111111"
+    },
+    {
+      "type": "range",
+      "id": "name_mobile_size",
+      "min": 9,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "[L] Naam grootte mobiel",
+      "default": 11
+    },
+    {
+      "type": "select",
+      "id": "name_mobile_weight",
+      "label": "[L] Naam gewicht mobiel",
+      "options": [
+        { "value": "300", "label": "300" },
+        { "value": "400", "label": "400" },
+        { "value": "500", "label": "500" },
+        { "value": "600", "label": "600" },
+        { "value": "700", "label": "700" }
+      ],
+      "default": "400"
+    },
+    {
       "type": "range",
       "id": "price_mobile_size",
       "min": 9,
       "max": 24,
       "step": 1,
       "unit": "px",
-      "label": "Prijs lettergrootte (mobiel)",
+      "label": "[L] Prijs grootte mobiel",
       "default": 14
-    },
-    {
-      "type": "header",
-      "content": "Pijlen (mobiel slider)"
     },
     {
       "type": "range",
@@ -937,26 +1323,26 @@
       "max": 56,
       "step": 4,
       "unit": "px",
-      "label": "Pijl knop grootte",
+      "label": "[L] Pijl grootte",
       "default": 40
     },
     {
       "type": "color",
       "id": "arrow_bg",
-      "label": "Pijl achtergrond",
+      "label": "[L] Pijl achtergrond",
       "default": "#ffffff"
     },
     {
       "type": "color",
       "id": "arrow_color",
-      "label": "Pijl icoon kleur",
+      "label": "[L] Pijl kleur",
       "default": "#111111"
     }
   ],
   "blocks": [
     {
       "type": "product_card",
-      "name": "Product kaart",
+      "name": "Product",
       "settings": [
         {
           "type": "product",
@@ -965,8 +1351,8 @@
         },
         {
           "type": "text",
-          "id": "custom_name_line",
-          "label": "Eigen naamregel (laat leeg voor automatisch)"
+          "id": "custom_name",
+          "label": "Naam overschrijven (optioneel)"
         },
         {
           "type": "checkbox",
@@ -978,7 +1364,7 @@
           "type": "text",
           "id": "pill_text",
           "label": "Pill tekst",
-          "default": "Bestseller"
+          "default": "BESTSELLER"
         },
         {
           "type": "color",
@@ -988,14 +1374,14 @@
         },
         {
           "type": "color",
-          "id": "pill_color",
+          "id": "pill_text_color",
           "label": "Pill tekstkleur",
           "default": "#ffffff"
         }
       ]
     }
   ],
-  "max_blocks": 12,
+  "max_blocks": 24,
   "presets": [
     {
       "name": "MT-RELATED-BL",
