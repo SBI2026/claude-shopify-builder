@@ -251,8 +251,9 @@
             {%- comment -%} PAKKET 1 {%- endcomment -%}
             {%- if pkg1_naam != blank -%}
               <div class="rs-pkg-card rs-pkg-selected"
-                   data-qty="{{ pkg1_stuks }}"
+                   data-qty="{{ pkg1_stuks | default: 1 }}"
                    data-price="{{ pkg1_prijs }}"
+                   data-vid="{{ product.selected_or_first_available_variant.id }}"
                    onclick="window['rsPdpSelectPkg_{{ section.id }}'](this)">
                 {%- if pkg1_badge != blank -%}
                   <span class="rs-pkg-badge"
@@ -285,8 +286,9 @@
             {%- comment -%} PAKKET 2 {%- endcomment -%}
             {%- if pkg2_naam != blank -%}
               <div class="rs-pkg-card"
-                   data-qty="{{ pkg2_stuks }}"
+                   data-qty="{{ pkg2_stuks | default: 1 }}"
                    data-price="{{ pkg2_prijs }}"
+                   data-vid="{{ product.selected_or_first_available_variant.id }}"
                    onclick="window['rsPdpSelectPkg_{{ section.id }}'](this)">
                 {%- if pkg2_badge != blank -%}
                   <span class="rs-pkg-badge"
@@ -319,8 +321,9 @@
             {%- comment -%} PAKKET 3 {%- endcomment -%}
             {%- if pkg3_naam != blank -%}
               <div class="rs-pkg-card"
-                   data-qty="{{ pkg3_stuks }}"
+                   data-qty="{{ pkg3_stuks | default: 1 }}"
                    data-price="{{ pkg3_prijs }}"
+                   data-vid="{{ product.selected_or_first_available_variant.id }}"
                    onclick="window['rsPdpSelectPkg_{{ section.id }}'](this)">
                 {%- if pkg3_badge != blank -%}
                   <span class="rs-pkg-badge"
@@ -515,7 +518,9 @@
     var vid = parseInt(document.getElementById('rs-vid-' + sid).value);
     var selectedPkg = document.querySelector('#mt-pdp-' + sid + ' .rs-pkg-card.rs-pkg-selected');
     var qty = selectedPkg ? parseInt(selectedPkg.dataset.qty || 1) : 1;
-    btn.disabled = true; btn.textContent = 'Bezig…';
+    if (!vid) return;
+    btn.disabled = true;
+    btn.textContent = 'Bezig…';
     fetch('/cart/add.js', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -529,7 +534,9 @@
       setTimeout(function () { btn.textContent = 'In winkelmand'; btn.style.background = ''; btn.disabled = false; }, 2000);
     })
     .catch(function () {
-      btn.textContent = 'Probeer opnieuw'; btn.style.background = '#c0392b'; btn.disabled = false;
+      btn.textContent = 'Probeer opnieuw';
+      btn.style.background = '#c0392b';
+      btn.disabled = false;
       setTimeout(function () { btn.textContent = 'In winkelmand'; btn.style.background = ''; }, 2500);
     });
   };
@@ -541,11 +548,17 @@
     card.classList.add('rs-pkg-selected');
     var priceEl = document.getElementById('rs-price-' + sid);
     if (priceEl && card.dataset.price) priceEl.textContent = card.dataset.price;
+    var vidEl = document.getElementById('rs-vid-' + sid);
+    if (vidEl && card.dataset.vid) vidEl.value = card.dataset.vid;
   };
 
   document.addEventListener('DOMContentLoaded', function () {
     var firstPkg = document.querySelector('#mt-pdp-' + sid + ' .rs-pkg-card');
-    if (firstPkg) firstPkg.classList.add('rs-pkg-selected');
+    if (firstPkg) {
+      firstPkg.classList.add('rs-pkg-selected');
+      var vidEl = document.getElementById('rs-vid-' + sid);
+      if (vidEl && firstPkg.dataset.vid) vidEl.value = firstPkg.dataset.vid;
+    }
   });
 })();
 
