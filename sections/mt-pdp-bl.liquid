@@ -552,38 +552,38 @@
             el.removeAttribute('hidden');
           });
 
-          var sectionsToFetch = [];
+          if (typeof window.Shopify !== 'undefined' && window.Shopify.onCartUpdate) {
+            window.Shopify.onCartUpdate(cart);
+          }
+
           var cartDrawer = document.querySelector('cart-drawer');
-          var cartNotification = document.querySelector('cart-notification');
-
-          if (cartDrawer && cartDrawer.getSectionsToRender) {
-            cartDrawer.getSectionsToRender().forEach(function (s) {
-              if (sectionsToFetch.indexOf(s.id) === -1) sectionsToFetch.push(s.id);
-            });
-          }
-          if (cartNotification && cartNotification.getSectionsToRender) {
-            cartNotification.getSectionsToRender().forEach(function (s) {
-              if (sectionsToFetch.indexOf(s.id) === -1) sectionsToFetch.push(s.id);
-            });
-          }
-
-          if (sectionsToFetch.length > 0) {
-            fetch('/?sections=' + sectionsToFetch.join(','))
+          if (cartDrawer) {
+            fetch('/?sections=cart-drawer,cart-icon-bubble')
               .then(function (r) { return r.json(); })
               .then(function (data) {
-                if (cartDrawer && cartDrawer.getSectionsToRender) {
-                  cartDrawer.getSectionsToRender().forEach(function (section) {
-                    var el = document.getElementById(section.id) ||
-                             (section.selector ? document.querySelector(section.selector) : null);
-                    if (el && data[section.id]) el.innerHTML = data[section.id];
-                  });
+                if (data['cart-drawer']) {
+                  var drawerInner = document.querySelector('#cart-drawer') ||
+                                   document.querySelector('.cart-drawer__inner') ||
+                                   cartDrawer;
+                  if (drawerInner) {
+                    var temp = document.createElement('div');
+                    temp.innerHTML = data['cart-drawer'];
+                    var newInner = temp.querySelector('.cart-drawer__inner') ||
+                                  temp.querySelector('cart-drawer') ||
+                                  temp.firstElementChild;
+                    if (newInner && drawerInner.parentNode) {
+                      drawerInner.innerHTML = newInner.innerHTML;
+                    }
+                  }
                 }
-                if (cartNotification && cartNotification.getSectionsToRender) {
-                  cartNotification.getSectionsToRender().forEach(function (section) {
-                    var el = document.getElementById(section.id) ||
-                             (section.selector ? document.querySelector(section.selector) : null);
-                    if (el && data[section.id]) el.innerHTML = data[section.id];
-                  });
+                if (data['cart-icon-bubble']) {
+                  var iconEl = document.getElementById('cart-icon-bubble');
+                  if (iconEl) {
+                    var temp2 = document.createElement('div');
+                    temp2.innerHTML = data['cart-icon-bubble'];
+                    var newIcon = temp2.querySelector('#cart-icon-bubble');
+                    if (newIcon) iconEl.innerHTML = newIcon.innerHTML;
+                  }
                 }
               })
               .catch(function () {});
