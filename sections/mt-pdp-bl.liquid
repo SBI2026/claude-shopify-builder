@@ -8,12 +8,34 @@
 {%- assign rs_expert_foto  = product.metafields.custom.expert_foto -%}
 {%- if rs_step_badge == blank -%}{%- assign rs_step_badge = section.settings.badge_fallback -%}{%- endif -%}
 
+{%- assign pkg1_naam     = product.metafields.custom.pkg1_naam -%}
+{%- assign pkg1_prijs    = product.metafields.custom.pkg1_prijs -%}
+{%- assign pkg1_dagprijs = product.metafields.custom.pkg1_dagprijs -%}
+{%- assign pkg1_stuks    = product.metafields.custom.pkg1_stuks -%}
+{%- assign pkg1_badge    = product.metafields.custom.pkg1_badge -%}
+{%- assign pkg1_foto     = product.metafields.custom.pkg1_foto -%}
+
+{%- assign pkg2_naam     = product.metafields.custom.pkg2_naam -%}
+{%- assign pkg2_prijs    = product.metafields.custom.pkg2_prijs -%}
+{%- assign pkg2_dagprijs = product.metafields.custom.pkg2_dagprijs -%}
+{%- assign pkg2_stuks    = product.metafields.custom.pkg2_stuks -%}
+{%- assign pkg2_badge    = product.metafields.custom.pkg2_badge -%}
+{%- assign pkg2_foto     = product.metafields.custom.pkg2_foto -%}
+
+{%- assign pkg3_naam     = product.metafields.custom.pkg3_naam -%}
+{%- assign pkg3_prijs    = product.metafields.custom.pkg3_prijs -%}
+{%- assign pkg3_dagprijs = product.metafields.custom.pkg3_dagprijs -%}
+{%- assign pkg3_stuks    = product.metafields.custom.pkg3_stuks -%}
+{%- assign pkg3_badge    = product.metafields.custom.pkg3_badge -%}
+{%- assign pkg3_foto     = product.metafields.custom.pkg3_foto -%}
+
+{%- assign has_packages = false -%}
+{%- if pkg1_naam != blank -%}{%- assign has_packages = true -%}{%- endif -%}
+
 {%- assign avatar_count = 0 -%}
-{%- assign package_count = 0 -%}
 {%- assign guarantee_count = 0 -%}
 {%- for block in section.blocks -%}
   {%- if block.type == 'avatar' -%}{%- assign avatar_count = avatar_count | plus: 1 -%}{%- endif -%}
-  {%- if block.type == 'package' -%}{%- assign package_count = package_count | plus: 1 -%}{%- endif -%}
   {%- if block.type == 'guarantee' -%}{%- assign guarantee_count = guarantee_count | plus: 1 -%}{%- endif -%}
 {%- endfor -%}
 
@@ -55,13 +77,8 @@
   #mt-pdp-{{ section.id }} .rs-var:hover { border-color: {{ section.settings.title_color }}; }
   #mt-pdp-{{ section.id }} .rs-var.on { border-color: {{ section.settings.title_color }}; background: {{ section.settings.title_color }}; color: {{ section.settings.section_bg }}; font-weight: 600; }
   #mt-pdp-{{ section.id }} .rs-var:disabled { opacity: 0.35; cursor: not-allowed; }
-  #mt-pdp-{{ section.id }} .rs-buy { display: flex; gap: 10px; align-items: stretch; margin-bottom: 14px; }
-  #mt-pdp-{{ section.id }} .rs-qty { display: flex; align-items: center; background: {{ section.settings.section_bg }}; border: 1.5px solid #e0e0e0; border-radius: 999px; padding: 6px 8px; gap: 6px; flex-shrink: 0; height: 56px; }
-  #mt-pdp-{{ section.id }} .rs-qty-btn { width: 34px; height: 34px; border-radius: 50%; background: #EEEAE3; border: none; color: {{ section.settings.title_color }}; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-family: 'Poppins', sans-serif; transition: background 0.15s; line-height: 1; flex-shrink: 0; }
-  #mt-pdp-{{ section.id }} .rs-qty-btn:hover { background: #dedad3; }
-  #mt-pdp-{{ section.id }} .rs-qty-num { width: 36px; text-align: center; font-size: 15px; font-weight: 600; font-family: 'Poppins', sans-serif; border: none; outline: none; background: none; color: {{ section.settings.title_color }}; -moz-appearance: textfield; }
-  #mt-pdp-{{ section.id }} .rs-qty-num::-webkit-outer-spin-button, #mt-pdp-{{ section.id }} .rs-qty-num::-webkit-inner-spin-button { -webkit-appearance: none; }
-  #mt-pdp-{{ section.id }} .rs-atc { flex: 1; height: 56px; min-height: 56px; background: {{ section.settings.button_bg }}; color: {{ section.settings.button_color }}; border: none; border-radius: 999px; font-size: 16px; font-weight: 700; font-family: 'Poppins', sans-serif; cursor: pointer; transition: filter 0.15s; display: flex; align-items: center; justify-content: center; white-space: nowrap; }
+  #mt-pdp-{{ section.id }} .rs-buy { display: block; margin-bottom: 14px; }
+  #mt-pdp-{{ section.id }} .rs-atc { width: 100%; height: 56px; min-height: 56px; background: {{ section.settings.button_bg }}; color: {{ section.settings.button_color }}; border: none; border-radius: 999px; font-size: 16px; font-weight: 700; font-family: 'Poppins', sans-serif; cursor: pointer; transition: filter 0.15s; display: flex; align-items: center; justify-content: center; white-space: nowrap; }
   #mt-pdp-{{ section.id }} .rs-atc:hover:not(:disabled) { filter: brightness(0.85); }
   #mt-pdp-{{ section.id }} .rs-delivery { font-size: 12px; color: #888; margin-bottom: 22px; line-height: 1.5; }
   #mt-pdp-{{ section.id }} .rs-bens { display: flex; flex-direction: column; gap: 11px; padding: 18px 0; }
@@ -105,29 +122,21 @@
   #mt-pdp-{{ section.id }} .rs-avatar-count { font-size: 12px; color: #888; }
 
   /* ── Package cards ── */
+  #mt-pdp-{{ section.id }} .rs-pkg-wrap { margin-bottom: 20px; }
   #mt-pdp-{{ section.id }} .rs-pkg-label { font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #888; margin-bottom: 10px; }
   #mt-pdp-{{ section.id }} .rs-pkg-card { border: 1.5px solid #e0e0e0; border-radius: 14px; padding: 14px; margin-bottom: 8px; cursor: pointer; position: relative; background: #ffffff; transition: border-color 0.15s; }
-  #mt-pdp-{{ section.id }} .rs-pkg-card:hover { border-color: #aaa; }
+  #mt-pdp-{{ section.id }} .rs-pkg-card:hover { border-color: #999; }
   #mt-pdp-{{ section.id }} .rs-pkg-card.rs-pkg-selected { border-color: {{ section.settings.title_color }}; }
-  #mt-pdp-{{ section.id }} .rs-pkg-card.rs-pkg-highlight.rs-pkg-selected { border-color: {{ section.settings.accent_color }}; background: #fffaf7; }
   #mt-pdp-{{ section.id }} .rs-pkg-badge { position: absolute; top: -10px; right: 12px; border-radius: 999px; font-size: 9px; font-weight: 700; padding: 3px 10px; letter-spacing: 0.06em; text-transform: uppercase; }
   #mt-pdp-{{ section.id }} .rs-pkg-top { display: flex; align-items: center; gap: 12px; }
-  #mt-pdp-{{ section.id }} .rs-pkg-img { width: 44px; height: 44px; border-radius: 8px; background: {{ section.settings.image_bg }}; flex-shrink: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  #mt-pdp-{{ section.id }} .rs-pkg-img { width: 44px; height: 44px; border-radius: 8px; background: {{ section.settings.image_bg }}; flex-shrink: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; }
   #mt-pdp-{{ section.id }} .rs-pkg-img img { width: 100%; height: 100%; object-fit: contain; }
   #mt-pdp-{{ section.id }} .rs-pkg-info { flex: 1; min-width: 0; }
-  #mt-pdp-{{ section.id }} .rs-pkg-name { font-size: 13px; font-weight: 700; color: {{ section.settings.title_color }}; line-height: 1.25; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-  #mt-pdp-{{ section.id }} .rs-pkg-highlight-label { background: {{ section.settings.accent_color }}; color: #fff; border-radius: 999px; font-size: 9px; font-weight: 700; padding: 2px 8px; }
+  #mt-pdp-{{ section.id }} .rs-pkg-name { font-size: 13px; font-weight: 700; color: {{ section.settings.title_color }}; line-height: 1.25; }
   #mt-pdp-{{ section.id }} .rs-pkg-day { font-size: 10px; color: #888; margin-top: 2px; }
   #mt-pdp-{{ section.id }} .rs-pkg-price { text-align: right; flex-shrink: 0; }
-  #mt-pdp-{{ section.id }} .rs-pkg-price-cur { font-size: 14px; font-weight: 700; color: {{ section.settings.title_color }}; }
-  #mt-pdp-{{ section.id }} .rs-pkg-price-old { font-size: 10px; color: #aaa; text-decoration: line-through; display: block; }
-  #mt-pdp-{{ section.id }} .rs-pkg-extras { margin-top: 10px; border-top: 0.5px solid #eee; padding-top: 10px; display: flex; flex-direction: column; gap: 8px; }
-  #mt-pdp-{{ section.id }} .rs-pkg-extra { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-  #mt-pdp-{{ section.id }} .rs-pkg-extra-left { display: flex; align-items: center; gap: 8px; }
-  #mt-pdp-{{ section.id }} .rs-pkg-extra-img { width: 28px; height: 28px; border-radius: 5px; background: {{ section.settings.image_bg }}; overflow: hidden; flex-shrink: 0; }
-  #mt-pdp-{{ section.id }} .rs-pkg-extra-img img { width: 100%; height: 100%; object-fit: contain; }
-  #mt-pdp-{{ section.id }} .rs-pkg-extra-txt { font-size: 11px; font-weight: 600; color: {{ section.settings.title_color }}; }
-  #mt-pdp-{{ section.id }} .rs-pkg-extra-old { font-size: 10px; color: #aaa; text-decoration: line-through; }
+  #mt-pdp-{{ section.id }} .rs-pkg-price-cur { font-size: 15px; font-weight: 700; color: {{ section.settings.title_color }}; display: block; }
+  #mt-pdp-{{ section.id }} .rs-pkg-price-day { font-size: 10px; color: #888; display: block; text-align: right; margin-top: 2px; }
 
   /* ── Guarantee ── */
   #mt-pdp-{{ section.id }} .rs-guarantee { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border: 0.5px solid #eee; margin-bottom: 20px; }
@@ -147,11 +156,6 @@
     #mt-pdp-{{ section.id }} .rs-info { grid-column: 1; grid-row: 3; position: static; }
     #mt-pdp-{{ section.id }} .rs-title { font-size: {{ section.settings.title_size_mobile }}px; }
     #mt-pdp-{{ section.id }} .rs-price { font-size: {{ section.settings.price_size_mobile }}px; }
-  }
-  @media (max-width: 480px) {
-    #mt-pdp-{{ section.id }} .rs-buy { flex-direction: column; align-items: stretch; gap: 12px; }
-    #mt-pdp-{{ section.id }} .rs-qty { width: 100%; justify-content: center; }
-    #mt-pdp-{{ section.id }} .rs-atc { width: 100%; }
   }
 {%- endstyle -%}
 
@@ -239,109 +243,135 @@
         <!-- 5. Price -->
         <div class="rs-price" id="rs-price-{{ section.id }}">{{ cv.price | money }}</div>
 
-        <!-- 6. Package cards OR normal variant pills -->
-        {%- if package_count > 0 -%}
-          <p class="rs-pkg-label">Kies jouw pakket</p>
-          {%- assign pkg_i = 0 -%}
-          {%- for block in section.blocks -%}
-            {%- if block.type == 'package' -%}
-              {%- assign pkg_i = pkg_i | plus: 1 -%}
-              {%- assign is_first_pkg = false -%}
-              {%- if pkg_i == 1 -%}{%- assign is_first_pkg = true -%}{%- endif -%}
-              <div class="rs-pkg-card{% if block.settings.pkg_highlight %} rs-pkg-highlight{% endif %}{% if is_first_pkg %} rs-pkg-selected{% endif %}"
-                   data-vid="{{ block.settings.pkg_variant_id }}"
-                   onclick="rsPdpSelectPkg_{{ section.id }}(this, '{{ block.settings.pkg_variant_id }}')"
-                   {{ block.shopify_attributes }}>
+        <!-- 6. Package cards (metafields) OR normal variant pills -->
+        {%- if has_packages -%}
+          <div class="rs-pkg-wrap">
+            <p class="rs-pkg-label">Kies jouw pakket</p>
 
-                {%- if block.settings.pkg_badge_text != blank -%}
+            {%- comment -%} PAKKET 1 {%- endcomment -%}
+            {%- if pkg1_naam != blank -%}
+              <div class="rs-pkg-card rs-pkg-selected"
+                   data-qty="{{ pkg1_stuks }}"
+                   data-price="{{ pkg1_prijs }}"
+                   onclick="rsPdpSelectPkg_{{ section.id }}(this)">
+                {%- if pkg1_badge != blank -%}
                   <span class="rs-pkg-badge"
-                        style="background: {{ block.settings.pkg_badge_bg }}; color: {{ block.settings.pkg_badge_color }};">
-                    {{ block.settings.pkg_badge_text | escape }}
-                  </span>
+                        style="background: {{ section.settings.badge_bg }}; color: {{ section.settings.badge_fg }};">{{ pkg1_badge }}</span>
                 {%- endif -%}
-
                 <div class="rs-pkg-top">
                   <div class="rs-pkg-img">
-                    {%- if block.settings.pkg_image -%}
-                      <img src="{{ block.settings.pkg_image | image_url: width: 88 }}"
-                           alt="{{ block.settings.pkg_name | escape }}">
+                    {%- if pkg1_foto != blank -%}
+                      <img src="{{ pkg1_foto | image_url: width: 88 }}" alt="{{ pkg1_naam }}">
+                    {%- elsif product.featured_image -%}
+                      <img src="{{ product.featured_image | image_url: width: 88 }}" alt="{{ pkg1_naam }}">
                     {%- endif -%}
                   </div>
                   <div class="rs-pkg-info">
-                    <div class="rs-pkg-name">
-                      {{ block.settings.pkg_name | escape }}
-                      {%- if block.settings.pkg_highlight and block.settings.pkg_highlight_label != blank -%}
-                        <span class="rs-pkg-highlight-label">{{ block.settings.pkg_highlight_label | escape }}</span>
-                      {%- endif -%}
-                    </div>
-                    <div class="rs-pkg-day">{{ block.settings.pkg_day_price | escape }}</div>
+                    <div class="rs-pkg-name">{{ pkg1_naam }}</div>
+                    {%- if pkg1_dagprijs != blank -%}
+                      <div class="rs-pkg-day">Slechts {{ pkg1_dagprijs }} per dag</div>
+                    {%- endif -%}
                   </div>
                   <div class="rs-pkg-price">
-                    <span class="rs-pkg-price-cur">{{ block.settings.pkg_price | escape }}</span>
-                    {%- if block.settings.pkg_compare_price != blank -%}
-                      <span class="rs-pkg-price-old">{{ block.settings.pkg_compare_price | escape }}</span>
+                    <span class="rs-pkg-price-cur">{{ pkg1_prijs }}</span>
+                    {%- if pkg1_dagprijs != blank -%}
+                      <span class="rs-pkg-price-day">{{ pkg1_dagprijs }}/dag</span>
                     {%- endif -%}
                   </div>
                 </div>
-
-                {%- if block.settings.show_extras -%}
-                  {%- assign has_extras = false -%}
-                  {%- for extra_block in section.blocks -%}
-                    {%- if extra_block.type == 'package_extra' and extra_block.settings.extra_pkg_index == pkg_i -%}
-                      {%- assign has_extras = true -%}
-                    {%- endif -%}
-                  {%- endfor -%}
-                  {%- if has_extras -%}
-                    <div class="rs-pkg-extras">
-                      {%- for extra_block in section.blocks -%}
-                        {%- if extra_block.type == 'package_extra' and extra_block.settings.extra_pkg_index == pkg_i -%}
-                          <div class="rs-pkg-extra" {{ extra_block.shopify_attributes }}>
-                            <div class="rs-pkg-extra-left">
-                              <div class="rs-pkg-extra-img">
-                                {%- if extra_block.settings.extra_image -%}
-                                  <img src="{{ extra_block.settings.extra_image | image_url: width: 56 }}" alt="">
-                                {%- endif -%}
-                              </div>
-                              <span class="rs-pkg-extra-txt">{{ extra_block.settings.extra_text | escape }}</span>
-                            </div>
-                            {%- if extra_block.settings.extra_old_price != blank -%}
-                              <span class="rs-pkg-extra-old">{{ extra_block.settings.extra_old_price | escape }}</span>
-                            {%- endif -%}
-                          </div>
-                        {%- endif -%}
-                      {%- endfor -%}
-                    </div>
-                  {%- endif -%}
-                {%- endif -%}
-
               </div>
             {%- endif -%}
-          {%- endfor -%}
 
-        {%- elsif product.variants.size > 1 -%}
-          <p class="rs-var-label">Formaat</p>
-          <div class="rs-vars">
-            {%- for v in product.variants -%}
-              <button class="rs-var{%- if v == cv %} on{%- endif -%}"
-                      data-id="{{ v.id }}"
-                      data-price="{{ v.price | money }}"
-                      onclick="rsPdpVar_{{ section.id }}(this)"
-                      {%- unless v.available %} disabled{%- endunless -%}>
-                {{ v.title }} &middot; {{ v.price | money }}
-              </button>
-            {%- endfor -%}
+            {%- comment -%} PAKKET 2 {%- endcomment -%}
+            {%- if pkg2_naam != blank -%}
+              <div class="rs-pkg-card"
+                   data-qty="{{ pkg2_stuks }}"
+                   data-price="{{ pkg2_prijs }}"
+                   onclick="rsPdpSelectPkg_{{ section.id }}(this)">
+                {%- if pkg2_badge != blank -%}
+                  <span class="rs-pkg-badge"
+                        style="background: {{ section.settings.badge_bg }}; color: {{ section.settings.badge_fg }};">{{ pkg2_badge }}</span>
+                {%- endif -%}
+                <div class="rs-pkg-top">
+                  <div class="rs-pkg-img">
+                    {%- if pkg2_foto != blank -%}
+                      <img src="{{ pkg2_foto | image_url: width: 88 }}" alt="{{ pkg2_naam }}">
+                    {%- elsif product.featured_image -%}
+                      <img src="{{ product.featured_image | image_url: width: 88 }}" alt="{{ pkg2_naam }}">
+                    {%- endif -%}
+                  </div>
+                  <div class="rs-pkg-info">
+                    <div class="rs-pkg-name">{{ pkg2_naam }}</div>
+                    {%- if pkg2_dagprijs != blank -%}
+                      <div class="rs-pkg-day">Slechts {{ pkg2_dagprijs }} per dag</div>
+                    {%- endif -%}
+                  </div>
+                  <div class="rs-pkg-price">
+                    <span class="rs-pkg-price-cur">{{ pkg2_prijs }}</span>
+                    {%- if pkg2_dagprijs != blank -%}
+                      <span class="rs-pkg-price-day">{{ pkg2_dagprijs }}/dag</span>
+                    {%- endif -%}
+                  </div>
+                </div>
+              </div>
+            {%- endif -%}
+
+            {%- comment -%} PAKKET 3 {%- endcomment -%}
+            {%- if pkg3_naam != blank -%}
+              <div class="rs-pkg-card"
+                   data-qty="{{ pkg3_stuks }}"
+                   data-price="{{ pkg3_prijs }}"
+                   onclick="rsPdpSelectPkg_{{ section.id }}(this)">
+                {%- if pkg3_badge != blank -%}
+                  <span class="rs-pkg-badge"
+                        style="background: {{ section.settings.badge_bg }}; color: {{ section.settings.badge_fg }};">{{ pkg3_badge }}</span>
+                {%- endif -%}
+                <div class="rs-pkg-top">
+                  <div class="rs-pkg-img">
+                    {%- if pkg3_foto != blank -%}
+                      <img src="{{ pkg3_foto | image_url: width: 88 }}" alt="{{ pkg3_naam }}">
+                    {%- elsif product.featured_image -%}
+                      <img src="{{ product.featured_image | image_url: width: 88 }}" alt="{{ pkg3_naam }}">
+                    {%- endif -%}
+                  </div>
+                  <div class="rs-pkg-info">
+                    <div class="rs-pkg-name">{{ pkg3_naam }}</div>
+                    {%- if pkg3_dagprijs != blank -%}
+                      <div class="rs-pkg-day">Slechts {{ pkg3_dagprijs }} per dag</div>
+                    {%- endif -%}
+                  </div>
+                  <div class="rs-pkg-price">
+                    <span class="rs-pkg-price-cur">{{ pkg3_prijs }}</span>
+                    {%- if pkg3_dagprijs != blank -%}
+                      <span class="rs-pkg-price-day">{{ pkg3_dagprijs }}/dag</span>
+                    {%- endif -%}
+                  </div>
+                </div>
+              </div>
+            {%- endif -%}
+
           </div>
+        {%- else -%}
+          {%- if product.variants.size > 1 -%}
+            <p class="rs-var-label">Formaat</p>
+            <div class="rs-vars">
+              {%- for v in product.variants -%}
+                <button class="rs-var{%- if v == cv %} on{%- endif -%}"
+                        data-id="{{ v.id }}"
+                        data-price="{{ v.price | money }}"
+                        onclick="rsPdpVar_{{ section.id }}(this)"
+                        {%- unless v.available %} disabled{%- endunless -%}>
+                  {{ v.title }} &middot; {{ v.price | money }}
+                </button>
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
         {%- endif -%}
 
         <input type="hidden" id="rs-vid-{{ section.id }}" value="{{ cv.id }}">
 
-        <!-- 7. Qty + ATC -->
+        <!-- 7. ATC button -->
         <div class="rs-buy">
-          <div class="rs-qty">
-            <button class="rs-qty-btn" type="button" onclick="rsPdpQ_{{ section.id }}(-1)">&minus;</button>
-            <input class="rs-qty-num" type="number" id="rs-qty-{{ section.id }}" value="1" min="1" max="99">
-            <button class="rs-qty-btn" type="button" onclick="rsPdpQ_{{ section.id }}(1)">&plus;</button>
-          </div>
           <button class="rs-atc"
                   id="rs-atc-{{ section.id }}"
                   type="button"
@@ -480,17 +510,11 @@
     document.getElementById('rs-price-' + sid).textContent = btn.dataset.price;
   };
 
-  window['rsPdpQ_' + sid] = function (d) {
-    var el = document.getElementById('rs-qty-' + sid);
-    var v = parseInt(el.value || 1) + d;
-    if (v < 1) v = 1; if (v > 99) v = 99;
-    el.value = v;
-  };
-
   window['rsPdpAdd_' + sid] = function () {
     var btn = document.getElementById('rs-atc-' + sid);
     var vid = parseInt(document.getElementById('rs-vid-' + sid).value);
-    var qty = parseInt(document.getElementById('rs-qty-' + sid).value) || 1;
+    var selectedPkg = document.querySelector('#mt-pdp-' + sid + ' .rs-pkg-card.rs-pkg-selected');
+    var qty = selectedPkg ? parseInt(selectedPkg.dataset.qty || 1) : 1;
     btn.disabled = true; btn.textContent = 'Bezig…';
     fetch('/cart/add.js', {
       method: 'POST',
@@ -510,20 +534,18 @@
     });
   };
 
-  window['rsPdpSelectPkg_' + sid] = function (card, vid) {
+  window['rsPdpSelectPkg_' + sid] = function (card) {
     document.querySelectorAll('#mt-pdp-' + sid + ' .rs-pkg-card').forEach(function (c) {
       c.classList.remove('rs-pkg-selected');
     });
     card.classList.add('rs-pkg-selected');
-    if (vid) document.getElementById('rs-vid-' + sid).value = vid;
+    var priceEl = document.getElementById('rs-price-' + sid);
+    if (priceEl && card.dataset.price) priceEl.textContent = card.dataset.price;
   };
 
   document.addEventListener('DOMContentLoaded', function () {
     var firstPkg = document.querySelector('#mt-pdp-' + sid + ' .rs-pkg-card');
-    if (firstPkg) {
-      var firstVid = firstPkg.getAttribute('data-vid');
-      if (firstVid) document.getElementById('rs-vid-' + sid).value = firstVid;
-    }
+    if (firstPkg) firstPkg.classList.add('rs-pkg-selected');
   });
 })();
 
