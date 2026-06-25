@@ -177,7 +177,7 @@
       <div class="rs-thumbs">
         {%- for img in product.images limit: section.settings.max_images -%}
           <div class="rs-thumb{%- if forloop.first %} on{%- endif -%}"
-               onclick="rsPdpPic_{{ section.id }}('{{ img | image_url: width: 1000 }}', this)">
+               onclick="window['rsPdpPic_{{ section.id }}']('{{ img | image_url: width: 1000 }}', this)">
             <img src="{{ img | image_url: width: 150 }}" alt="{{ img.alt | escape }}" loading="lazy">
           </div>
         {%- endfor -%}
@@ -363,7 +363,7 @@
                 <button class="rs-var{%- if v == cv %} on{%- endif -%}"
                         data-id="{{ v.id }}"
                         data-price="{{ v.price | money }}"
-                        onclick="rsPdpVar_{{ section.id }}(this)"
+                        onclick="window['rsPdpVar_{{ section.id }}'](this)"
                         {%- unless v.available %} disabled{%- endunless -%}>
                   {{ v.title }} &middot; {{ v.price | money }}
                 </button>
@@ -380,7 +380,7 @@
                   id="rs-atc-{{ section.id }}"
                   type="button"
                   data-accent="{{ section.settings.accent_color }}"
-                  onclick="rsPdpAdd_{{ section.id }}()">In winkelmand</button>
+                  onclick="window['rsPdpAdd_{{ section.id }}']()">In winkelmand</button>
         </div>
 
         <!-- 8. Delivery text -->
@@ -516,11 +516,15 @@
 
   window['rsPdpAdd_' + sid] = function () {
     var btn = document.getElementById('rs-atc-' + sid);
-    var vid = parseInt(document.getElementById('rs-vid-' + sid).value);
+    var vidEl = document.getElementById('rs-vid-' + sid);
+    var vid = vidEl ? parseInt(vidEl.value) : 0;
     var selectedPkg = document.querySelector('#mt-pdp-' + sid + ' .rs-pkg-card.rs-pkg-selected');
     var qty = selectedPkg ? parseInt(selectedPkg.dataset.qty || 1) : 1;
-    console.log('Adding to cart — vid:', vid, 'qty:', qty);
-    if (!vid) return;
+    if (!vid || isNaN(vid)) {
+      console.error('MT-PDP-BL: geen geldig variant ID gevonden', vid);
+      return;
+    }
+    console.log('MT-PDP-BL ATC — vid:', vid, 'qty:', qty);
     btn.disabled = true;
     btn.textContent = 'Bezig…';
     fetch('/cart/add.js', {
@@ -529,13 +533,17 @@
       body: JSON.stringify({ id: vid, quantity: qty })
     })
     .then(function (r) {
-      if (!r.ok) throw new Error('fout');
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    })
+    .then(function () {
       btn.textContent = 'Toegevoegd ✓';
-      btn.style.background = btn.dataset.accent;
+      btn.style.background = btn.dataset.accent || '#ff7900';
       document.dispatchEvent(new CustomEvent('cart:refresh'));
       setTimeout(function () { btn.textContent = 'In winkelmand'; btn.style.background = ''; btn.disabled = false; }, 2000);
     })
-    .catch(function () {
+    .catch(function (err) {
+      console.error('MT-PDP-BL cart error:', err);
       btn.textContent = 'Probeer opnieuw';
       btn.style.background = '#c0392b';
       btn.disabled = false;
@@ -556,9 +564,11 @@
 
   document.addEventListener('DOMContentLoaded', function () {
     var firstPkg = document.querySelector('#mt-pdp-' + sid + ' .rs-pkg-card');
-    if (firstPkg) firstPkg.classList.add('rs-pkg-selected');
-    var vidEl = document.getElementById('rs-vid-' + sid);
-    if (vidEl) vidEl.value = firstPkg ? firstPkg.dataset.vid : '{{ product.selected_or_first_available_variant.id }}';
+    if (firstPkg) {
+      firstPkg.classList.add('rs-pkg-selected');
+      var vidEl = document.getElementById('rs-vid-' + sid);
+      if (vidEl && firstPkg.dataset.vid) vidEl.value = firstPkg.dataset.vid;
+    }
   });
 })();
 
