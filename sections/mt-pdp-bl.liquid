@@ -598,14 +598,14 @@ function rsPdpAcc(header) {
       "settings": [
         { "type": "text", "id": "pkg_name", "label": "Pakketnaam", "default": "40 Dagen — Probeer het uit" },
         { "type": "text", "id": "pkg_day_price", "label": "Prijs per dag", "default": "Slechts €0,75 per dag" },
-        { "type": "text", "id": "pkg_badge_text", "label": "Badge tekst (laat leeg = geen badge)", "default": "" },
+        { "type": "text", "id": "pkg_badge_text", "label": "Badge tekst (laat leeg = geen badge)" },
         { "type": "color", "id": "pkg_badge_bg", "label": "Badge achtergrond", "default": "#111111" },
         { "type": "color", "id": "pkg_badge_color", "label": "Badge tekstkleur", "default": "#ffffff" },
         { "type": "checkbox", "id": "pkg_highlight", "label": "Markeer als aanbevolen (oranje rand)", "default": false },
         { "type": "text", "id": "pkg_highlight_label", "label": "Aanbevolen label (bijv. Meest gekozen)", "default": "Meest gekozen" },
         { "type": "text", "id": "pkg_price", "label": "Prijs (bijv. €29,95)", "default": "€29,95" },
-        { "type": "text", "id": "pkg_compare_price", "label": "Vergelijkingsprijs (laat leeg = geen)", "default": "" },
-        { "type": "text", "id": "pkg_variant_id", "label": "Shopify Variant ID (voor ATC)", "default": "" },
+        { "type": "text", "id": "pkg_compare_price", "label": "Vergelijkingsprijs (laat leeg = geen)" },
+        { "type": "text", "id": "pkg_variant_id", "label": "Shopify Variant ID (voor ATC)", "default": "0" },
         { "type": "image_picker", "id": "pkg_image", "label": "Productfoto in kaart" },
         { "type": "checkbox", "id": "show_extras", "label": "Toon gratis extras", "default": false }
       ]
@@ -617,7 +617,7 @@ function rsPdpAcc(header) {
         { "type": "range", "id": "extra_pkg_index", "min": 1, "max": 10, "step": 1, "label": "Bij pakket nummer (1 = eerste pakket)", "default": 1 },
         { "type": "image_picker", "id": "extra_image", "label": "Extra foto" },
         { "type": "text", "id": "extra_text", "label": "Extra tekst", "default": "+ Gratis Face Guide (E-book)" },
-        { "type": "text", "id": "extra_old_price", "label": "Originele prijs (bijv. €14,95, laat leeg = gratis)", "default": "" }
+        { "type": "text", "id": "extra_old_price", "label": "Originele prijs (bijv. €14,95, laat leeg = gratis)" }
       ]
     },
     {
