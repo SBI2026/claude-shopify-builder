@@ -8,6 +8,15 @@
 {%- assign rs_expert_foto  = product.metafields.custom.expert_foto -%}
 {%- if rs_step_badge == blank -%}{%- assign rs_step_badge = section.settings.badge_fallback -%}{%- endif -%}
 
+{%- assign avatar_count = 0 -%}
+{%- assign package_count = 0 -%}
+{%- assign guarantee_count = 0 -%}
+{%- for block in section.blocks -%}
+  {%- if block.type == 'avatar' -%}{%- assign avatar_count = avatar_count | plus: 1 -%}{%- endif -%}
+  {%- if block.type == 'package' -%}{%- assign package_count = package_count | plus: 1 -%}{%- endif -%}
+  {%- if block.type == 'guarantee' -%}{%- assign guarantee_count = guarantee_count | plus: 1 -%}{%- endif -%}
+{%- endfor -%}
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
@@ -84,6 +93,50 @@
   #mt-pdp-{{ section.id }} .rs-expert-name { font-size: 13px; font-weight: 700; font-family: 'Poppins', sans-serif; color: {{ section.settings.title_color }}; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
   #mt-pdp-{{ section.id }} .rs-expert-verified { font-size: 10px; font-weight: 600; color: #0a7a4b; background: #e6f4ee; border-radius: 999px; padding: 2px 8px; }
   #mt-pdp-{{ section.id }} .rs-expert-meta { font-size: 11px; color: #888; margin-top: 2px; font-family: 'Poppins', sans-serif; }
+
+  /* ── Avatar row ── */
+  #mt-pdp-{{ section.id }} .rs-avatars { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+  #mt-pdp-{{ section.id }} .rs-avatar-stack { display: flex; align-items: center; }
+  #mt-pdp-{{ section.id }} .rs-avatar-img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 2px solid {{ section.settings.section_bg }}; margin-left: -8px; flex-shrink: 0; background: #eee; }
+  #mt-pdp-{{ section.id }} .rs-avatar-img:first-child { margin-left: 0; }
+  #mt-pdp-{{ section.id }} .rs-avatar-rating { display: flex; align-items: center; gap: 6px; }
+  #mt-pdp-{{ section.id }} .rs-avatar-stars { color: {{ section.settings.accent_color }}; font-size: 15px; letter-spacing: 1px; }
+  #mt-pdp-{{ section.id }} .rs-avatar-score { font-size: 14px; font-weight: 700; color: {{ section.settings.title_color }}; }
+  #mt-pdp-{{ section.id }} .rs-avatar-count { font-size: 12px; color: #888; }
+
+  /* ── Package cards ── */
+  #mt-pdp-{{ section.id }} .rs-pkg-label { font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #888; margin-bottom: 10px; }
+  #mt-pdp-{{ section.id }} .rs-pkg-card { border: 1.5px solid #e0e0e0; border-radius: 14px; padding: 14px; margin-bottom: 8px; cursor: pointer; position: relative; background: #ffffff; transition: border-color 0.15s; }
+  #mt-pdp-{{ section.id }} .rs-pkg-card:hover { border-color: #aaa; }
+  #mt-pdp-{{ section.id }} .rs-pkg-card.rs-pkg-selected { border-color: {{ section.settings.title_color }}; }
+  #mt-pdp-{{ section.id }} .rs-pkg-card.rs-pkg-highlight.rs-pkg-selected { border-color: {{ section.settings.accent_color }}; background: #fffaf7; }
+  #mt-pdp-{{ section.id }} .rs-pkg-badge { position: absolute; top: -10px; right: 12px; border-radius: 999px; font-size: 9px; font-weight: 700; padding: 3px 10px; letter-spacing: 0.06em; text-transform: uppercase; }
+  #mt-pdp-{{ section.id }} .rs-pkg-top { display: flex; align-items: center; gap: 12px; }
+  #mt-pdp-{{ section.id }} .rs-pkg-img { width: 44px; height: 44px; border-radius: 8px; background: {{ section.settings.image_bg }}; flex-shrink: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  #mt-pdp-{{ section.id }} .rs-pkg-img img { width: 100%; height: 100%; object-fit: contain; }
+  #mt-pdp-{{ section.id }} .rs-pkg-info { flex: 1; min-width: 0; }
+  #mt-pdp-{{ section.id }} .rs-pkg-name { font-size: 13px; font-weight: 700; color: {{ section.settings.title_color }}; line-height: 1.25; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  #mt-pdp-{{ section.id }} .rs-pkg-highlight-label { background: {{ section.settings.accent_color }}; color: #fff; border-radius: 999px; font-size: 9px; font-weight: 700; padding: 2px 8px; }
+  #mt-pdp-{{ section.id }} .rs-pkg-day { font-size: 10px; color: #888; margin-top: 2px; }
+  #mt-pdp-{{ section.id }} .rs-pkg-price { text-align: right; flex-shrink: 0; }
+  #mt-pdp-{{ section.id }} .rs-pkg-price-cur { font-size: 14px; font-weight: 700; color: {{ section.settings.title_color }}; }
+  #mt-pdp-{{ section.id }} .rs-pkg-price-old { font-size: 10px; color: #aaa; text-decoration: line-through; display: block; }
+  #mt-pdp-{{ section.id }} .rs-pkg-extras { margin-top: 10px; border-top: 0.5px solid #eee; padding-top: 10px; display: flex; flex-direction: column; gap: 8px; }
+  #mt-pdp-{{ section.id }} .rs-pkg-extra { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  #mt-pdp-{{ section.id }} .rs-pkg-extra-left { display: flex; align-items: center; gap: 8px; }
+  #mt-pdp-{{ section.id }} .rs-pkg-extra-img { width: 28px; height: 28px; border-radius: 5px; background: {{ section.settings.image_bg }}; overflow: hidden; flex-shrink: 0; }
+  #mt-pdp-{{ section.id }} .rs-pkg-extra-img img { width: 100%; height: 100%; object-fit: contain; }
+  #mt-pdp-{{ section.id }} .rs-pkg-extra-txt { font-size: 11px; font-weight: 600; color: {{ section.settings.title_color }}; }
+  #mt-pdp-{{ section.id }} .rs-pkg-extra-old { font-size: 10px; color: #aaa; text-decoration: line-through; }
+
+  /* ── Guarantee ── */
+  #mt-pdp-{{ section.id }} .rs-guarantee { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border: 0.5px solid #eee; margin-bottom: 20px; }
+  #mt-pdp-{{ section.id }} .rs-guarantee-icon { width: 56px; height: 56px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 1.5px solid #e0e0e0; }
+  #mt-pdp-{{ section.id }} .rs-guarantee-icon img { width: 100%; height: 100%; object-fit: contain; }
+  #mt-pdp-{{ section.id }} .rs-guarantee-title { font-size: 13px; font-weight: 700; color: {{ section.settings.title_color }}; margin-bottom: 3px; }
+  #mt-pdp-{{ section.id }} .rs-guarantee-body { font-size: 11px; color: #555; line-height: 1.55; margin-bottom: 3px; }
+  #mt-pdp-{{ section.id }} .rs-guarantee-sub { font-size: 10px; color: #aaa; }
+
   @media (max-width: 900px) {
     #mt-pdp-{{ section.id }} .rs-inner { padding: 0 20px; }
     #mt-pdp-{{ section.id }} .rs-grid { grid-template-columns: 1fr; grid-template-rows: auto auto auto; gap: 16px; }
@@ -135,22 +188,137 @@
       </div>
 
       <div class="rs-info">
+
+        <!-- 1. Avatar row -->
+        {%- if avatar_count > 0 -%}
+          <div class="rs-avatars">
+            <div class="rs-avatar-stack">
+              {%- for block in section.blocks -%}
+                {%- if block.type == 'avatar' -%}
+                  {%- if block.settings.avatar_image -%}
+                    <img class="rs-avatar-img"
+                         src="{{ block.settings.avatar_image | image_url: width: 64 }}"
+                         alt="{{ block.settings.avatar_alt | escape }}"
+                         {{ block.shopify_attributes }}>
+                  {%- else -%}
+                    <div class="rs-avatar-img" {{ block.shopify_attributes }}></div>
+                  {%- endif -%}
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+            <div class="rs-avatar-rating">
+              <span class="rs-avatar-stars">
+                {%- assign full_stars = section.settings.rating_stars -%}
+                {%- if full_stars > 0 -%}{%- for i in (1..full_stars) -%}★{%- endfor -%}{%- endif -%}
+              </span>
+              <span class="rs-avatar-score">{{ section.settings.rating_score }}/5</span>
+              <span class="rs-avatar-count">({{ section.settings.rating_count }} reviews)</span>
+            </div>
+          </div>
+        {%- endif -%}
+
+        <!-- 2. Badge -->
         <span class="rs-badge">{{ rs_step_badge }}</span>
+
+        <!-- 3. Title -->
         <h1 class="rs-title">{{ product.title }}</h1>
 
-        <div class="rs-rating">
-          <span class="rs-stars">
-            {%- assign full_stars = section.settings.rating_stars -%}
-            {%- assign empty_stars = 5 | minus: full_stars -%}
-            {%- if full_stars > 0 -%}{%- for i in (1..full_stars) -%}★{%- endfor -%}{%- endif -%}
-            {%- if empty_stars > 0 -%}{%- for i in (1..empty_stars) -%}☆{%- endfor -%}{%- endif -%}
-          </span>
-          <span class="rs-rating-txt">{{ section.settings.rating_score }}/5 &middot; {{ section.settings.rating_count }} reviews</span>
-        </div>
+        <!-- 4. Rating (only if no avatar blocks) -->
+        {%- if avatar_count == 0 -%}
+          <div class="rs-rating">
+            <span class="rs-stars">
+              {%- assign full_stars = section.settings.rating_stars -%}
+              {%- assign empty_stars = 5 | minus: full_stars -%}
+              {%- if full_stars > 0 -%}{%- for i in (1..full_stars) -%}★{%- endfor -%}{%- endif -%}
+              {%- if empty_stars > 0 -%}{%- for i in (1..empty_stars) -%}☆{%- endfor -%}{%- endif -%}
+            </span>
+            <span class="rs-rating-txt">{{ section.settings.rating_score }}/5 &middot; {{ section.settings.rating_count }} reviews</span>
+          </div>
+        {%- endif -%}
 
+        <!-- 5. Price -->
         <div class="rs-price" id="rs-price-{{ section.id }}">{{ cv.price | money }}</div>
 
-        {%- if product.variants.size > 1 -%}
+        <!-- 6. Package cards OR normal variant pills -->
+        {%- if package_count > 0 -%}
+          <p class="rs-pkg-label">Kies jouw pakket</p>
+          {%- assign pkg_i = 0 -%}
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'package' -%}
+              {%- assign pkg_i = pkg_i | plus: 1 -%}
+              {%- assign is_first_pkg = false -%}
+              {%- if pkg_i == 1 -%}{%- assign is_first_pkg = true -%}{%- endif -%}
+              <div class="rs-pkg-card{% if block.settings.pkg_highlight %} rs-pkg-highlight{% endif %}{% if is_first_pkg %} rs-pkg-selected{% endif %}"
+                   data-vid="{{ block.settings.pkg_variant_id }}"
+                   onclick="rsPdpSelectPkg_{{ section.id }}(this, '{{ block.settings.pkg_variant_id }}')"
+                   {{ block.shopify_attributes }}>
+
+                {%- if block.settings.pkg_badge_text != blank -%}
+                  <span class="rs-pkg-badge"
+                        style="background: {{ block.settings.pkg_badge_bg }}; color: {{ block.settings.pkg_badge_color }};">
+                    {{ block.settings.pkg_badge_text | escape }}
+                  </span>
+                {%- endif -%}
+
+                <div class="rs-pkg-top">
+                  <div class="rs-pkg-img">
+                    {%- if block.settings.pkg_image -%}
+                      <img src="{{ block.settings.pkg_image | image_url: width: 88 }}"
+                           alt="{{ block.settings.pkg_name | escape }}">
+                    {%- endif -%}
+                  </div>
+                  <div class="rs-pkg-info">
+                    <div class="rs-pkg-name">
+                      {{ block.settings.pkg_name | escape }}
+                      {%- if block.settings.pkg_highlight and block.settings.pkg_highlight_label != blank -%}
+                        <span class="rs-pkg-highlight-label">{{ block.settings.pkg_highlight_label | escape }}</span>
+                      {%- endif -%}
+                    </div>
+                    <div class="rs-pkg-day">{{ block.settings.pkg_day_price | escape }}</div>
+                  </div>
+                  <div class="rs-pkg-price">
+                    <span class="rs-pkg-price-cur">{{ block.settings.pkg_price | escape }}</span>
+                    {%- if block.settings.pkg_compare_price != blank -%}
+                      <span class="rs-pkg-price-old">{{ block.settings.pkg_compare_price | escape }}</span>
+                    {%- endif -%}
+                  </div>
+                </div>
+
+                {%- if block.settings.show_extras -%}
+                  {%- assign has_extras = false -%}
+                  {%- for extra_block in section.blocks -%}
+                    {%- if extra_block.type == 'package_extra' and extra_block.settings.extra_pkg_index == pkg_i -%}
+                      {%- assign has_extras = true -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+                  {%- if has_extras -%}
+                    <div class="rs-pkg-extras">
+                      {%- for extra_block in section.blocks -%}
+                        {%- if extra_block.type == 'package_extra' and extra_block.settings.extra_pkg_index == pkg_i -%}
+                          <div class="rs-pkg-extra" {{ extra_block.shopify_attributes }}>
+                            <div class="rs-pkg-extra-left">
+                              <div class="rs-pkg-extra-img">
+                                {%- if extra_block.settings.extra_image -%}
+                                  <img src="{{ extra_block.settings.extra_image | image_url: width: 56 }}" alt="">
+                                {%- endif -%}
+                              </div>
+                              <span class="rs-pkg-extra-txt">{{ extra_block.settings.extra_text | escape }}</span>
+                            </div>
+                            {%- if extra_block.settings.extra_old_price != blank -%}
+                              <span class="rs-pkg-extra-old">{{ extra_block.settings.extra_old_price | escape }}</span>
+                            {%- endif -%}
+                          </div>
+                        {%- endif -%}
+                      {%- endfor -%}
+                    </div>
+                  {%- endif -%}
+                {%- endif -%}
+
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+
+        {%- elsif product.variants.size > 1 -%}
           <p class="rs-var-label">Formaat</p>
           <div class="rs-vars">
             {%- for v in product.variants -%}
@@ -167,6 +335,7 @@
 
         <input type="hidden" id="rs-vid-{{ section.id }}" value="{{ cv.id }}">
 
+        <!-- 7. Qty + ATC -->
         <div class="rs-buy">
           <div class="rs-qty">
             <button class="rs-qty-btn" type="button" onclick="rsPdpQ_{{ section.id }}(-1)">&minus;</button>
@@ -180,9 +349,40 @@
                   onclick="rsPdpAdd_{{ section.id }}()">In winkelmand</button>
         </div>
 
+        <!-- 8. Delivery text -->
         <p class="rs-delivery">{{ section.settings.delivery_text }}</p>
 
-        {%- if section.blocks.size > 0 -%}
+        <!-- 9. Guarantee blocks -->
+        {%- if guarantee_count > 0 -%}
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'guarantee' -%}
+              <div class="rs-guarantee"
+                   style="background: {{ block.settings.guarantee_bg }}; border-radius: {{ block.settings.guarantee_radius }}px;"
+                   {{ block.shopify_attributes }}>
+                <div class="rs-guarantee-icon">
+                  {%- if block.settings.guarantee_icon_image -%}
+                    <img src="{{ block.settings.guarantee_icon_image | image_url: width: 112 }}"
+                         alt="{{ block.settings.guarantee_title | escape }}">
+                  {%- endif -%}
+                </div>
+                <div>
+                  <div class="rs-guarantee-title">{{ block.settings.guarantee_title | escape }}</div>
+                  <div class="rs-guarantee-body">{{ block.settings.guarantee_body | escape }}</div>
+                  {%- if block.settings.guarantee_sub != blank -%}
+                    <div class="rs-guarantee-sub">{{ block.settings.guarantee_sub | escape }}</div>
+                  {%- endif -%}
+                </div>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endif -%}
+
+        <!-- 10. Benefits -->
+        {%- assign benefit_count = 0 -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'benefit' -%}{%- assign benefit_count = benefit_count | plus: 1 -%}{%- endif -%}
+        {%- endfor -%}
+        {%- if benefit_count > 0 -%}
           <div class="rs-bens">
             {%- for block in section.blocks -%}
               {%- if block.type == 'benefit' -%}
@@ -195,6 +395,7 @@
           </div>
         {%- endif -%}
 
+        <!-- 11. Accordion tabs -->
         <div class="rs-accordion">
           {%- if product.metafields.custom.tab_beschrijving != blank -%}
             <div class="rs-acc-item">
@@ -234,6 +435,7 @@
           {%- endif -%}
         </div>
 
+        <!-- 12. Expert review -->
         {%- if rs_expert_quote != blank -%}
           <div class="rs-expert">
             <span class="rs-expert-stars">★★★★★</span>
@@ -263,24 +465,28 @@
 <script>
 (function () {
   var sid = '{{ section.id }}';
+
   window['rsPdpPic_' + sid] = function (src, el) {
     var img = document.getElementById('rs-img-' + sid);
     if (img) img.src = src;
     document.getElementById('mt-pdp-' + sid).querySelectorAll('.rs-thumb').forEach(function (t) { t.classList.remove('on'); });
     el.classList.add('on');
   };
+
   window['rsPdpVar_' + sid] = function (btn) {
     document.getElementById('mt-pdp-' + sid).querySelectorAll('.rs-var').forEach(function (b) { b.classList.remove('on'); });
     btn.classList.add('on');
     document.getElementById('rs-vid-' + sid).value = btn.dataset.id;
     document.getElementById('rs-price-' + sid).textContent = btn.dataset.price;
   };
+
   window['rsPdpQ_' + sid] = function (d) {
     var el = document.getElementById('rs-qty-' + sid);
     var v = parseInt(el.value || 1) + d;
     if (v < 1) v = 1; if (v > 99) v = 99;
     el.value = v;
   };
+
   window['rsPdpAdd_' + sid] = function () {
     var btn = document.getElementById('rs-atc-' + sid);
     var vid = parseInt(document.getElementById('rs-vid-' + sid).value);
@@ -303,7 +509,24 @@
       setTimeout(function () { btn.textContent = 'In winkelmand'; btn.style.background = ''; }, 2500);
     });
   };
+
+  window['rsPdpSelectPkg_' + sid] = function (card, vid) {
+    document.querySelectorAll('#mt-pdp-' + sid + ' .rs-pkg-card').forEach(function (c) {
+      c.classList.remove('rs-pkg-selected');
+    });
+    card.classList.add('rs-pkg-selected');
+    if (vid) document.getElementById('rs-vid-' + sid).value = vid;
+  };
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var firstPkg = document.querySelector('#mt-pdp-' + sid + ' .rs-pkg-card');
+    if (firstPkg) {
+      var firstVid = firstPkg.getAttribute('data-vid');
+      if (firstVid) document.getElementById('rs-vid-' + sid).value = firstVid;
+    }
+  });
 })();
+
 function rsPdpAcc(header) {
   var body = header.nextElementSibling;
   var icon = header.querySelector('.rs-acc-icon');
@@ -359,6 +582,54 @@ function rsPdpAcc(header) {
       "limit": 8,
       "settings": [
         { "type": "text", "id": "text", "label": "Voordeel tekst", "default": "Voordeel" }
+      ]
+    },
+    {
+      "type": "avatar",
+      "name": "Klantfoto",
+      "settings": [
+        { "type": "image_picker", "id": "avatar_image", "label": "Klantfoto" },
+        { "type": "text", "id": "avatar_alt", "label": "Alt tekst", "default": "Tevreden klant" }
+      ]
+    },
+    {
+      "type": "package",
+      "name": "Pakket kaart",
+      "settings": [
+        { "type": "text", "id": "pkg_name", "label": "Pakketnaam", "default": "40 Dagen — Probeer het uit" },
+        { "type": "text", "id": "pkg_day_price", "label": "Prijs per dag", "default": "Slechts €0,75 per dag" },
+        { "type": "text", "id": "pkg_badge_text", "label": "Badge tekst (laat leeg = geen badge)", "default": "" },
+        { "type": "color", "id": "pkg_badge_bg", "label": "Badge achtergrond", "default": "#111111" },
+        { "type": "color", "id": "pkg_badge_color", "label": "Badge tekstkleur", "default": "#ffffff" },
+        { "type": "checkbox", "id": "pkg_highlight", "label": "Markeer als aanbevolen (oranje rand)", "default": false },
+        { "type": "text", "id": "pkg_highlight_label", "label": "Aanbevolen label (bijv. Meest gekozen)", "default": "Meest gekozen" },
+        { "type": "text", "id": "pkg_price", "label": "Prijs (bijv. €29,95)", "default": "€29,95" },
+        { "type": "text", "id": "pkg_compare_price", "label": "Vergelijkingsprijs (laat leeg = geen)", "default": "" },
+        { "type": "text", "id": "pkg_variant_id", "label": "Shopify Variant ID (voor ATC)", "default": "" },
+        { "type": "image_picker", "id": "pkg_image", "label": "Productfoto in kaart" },
+        { "type": "checkbox", "id": "show_extras", "label": "Toon gratis extras", "default": false }
+      ]
+    },
+    {
+      "type": "package_extra",
+      "name": "Gratis extra (bij pakket)",
+      "settings": [
+        { "type": "range", "id": "extra_pkg_index", "min": 1, "max": 10, "step": 1, "label": "Bij pakket nummer (1 = eerste pakket)", "default": 1 },
+        { "type": "image_picker", "id": "extra_image", "label": "Extra foto" },
+        { "type": "text", "id": "extra_text", "label": "Extra tekst", "default": "+ Gratis Face Guide (E-book)" },
+        { "type": "text", "id": "extra_old_price", "label": "Originele prijs (bijv. €14,95, laat leeg = gratis)", "default": "" }
+      ]
+    },
+    {
+      "type": "guarantee",
+      "name": "Garantie blok",
+      "settings": [
+        { "type": "image_picker", "id": "guarantee_icon_image", "label": "Badge/logo afbeelding" },
+        { "type": "text", "id": "guarantee_title", "label": "Titel", "default": "30-Dagen Risicovrij Proberen" },
+        { "type": "textarea", "id": "guarantee_body", "label": "Beschrijving", "default": "Niet tevreden? Stuur het product terug en krijg je geld terug." },
+        { "type": "text", "id": "guarantee_sub", "label": "Sub-tekst", "default": "Minder dan 1% maakt gebruik van deze garantie" },
+        { "type": "color", "id": "guarantee_bg", "label": "Achtergrond", "default": "#f9f9f7" },
+        { "type": "range", "id": "guarantee_radius", "min": 0, "max": 24, "step": 2, "unit": "px", "label": "Afronding", "default": 12 }
       ]
     }
   ],
