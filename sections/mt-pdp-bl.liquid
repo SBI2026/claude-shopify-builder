@@ -539,14 +539,32 @@
     .then(function () {
       btn.textContent = 'Toegevoegd ✓';
       btn.style.background = btn.dataset.accent || '#ff7900';
-      document.dispatchEvent(new CustomEvent('cart:refresh'));
       fetch('/cart.js')
         .then(function (r) { return r.json(); })
         .then(function (cart) {
-          document.dispatchEvent(new CustomEvent('cart:update', { detail: { cart: cart } }));
-          var bubbles = document.querySelectorAll('.cart-count-bubble span[aria-hidden]');
+          var bubbles = document.querySelectorAll('.cart-count-bubble span[aria-hidden="true"]');
           bubbles.forEach(function (b) { b.textContent = cart.item_count; });
-        });
+          var cartBubble = document.querySelector('.cart-count-bubble');
+          if (cartBubble) cartBubble.removeAttribute('hidden');
+          var cartIconBubble = document.getElementById('cart-icon-bubble');
+          if (cartIconBubble) {
+            var svgWrappers = cartIconBubble.querySelectorAll('.svg-wrapper');
+            svgWrappers.forEach(function (sw, i) {
+              if (i === 0) sw.style.display = 'none';
+              if (i === 1) sw.style.display = 'block';
+            });
+          }
+          document.dispatchEvent(new CustomEvent('cart:refresh'));
+          document.dispatchEvent(new CustomEvent('cart:update', { detail: { cart: cart } }));
+          var cartDrawer = document.querySelector('cart-drawer');
+          var cartNotification = document.querySelector('cart-notification');
+          if (cartDrawer && typeof cartDrawer.renderContents === 'function') {
+            cartDrawer.renderContents({ items: [{ variant_id: parseInt(vid), quantity: qty }] });
+          } else if (cartNotification && typeof cartNotification.renderContents === 'function') {
+            cartNotification.renderContents({ items: [{ variant_id: parseInt(vid), quantity: qty }] });
+          }
+        })
+        .catch(function () {});
       setTimeout(function () { btn.textContent = 'In winkelmand'; btn.style.background = ''; btn.disabled = false; }, 2000);
     })
     .catch(function (err) {
