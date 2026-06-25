@@ -248,45 +248,44 @@
   endif
 %}
 
-{%- if section.settings.show_announcement -%}
-  {%- assign ann_blocks = section.blocks | where: 'type', 'announcement' -%}
-  {%- if ann_blocks.size > 0 -%}
-    {%- if section.settings.announcement_solid -%}
-      {%- assign ann_bg = section.settings.announcement_solid_color -%}
-    {%- else -%}
-      {%- assign ann_bg_l = section.settings.announcement_bg_left -%}
-      {%- assign ann_bg_c = section.settings.announcement_bg_center -%}
-      {%- assign ann_bg_r = section.settings.announcement_bg_right -%}
-      {%- assign ann_bg = 'linear-gradient(to right, ' | append: ann_bg_l | append: ', ' | append: ann_bg_c | append: ', ' | append: ann_bg_r | append: ')' -%}
-    {%- endif -%}
-    <div class="rs-ann" id="rs-ann-{{ section.id }}" style="background: {{ ann_bg }};">
-      {%- if section.settings.show_announcement_arrows and ann_blocks.size > 1 -%}
-        <button class="rs-ann__arrow rs-ann__arrow--prev" aria-label="Vorige aankondiging">&#8592;</button>
-      {%- endif -%}
-      <div class="rs-ann__track">
-        {%- for block in ann_blocks -%}
-          <div class="rs-ann__item{% if forloop.first %} rs-ann__item--active{% endif %}" {{ block.shopify_attributes }}>
-            {%- if block.settings.url != blank -%}
-              <a href="{{ block.settings.url }}" class="rs-ann__link">{{ block.settings.text | escape }}</a>
-            {%- else -%}
-              <span>{{ block.settings.text | escape }}</span>
-            {%- endif -%}
-          </div>
-        {%- endfor -%}
-      </div>
-      {%- if section.settings.show_announcement_arrows and ann_blocks.size > 1 -%}
-        <button class="rs-ann__arrow rs-ann__arrow--next" aria-label="Volgende aankondiging">&#8594;</button>
-      {%- endif -%}
-    </div>
-  {%- endif -%}
-{%- endif -%}
-
 <{{ header_tag }}
   {% if header_tag == 'sticky-header' %}
     data-sticky-type="{{ section.settings.sticky_header_type }}"
   {% endif %}
   class="header-wrapper color-{{ section.settings.color_scheme }} gradient{% if section.settings.show_line_separator %} header-wrapper--border-bottom{% endif %}"
 >
+  {%- if section.settings.show_announcement -%}
+    {%- assign ann_blocks = section.blocks | where: 'type', 'announcement' -%}
+    {%- if ann_blocks.size > 0 -%}
+      {%- if section.settings.announcement_solid -%}
+        {%- assign ann_bg = section.settings.announcement_solid_color -%}
+      {%- else -%}
+        {%- assign ann_bg_l = section.settings.announcement_bg_left -%}
+        {%- assign ann_bg_c = section.settings.announcement_bg_center -%}
+        {%- assign ann_bg_r = section.settings.announcement_bg_right -%}
+        {%- assign ann_bg = 'linear-gradient(to right, ' | append: ann_bg_l | append: ', ' | append: ann_bg_c | append: ', ' | append: ann_bg_r | append: ')' -%}
+      {%- endif -%}
+      <div class="rs-ann" id="rs-ann-{{ section.id }}" style="background: {{ ann_bg }};">
+        {%- if section.settings.show_announcement_arrows and ann_blocks.size > 1 -%}
+          <button class="rs-ann__arrow rs-ann__arrow--prev" aria-label="Vorige aankondiging">&#8592;</button>
+        {%- endif -%}
+        <div class="rs-ann__track">
+          {%- for block in ann_blocks -%}
+            <div class="rs-ann__item{% if forloop.first %} rs-ann__item--active{% endif %}" {{ block.shopify_attributes }}>
+              {%- if block.settings.url != blank -%}
+                <a href="{{ block.settings.url }}" class="rs-ann__link">{{ block.settings.text | escape }}</a>
+              {%- else -%}
+                <span>{{ block.settings.text | escape }}</span>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </div>
+        {%- if section.settings.show_announcement_arrows and ann_blocks.size > 1 -%}
+          <button class="rs-ann__arrow rs-ann__arrow--next" aria-label="Volgende aankondiging">&#8594;</button>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  {%- endif -%}
   {%- liquid
     assign social_links = false
     assign localization_forms = false
