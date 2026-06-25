@@ -32,6 +32,8 @@
 {%- assign has_packages = false -%}
 {%- if pkg1_naam != blank -%}{%- assign has_packages = true -%}{%- endif -%}
 
+{%- assign cv = product.selected_or_first_available_variant -%}
+
 {%- assign avatar_count = 0 -%}
 {%- assign guarantee_count = 0 -%}
 {%- for block in section.blocks -%}
@@ -160,7 +162,6 @@
 {%- endstyle -%}
 
 <div id="mt-pdp-{{ section.id }}">
-  {%- assign cv = product.selected_or_first_available_variant -%}
   <div class="rs-inner">
 
     <nav class="rs-bc">
@@ -518,6 +519,7 @@
     var vid = parseInt(document.getElementById('rs-vid-' + sid).value);
     var selectedPkg = document.querySelector('#mt-pdp-' + sid + ' .rs-pkg-card.rs-pkg-selected');
     var qty = selectedPkg ? parseInt(selectedPkg.dataset.qty || 1) : 1;
+    console.log('Adding to cart — vid:', vid, 'qty:', qty);
     if (!vid) return;
     btn.disabled = true;
     btn.textContent = 'Bezig…';
@@ -554,11 +556,9 @@
 
   document.addEventListener('DOMContentLoaded', function () {
     var firstPkg = document.querySelector('#mt-pdp-' + sid + ' .rs-pkg-card');
-    if (firstPkg) {
-      firstPkg.classList.add('rs-pkg-selected');
-      var vidEl = document.getElementById('rs-vid-' + sid);
-      if (vidEl && firstPkg.dataset.vid) vidEl.value = firstPkg.dataset.vid;
-    }
+    if (firstPkg) firstPkg.classList.add('rs-pkg-selected');
+    var vidEl = document.getElementById('rs-vid-' + sid);
+    if (vidEl) vidEl.value = firstPkg ? firstPkg.dataset.vid : '{{ product.selected_or_first_available_variant.id }}';
   });
 })();
 
