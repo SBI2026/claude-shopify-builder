@@ -540,6 +540,13 @@
       btn.textContent = 'Toegevoegd ✓';
       btn.style.background = btn.dataset.accent || '#ff7900';
       document.dispatchEvent(new CustomEvent('cart:refresh'));
+      fetch('/cart.js')
+        .then(function (r) { return r.json(); })
+        .then(function (cart) {
+          document.dispatchEvent(new CustomEvent('cart:update', { detail: { cart: cart } }));
+          var bubbles = document.querySelectorAll('.cart-count-bubble span[aria-hidden]');
+          bubbles.forEach(function (b) { b.textContent = cart.item_count; });
+        });
       setTimeout(function () { btn.textContent = 'In winkelmand'; btn.style.background = ''; btn.disabled = false; }, 2000);
     })
     .catch(function (err) {
