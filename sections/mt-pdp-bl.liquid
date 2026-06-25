@@ -542,37 +542,52 @@
       fetch('/cart.js')
         .then(function (r) { return r.json(); })
         .then(function (cart) {
-          var bubbles = document.querySelectorAll('.cart-count-bubble span[aria-hidden="true"]');
-          bubbles.forEach(function (b) { b.textContent = cart.item_count; });
-          var cartBubble = document.querySelector('.cart-count-bubble');
-          if (cartBubble) cartBubble.removeAttribute('hidden');
-          var cartIconBubble = document.getElementById('cart-icon-bubble');
-          if (cartIconBubble) {
-            var svgWrappers = cartIconBubble.querySelectorAll('.svg-wrapper');
-            svgWrappers.forEach(function (sw, i) {
-              if (i === 0) sw.style.display = 'none';
-              if (i === 1) sw.style.display = 'block';
-            });
+          document.querySelectorAll('.cart-count-bubble span[aria-hidden="true"]').forEach(function (el) {
+            el.textContent = cart.item_count;
+          });
+          document.querySelectorAll('.cart-count-bubble').forEach(function (el) {
+            el.removeAttribute('hidden');
+            el.style.display = '';
+          });
+          var sectionIds = [];
+          var cartNotification = document.querySelector('[id*="cart-notification"]');
+          var cartDrawer = document.querySelector('[id*="cart-drawer"]');
+          if (cartNotification && cartNotification.id) {
+            sectionIds.push(cartNotification.id.replace('shopify-section-', ''));
+          }
+          if (cartDrawer && cartDrawer.id) {
+            sectionIds.push(cartDrawer.id.replace('shopify-section-', ''));
+          }
+          if (sectionIds.length > 0) {
+            fetch('/?sections=' + sectionIds.join(','))
+              .then(function (r) { return r.json(); })
+              .then(function (data) {
+                Object.keys(data).forEach(function (key) {
+                  var el = document.getElementById('shopify-section-' + key);
+                  if (el) el.innerHTML = data[key];
+                });
+              })
+              .catch(function () {});
           }
           document.dispatchEvent(new CustomEvent('cart:refresh'));
           document.dispatchEvent(new CustomEvent('cart:update', { detail: { cart: cart } }));
-          var cartDrawer = document.querySelector('cart-drawer');
-          var cartNotification = document.querySelector('cart-notification');
-          if (cartDrawer && typeof cartDrawer.renderContents === 'function') {
-            cartDrawer.renderContents({ items: [{ variant_id: parseInt(vid), quantity: qty }] });
-          } else if (cartNotification && typeof cartNotification.renderContents === 'function') {
-            cartNotification.renderContents({ items: [{ variant_id: parseInt(vid), quantity: qty }] });
-          }
         })
         .catch(function () {});
-      setTimeout(function () { btn.textContent = 'In winkelmand'; btn.style.background = ''; btn.disabled = false; }, 2000);
+      setTimeout(function () {
+        btn.textContent = 'In winkelmand';
+        btn.style.background = '';
+        btn.disabled = false;
+      }, 2000);
     })
     .catch(function (err) {
       console.error('MT-PDP-BL cart error:', err);
       btn.textContent = 'Probeer opnieuw';
       btn.style.background = '#c0392b';
       btn.disabled = false;
-      setTimeout(function () { btn.textContent = 'In winkelmand'; btn.style.background = ''; }, 2500);
+      setTimeout(function () {
+        btn.textContent = 'In winkelmand';
+        btn.style.background = '';
+      }, 2500);
     });
   };
 
