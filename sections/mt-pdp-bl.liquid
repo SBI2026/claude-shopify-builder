@@ -253,7 +253,7 @@
               <div class="rs-pkg-card rs-pkg-selected"
                    data-qty="{{ pkg1_stuks }}"
                    data-price="{{ pkg1_prijs }}"
-                   onclick="rsPdpSelectPkg_{{ section.id }}(this)">
+                   onclick="window['rsPdpSelectPkg_{{ section.id }}'](this)">
                 {%- if pkg1_badge != blank -%}
                   <span class="rs-pkg-badge"
                         style="background: {{ section.settings.badge_bg }}; color: {{ section.settings.badge_fg }};">{{ pkg1_badge }}</span>
@@ -287,7 +287,7 @@
               <div class="rs-pkg-card"
                    data-qty="{{ pkg2_stuks }}"
                    data-price="{{ pkg2_prijs }}"
-                   onclick="rsPdpSelectPkg_{{ section.id }}(this)">
+                   onclick="window['rsPdpSelectPkg_{{ section.id }}'](this)">
                 {%- if pkg2_badge != blank -%}
                   <span class="rs-pkg-badge"
                         style="background: {{ section.settings.badge_bg }}; color: {{ section.settings.badge_fg }};">{{ pkg2_badge }}</span>
@@ -321,7 +321,7 @@
               <div class="rs-pkg-card"
                    data-qty="{{ pkg3_stuks }}"
                    data-price="{{ pkg3_prijs }}"
-                   onclick="rsPdpSelectPkg_{{ section.id }}(this)">
+                   onclick="window['rsPdpSelectPkg_{{ section.id }}'](this)">
                 {%- if pkg3_badge != blank -%}
                   <span class="rs-pkg-badge"
                         style="background: {{ section.settings.badge_bg }}; color: {{ section.settings.badge_fg }};">{{ pkg3_badge }}</span>
