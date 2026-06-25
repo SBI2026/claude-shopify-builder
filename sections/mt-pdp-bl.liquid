@@ -587,6 +587,22 @@
           }
           document.dispatchEvent(new CustomEvent('cart:refresh'));
           document.dispatchEvent(new CustomEvent('cart:update', { detail: { cart: cart } }));
+          var cartDrawerEl = document.querySelector('cart-drawer');
+          if (cartDrawerEl && typeof cartDrawerEl.renderContents === 'function') {
+            cartDrawerEl.renderContents({ items: cart.items });
+          }
+          if (cartDrawerEl && typeof cartDrawerEl.getSectionsToRender === 'function') {
+            var sectionsToRender = cartDrawerEl.getSectionsToRender().map(function (s) { return s.id; });
+            fetch('/?sections=' + sectionsToRender.join(','))
+              .then(function (r) { return r.json(); })
+              .then(function (data) {
+                cartDrawerEl.getSectionsToRender().forEach(function (section) {
+                  var el = document.getElementById(section.id) || document.querySelector(section.selector);
+                  if (el && data[section.id]) el.innerHTML = data[section.id];
+                });
+              })
+              .catch(function () {});
+          }
         })
         .catch(function () {});
       setTimeout(function () {
