@@ -542,6 +542,22 @@
       fetch('/cart.js')
         .then(function (r) { return r.json(); })
         .then(function (cart) {
+          if (cart.item_count === 1) {
+            fetch('/?sections=header')
+              .then(function (r) { return r.json(); })
+              .then(function (data) {
+                if (data.header) {
+                  var parser = new DOMParser();
+                  var doc = parser.parseFromString(data.header, 'text/html');
+                  var newCartIcon = doc.getElementById('cart-icon-bubble');
+                  var oldCartIcon = document.getElementById('cart-icon-bubble');
+                  if (newCartIcon && oldCartIcon) {
+                    oldCartIcon.innerHTML = newCartIcon.innerHTML;
+                  }
+                }
+              })
+              .catch(function () {});
+          }
           document.querySelectorAll('.cart-count-bubble span[aria-hidden="true"]').forEach(function (el) {
             el.textContent = cart.item_count;
           });
